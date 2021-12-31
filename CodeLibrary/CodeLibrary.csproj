@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1D046DA3-67ED-4199-8DE8-8D33D436D0C5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeLibrary</RootNamespace>
+    <AssemblyName>CodeLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>D:\apps\codelibrary\beta\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TransformOnBuild>true</TransformOnBuild>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TransformOnBuild>true</TransformOnBuild>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Note.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>2A5C26D6C7D1A0A8218F398BCE3B683F00FCC428</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>CodeLibrary_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeInsight\BaseInsightHandler.cs" />
+    <Compile Include="CodeInsight\CodeInsight.cs" />
+    <Compile Include="FormAddReference.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddReference.Designer.cs">
+      <DependentUpon>FormAddReference.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAddNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddNote.Designer.cs">
+      <DependentUpon>FormAddNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBackupRestore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBackupRestore.Designer.cs">
+      <DependentUpon>FormBackupRestore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFavorites.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFavorites.Designer.cs">
+      <DependentUpon>FormFavorites.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSearch.Designer.cs">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProperties.Designer.cs">
+      <DependentUpon>FormProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOverwrite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOverwrite.Designer.cs">
+      <DependentUpon>FormOverwrite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBackupRestoreSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBackupRestoreSettings.Designer.cs">
+      <DependentUpon>FormBackupRestoreSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUsbKeyDrive.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUsbKeyDrive.Designer.cs">
+      <DependentUpon>FormUsbKeyDrive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ClipboardMonitorHelper.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Editor\FastColoredTextBoxHelper.cs" />
+    <Compile Include="Editor\RtfEditorHelper.cs" />
+    <Compile Include="Editor\TextBoxHelper.cs" />
+    <Compile Include="FormCodeLibrary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCodeLibrary.Designer.cs">
+      <DependentUpon>FormCodeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSetPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetPassword.Designer.cs">
+      <DependentUpon>FormSetPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BackupHelper.cs" />
+    <Compile Include="Helpers\FavoriteHelper.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="CodeInsight\TemplateCodeInsightHelper.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
+    <Compile Include="Helpers\Legacy\FileHelperLegacy.cs" />
+    <Compile Include="Helpers\MenuHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\StateIconHelper.cs" />
+    <Compile Include="Helpers\ThemeHelper.cs" />
+    <Compile Include="Extensions\TreeViewExtensions.cs" />
+    <Compile Include="Utils\LocalUtils.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\TreeviewHelper.cs" />
+    <Compile Include="T4\VersionInc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionInc.tt</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FormAddReference.resx">
+      <DependentUpon>FormAddReference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddNote.resx">
+      <DependentUpon>FormAddNote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBackupRestore.resx">
+      <DependentUpon>FormBackupRestore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFavorites.resx">
+      <DependentUpon>FormFavorites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSearch.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCodeLibrary.resx">
+      <DependentUpon>FormCodeLibrary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProperties.resx">
+      <DependentUpon>FormProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOverwrite.resx">
+      <DependentUpon>FormOverwrite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetPassword.resx">
+      <DependentUpon>FormSetPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBackupRestoreSettings.resx">
+      <DependentUpon>FormBackupRestoreSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUsbKeyDrive.resx">
+      <DependentUpon>FormUsbKeyDrive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Libraries\CSharp Library.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Libraries\Demo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeLibrary.Controls\CodeLibrary.Controls.csproj">
+      <Project>{4dd58e8f-4d0a-495b-9dc2-c391d540a8ad}</Project>
+      <Name>CodeLibrary.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeLibrary.Core\CodeLibrary.Core.csproj">
+      <Project>{49f5b576-5e64-4861-b799-0944ee363a4d}</Project>
+      <Name>CodeLibrary.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EditorPlugins.core\EditorPlugins.Core.csproj">
+      <Project>{0917226a-9093-496b-b947-f9df3cd82e94}</Project>
+      <Name>EditorPlugins.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EditorPlugins.Engine\EditorPlugins.Engine.csproj">
+      <Project>{288ff70f-4877-4eb0-b2cc-f0b79612a3f7}</Project>
+      <Name>EditorPlugins.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FastColoredTextBox\FastColoredTextBox\FastColoredTextBox.csproj">
+      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
+      <Name>FastColoredTextBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GK.Template\GK.Template.csproj">
+      <Project>{f43be9cd-2140-4984-aab0-559ae1b5714e}</Project>
+      <Name>GK.Template</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenFile.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottom.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DecreaseIndent.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Down.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IncreaseIndent.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Left.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Properties.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Redo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Right.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Toolbox.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\top.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Undo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GPL.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Note.ico" />
+    <None Include="Resources\key_16x16.png" />
+    <None Include="Resources\usb_3_32x32.png" />
+    <None Include="Resources\computer_edit_16x16.png" />
+    <None Include="Resources\bullet_link_32x32.png" />
+    <None Include="Resources\export_32x32.png" />
+    <Content Include="T4\VersionInc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VersionInc.cs</LastGenOutput>
+    </Content>
+    <None Include="Resources\key_32x32.png" />
+    <None Include="Resources\box_search_32x321.png" />
+    <None Include="Resources\folder_search_32x32.png" />
+    <None Include="Resources\control_pause_record_32x32.png" />
+    <None Include="Resources\Note.png" />
+    <None Include="Resources\cog_32x32.png" />
+    <None Include="Resources\cog_16x16.png" />
+    <None Include="Resources\backup_manager_32x32.png" />
+    <None Include="Resources\backup_manager_16x16.png" />
+    <None Include="Resources\plugin_edit_32x32.png" />
+    <None Include="Resources\plugin_edit_16x16.png" />
+    <None Include="Resources\plugin_32x32.png" />
+    <None Include="Resources\plugin_16x16.png" />
+    <None Include="Resources\Html Black.png" />
+    <None Include="Resources\XML Black.png" />
+    <None Include="Resources\VB Black.png" />
+    <None Include="Resources\Txt Black.png" />
+    <None Include="Resources\SQL Black.png" />
+    <None Include="Resources\RTF black.png" />
+    <None Include="Resources\PHP Black.png" />
+    <None Include="Resources\Lua Black.png" />
+    <None Include="Resources\JS Black.png" />
+    <None Include="Resources\C# Black.png" />
+    <None Include="Resources\html 32 Black.png" />
+    <None Include="Resources\VB 32 Black.png" />
+    <None Include="Resources\Sql 32 Black.png" />
+    <None Include="Resources\C# 32 Black.png" />
+    <None Include="Resources\Erase.ico" />
+    <None Include="Resources\box_search_32x32.png" />
+    <None Include="Resources\box_search_16x16.png" />
+    <None Include="Resources\bullet_red_32x32.png" />
+    <None Include="Resources\bullet_delete_32x32.png" />
+    <None Include="Resources\folder_star_32x32.png" />
+    <None Include="Resources\folder_star_16x16.png" />
+    <None Include="Resources\award_star_add_32x32.png" />
+    <None Include="Resources\award_star_add_16x16.png" />
+    <None Include="Resources\star_32x32.png" />
+    <None Include="Resources\star_16x16.png" />
+    <None Include="Resources\document_red_32x32.png" />
+    <None Include="Resources\document_red_16x16.png" />
+    <None Include="Resources\mail_trash_32x32.png" />
+    <None Include="Resources\mail_trash_16x16.png" />
+    <None Include="Resources\arrow_turn_left_32x32.png" />
+    <None Include="Resources\arrow_turn_left_16x16.png" />
+    <None Include="Resources\arrow_turn_right_32x32.png" />
+    <None Include="Resources\arrow_turn_right_16x16.png" />
+    <None Include="Resources\arrow_right_32x32.png" />
+    <None Include="Resources\arrow_right_16x16.png" />
+    <None Include="Resources\arrow_left_32x32.png" />
+    <None Include="Resources\arrow_left_16x16.png" />
+    <None Include="Resources\document_rename_32x321.png" />
+    <None Include="Resources\document_rename_16x161.png" />
+    <None Include="Resources\text_document_wrap_32x32.png" />
+    <None Include="Resources\text_document_wrap_16x16.png" />
+    <None Include="Resources\error_32x32.png" />
+    <None Include="Resources\error_16x16.png" />
+    <None Include="Resources\text_lowercase_32x32.png" />
+    <None Include="Resources\text_lowercase_16x16.png" />
+    <None Include="Resources\text_uppercase_32x32.png" />
+    <None Include="Resources\text_uppercase_16x16.png" />
+    <None Include="Resources\page_white_copy_32x321.png" />
+    <None Include="Resources\page_white_copy_16x161.png" />
+    <None Include="Resources\page_white_find_32x32.png" />
+    <None Include="Resources\page_white_find_16x16.png" />
+    <None Include="Resources\page_white_text_32x32.png" />
+    <None Include="Resources\page_white_text_16x16.png" />
+    <None Include="Resources\page_white_edit_32x32.png" />
+    <None Include="Resources\page_white_edit_16x16.png" />
+    <None Include="Resources\page_white_copy_32x32.png" />
+    <None Include="Resources\page_white_copy_16x16.png" />
+    <None Include="Resources\page_32x32.png" />
+    <None Include="Resources\page_16x16.png" />
+    <None Include="Resources\page_white_add_32x32.png" />
+    <None Include="Resources\page_white_add_16x16.png" />
+    <None Include="Resources\page_add_32x32.png" />
+    <None Include="Resources\page_add_16x16.png" />
+    <None Include="Resources\textfield_add_32x32.png" />
+    <None Include="Resources\textfield_add_16x16.png" />
+    <None Include="Resources\textfield_delete_32x32.png" />
+    <None Include="Resources\textfield_delete_16x16.png" />
+    <None Include="Resources\document_rename_32x32.png" />
+    <None Include="Resources\document_rename_16x16.png" />
+    <None Include="Resources\textfield_rename_32x32.png" />
+    <None Include="Resources\textfield_rename_16x16.png" />
+    <None Include="Resources\sort_up_32x32.png" />
+    <None Include="Resources\sort_up_16x16.png" />
+    <None Include="Resources\sort_down_32x32.png" />
+    <None Include="Resources\sort_down_16x16.png" />
+    <None Include="Resources\folder_add_32x32.png" />
+    <None Include="Resources\folder_add_16x16.png" />
+    <None Include="Resources\close_32x32.png" />
+    <None Include="Resources\close_16x16.png" />
+    <None Include="Resources\change_password_32x32.png" />
+    <None Include="Resources\change_password_16x16.png" />
+    <None Include="Resources\document_import_32x32.png" />
+    <None Include="Resources\document_import_16x16.png" />
+    <None Include="Resources\save_as_32x32.png" />
+    <None Include="Resources\save_as_16x16.png" />
+    <None Include="Resources\save_and_close_32x32.png" />
+    <None Include="Resources\save_and_close_16x16.png" />
+    <None Include="Resources\save_all_32x32.png" />
+    <None Include="Resources\save_all_16x16.png" />
+    <None Include="Resources\save_32x32.png" />
+    <None Include="Resources\save_16x16.png" />
+    <None Include="Resources\open_32x32.png" />
+    <None Include="Resources\open_16x16.png" />
+    <None Include="Resources\text_document_16x16.png" />
+    <None Include="Resources\edit_mathematics_32x32.png" />
+    <None Include="Resources\edit_mathematics_16x16.png" />
+    <None Include="Resources\clock_16x16.png" />
+    <None Include="Resources\clock__32x32.png" />
+    <None Include="Resources\font_superscript_32x32.png" />
+    <None Include="Resources\font_subscript_32x32.png" />
+    <None Include="Resources\replace_32x32.png" />
+    <None Include="Resources\replace_16x16.png" />
+    <None Include="Resources\find_32x32.png" />
+    <None Include="Resources\find_16x16.png" />
+    <None Include="Resources\table_select_all_32x32.png" />
+    <None Include="Resources\table_select_all_16x16.png" />
+    <None Include="Resources\paste_32x32.png" />
+    <None Include="Resources\paste_16x16.png" />
+    <None Include="Resources\copy_32x32.png" />
+    <None Include="Resources\copy_16x16.png" />
+    <None Include="Resources\cut_32x32.png" />
+    <None Include="Resources\cut_16x16.png" />
+    <None Include="Resources\lightbulb_32x32.png" />
+    <None Include="Resources\lightbulb_16x16.png" />
+    <None Include="Resources\font_32x32.png" />
+    <None Include="Resources\font_16x16.png" />
+    <None Include="Resources\arrow_down_32x32.png" />
+    <None Include="Resources\arrow_down_16x16.png" />
+    <None Include="Resources\arrow_up_32x32.png" />
+    <None Include="Resources\arrow_up_16x16.png" />
+    <None Include="Resources\delete_16x16.png" />
+    <None Include="Resources\delete_32x32.png" />
+    <None Include="Resources\folder_32x32.png" />
+    <None Include="Resources\text_document_32x32.png" />
+    <None Include="Resources\Remove.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
+</Project>
