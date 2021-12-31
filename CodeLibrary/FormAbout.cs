@@ -11,6 +11,10 @@ namespace CodeLibrary
         private readonly string _Content = @"
 ----------------------------------------------------------------------
 Version 3.2
+-   Moved source to new location: 
+    new: https://github.com/Guido73/CodeLibrary
+    old: https://github.com/Guido1234/CodeLibrary
+
 -   New MarkDown parser, now based on MarkDig
     features like tables and Fenced code also work.
 

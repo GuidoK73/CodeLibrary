@@ -74,7 +74,6 @@ namespace CodeLibrary
             this.tbCode.CharWidth = 8;
             this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.tbCode.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.tbCode.Hotkeys = resources.GetString("tbCode.Hotkeys");
             this.tbCode.IsReplaceMode = false;
             this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
@@ -120,7 +119,7 @@ namespace CodeLibrary
             this.linkLabel1.LinkColor = System.Drawing.Color.Yellow;
             this.linkLabel1.Location = new System.Drawing.Point(19, 81);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(217, 16);
+            this.linkLabel1.Size = new System.Drawing.Size(216, 16);
             this.linkLabel1.TabIndex = 11;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://sourceforge.net/u/guidok915";
@@ -133,7 +132,7 @@ namespace CodeLibrary
             this.linkLabel2.LinkColor = System.Drawing.Color.Yellow;
             this.linkLabel2.Location = new System.Drawing.Point(19, 172);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(344, 16);
+            this.linkLabel2.Size = new System.Drawing.Size(343, 16);
             this.linkLabel2.TabIndex = 12;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "https://github.com/PavelTorgashov/FastColoredTextBox";
@@ -146,10 +145,10 @@ namespace CodeLibrary
             this.linkLabel3.LinkColor = System.Drawing.Color.Yellow;
             this.linkLabel3.Location = new System.Drawing.Point(19, 126);
             this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(258, 16);
+            this.linkLabel3.Size = new System.Drawing.Size(251, 16);
             this.linkLabel3.TabIndex = 13;
             this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "https://github.com/Guido1234/CodeLibrary";
+            this.linkLabel3.Text = "https://github.com/GuidoK73/CodeLibrary\r\n";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
             // label1
@@ -158,7 +157,7 @@ namespace CodeLibrary
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(19, 65);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 16);
+            this.label1.Size = new System.Drawing.Size(120, 16);
             this.label1.TabIndex = 14;
             this.label1.Text = "Installer Download:";
             // 
@@ -168,7 +167,7 @@ namespace CodeLibrary
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(19, 110);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 16);
+            this.label2.Size = new System.Drawing.Size(89, 16);
             this.label2.TabIndex = 15;
             this.label2.Text = "Source Code:";
             // 
@@ -178,7 +177,7 @@ namespace CodeLibrary
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(19, 156);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 16);
+            this.label3.Size = new System.Drawing.Size(104, 16);
             this.label3.TabIndex = 16;
             this.label3.Text = "Parts based on: ";
             // 
@@ -206,7 +205,7 @@ namespace CodeLibrary
             this.linkLabel4.LinkColor = System.Drawing.Color.Yellow;
             this.linkLabel4.Location = new System.Drawing.Point(19, 192);
             this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(312, 16);
+            this.linkLabel4.Size = new System.Drawing.Size(311, 16);
             this.linkLabel4.TabIndex = 17;
             this.linkLabel4.TabStop = true;
             this.linkLabel4.Text = "https://github.com/StackExchange/MarkdownSharp";
