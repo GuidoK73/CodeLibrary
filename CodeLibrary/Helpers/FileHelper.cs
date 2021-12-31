@@ -181,7 +181,7 @@ namespace CodeLibrary
 
         public List<CodeSnippet> FindNodes(string find)
         {
-            DictionaryList<CodeSnippet, string> _items = CodeLib.Instance.CodeSnippets.Where(p => LocalUtils.LastPart(p.GetPath()).ToLower().Contains(find.ToLower())).ToDictionaryList(p => p.Id);
+            DictionaryList<CodeSnippet, string> _items = CodeLib.Instance.CodeSnippets.Where(p => LocalUtils.LastPart(p.GetPath()).ToLower().Contains(find.ToLower()) || p.Id == find).ToDictionaryList(p => p.Id);
             _items.RegisterLookup("PATH", p => p.GetPath());
 
             DictionaryList<CodeSnippet, string> _paths = new DictionaryList<CodeSnippet, string>(p => p.GetPath());

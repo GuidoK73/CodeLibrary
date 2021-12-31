@@ -629,6 +629,16 @@ namespace CodeLibrary
             _fileHelper.ExportLibrary();
         }
 
+        private void mnuCopyId_Click(object sender, EventArgs e)
+        {
+            var _snippet = _treeHelper.FromNode(treeViewLibrary.SelectedNode);
+            Clipboard.SetText($"#[{_snippet.Id.ToString()}]#");
+        }
 
+        private void mncCopyId_Click(object sender, EventArgs e)
+        {
+            var _snippet = _treeHelper.FromNode(treeViewLibrary.SelectedNode);
+            Clipboard.SetText($"#[{_snippet.Id.ToString()}]#");
+        }
     }
 }

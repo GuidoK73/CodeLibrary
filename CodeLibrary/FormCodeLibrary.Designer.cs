@@ -46,30 +46,6 @@
             this.mncPlugins = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxClipboard = new System.Windows.Forms.TextBox();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
-            this.containerLeft = new CodeLibrary.Controls.Container();
-            this.containerTreeview = new CodeLibrary.Controls.Container();
-            this.pctType = new System.Windows.Forms.PictureBox();
-            this.treeViewLibrary = new System.Windows.Forms.TreeView();
-            this.buttonFind = new System.Windows.Forms.Button();
-            this.textBoxFind = new System.Windows.Forms.TextBox();
-            this.containerRtfEditor = new CodeLibrary.Controls.Container();
-            this.rtfEditor = new CodeLibrary.Controls.Controls.RtfControl();
-            this.containerInfoBar = new CodeLibrary.Controls.Container();
-            this.lblLength = new System.Windows.Forms.Label();
-            this.lblLengthText = new System.Windows.Forms.Label();
-            this.labelStartText = new System.Windows.Forms.Label();
-            this.lblStart = new System.Windows.Forms.Label();
-            this.labelEndText = new System.Windows.Forms.Label();
-            this.labelZoomPerc = new System.Windows.Forms.Label();
-            this.lblEnd = new System.Windows.Forms.Label();
-            this.hScrollBarZoom = new System.Windows.Forms.HScrollBar();
-            this.containerImage = new CodeLibrary.Controls.Container();
-            this.imageViewer = new CodeLibrary.Controls.Controls.ImageViewer();
-            this.containerCode = new CodeLibrary.Controls.Container();
-            this.splitContainerCode = new System.Windows.Forms.SplitContainer();
-            this.fastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.listBoxInsight = new System.Windows.Forms.ListBox();
-            this.webBrowser = new CodeLibrary.Controls.Controls.ZoomBrowser();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.mncTrashcan = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mncEmptyTrashcan = new System.Windows.Forms.ToolStripMenuItem();
@@ -257,13 +233,45 @@
             this.mnuRecordClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.mncSep11 = new System.Windows.Forms.ToolStripSeparator();
             this.mncClearClipboardMonitor = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCopyId = new System.Windows.Forms.ToolStripMenuItem();
+            this.mncCopyId = new System.Windows.Forms.ToolStripMenuItem();
             this.stateIcons = new CodeLibrary.Controls.Controls.StateIcons();
+            this.containerLeft = new CodeLibrary.Controls.Container();
+            this.containerTreeview = new CodeLibrary.Controls.Container();
+            this.pctType = new System.Windows.Forms.PictureBox();
+            this.treeViewLibrary = new System.Windows.Forms.TreeView();
+            this.buttonFind = new System.Windows.Forms.Button();
+            this.textBoxFind = new System.Windows.Forms.TextBox();
+            this.containerRtfEditor = new CodeLibrary.Controls.Container();
+            this.rtfEditor = new CodeLibrary.Controls.Controls.RtfControl();
+            this.containerInfoBar = new CodeLibrary.Controls.Container();
+            this.lblLength = new System.Windows.Forms.Label();
+            this.lblLengthText = new System.Windows.Forms.Label();
+            this.labelStartText = new System.Windows.Forms.Label();
+            this.lblStart = new System.Windows.Forms.Label();
+            this.labelEndText = new System.Windows.Forms.Label();
+            this.labelZoomPerc = new System.Windows.Forms.Label();
+            this.lblEnd = new System.Windows.Forms.Label();
+            this.hScrollBarZoom = new System.Windows.Forms.HScrollBar();
+            this.containerImage = new CodeLibrary.Controls.Container();
+            this.imageViewer = new CodeLibrary.Controls.Controls.ImageViewer();
+            this.containerCode = new CodeLibrary.Controls.Container();
+            this.splitContainerCode = new System.Windows.Forms.SplitContainer();
+            this.fastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.listBoxInsight = new System.Windows.Forms.ListBox();
+            this.webBrowser = new CodeLibrary.Controls.Controls.ZoomBrowser();
             this.container1 = new CodeLibrary.Controls.Container();
             this.mncEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.mncTrashcan.SuspendLayout();
+            this.mncLibrary.SuspendLayout();
+            this.mncImage.SuspendLayout();
+            this.mnuMainStrip.SuspendLayout();
+            this.mncClipboardMonitor.SuspendLayout();
             this.containerLeft.SuspendLayout();
             this.containerTreeview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctType)).BeginInit();
@@ -276,12 +284,6 @@
             this.splitContainerCode.Panel2.SuspendLayout();
             this.splitContainerCode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.mncTrashcan.SuspendLayout();
-            this.mncLibrary.SuspendLayout();
-            this.mncImage.SuspendLayout();
-            this.mnuMainStrip.SuspendLayout();
-            this.mncClipboardMonitor.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageList
@@ -450,330 +452,6 @@
             this.splitContainerMain.SplitterDistance = 380;
             this.splitContainerMain.TabIndex = 8;
             // 
-            // containerLeft
-            // 
-            this.containerLeft.BackColor = System.Drawing.Color.Silver;
-            this.containerLeft.Controls.Add(this.containerTreeview);
-            this.containerLeft.Location = new System.Drawing.Point(9, 54);
-            this.containerLeft.Name = "containerLeft";
-            this.containerLeft.Size = new System.Drawing.Size(338, 430);
-            this.containerLeft.TabIndex = 4;
-            this.containerLeft.Text = "container1";
-            // 
-            // containerTreeview
-            // 
-            this.containerTreeview.BackColor = System.Drawing.Color.White;
-            this.containerTreeview.Controls.Add(this.pctType);
-            this.containerTreeview.Controls.Add(this.treeViewLibrary);
-            this.containerTreeview.Controls.Add(this.buttonFind);
-            this.containerTreeview.Controls.Add(this.textBoxFind);
-            this.containerTreeview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.containerTreeview.Location = new System.Drawing.Point(0, 0);
-            this.containerTreeview.Margin = new System.Windows.Forms.Padding(0);
-            this.containerTreeview.Name = "containerTreeview";
-            this.containerTreeview.Size = new System.Drawing.Size(338, 430);
-            this.containerTreeview.TabIndex = 3;
-            this.containerTreeview.Text = "container1";
-            // 
-            // pctType
-            // 
-            this.pctType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pctType.Location = new System.Drawing.Point(279, 31);
-            this.pctType.Name = "pctType";
-            this.pctType.Size = new System.Drawing.Size(34, 39);
-            this.pctType.TabIndex = 11;
-            this.pctType.TabStop = false;
-            this.pctType.Visible = false;
-            // 
-            // treeViewLibrary
-            // 
-            this.treeViewLibrary.AllowDrop = true;
-            this.treeViewLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeViewLibrary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.treeViewLibrary.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewLibrary.HideSelection = false;
-            this.treeViewLibrary.ImageIndex = 0;
-            this.treeViewLibrary.ImageList = this.imageList;
-            this.treeViewLibrary.Indent = 20;
-            this.treeViewLibrary.ItemHeight = 24;
-            this.treeViewLibrary.LabelEdit = true;
-            this.treeViewLibrary.Location = new System.Drawing.Point(1, 29);
-            this.treeViewLibrary.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewLibrary.Name = "treeViewLibrary";
-            this.treeViewLibrary.SelectedImageIndex = 0;
-            this.treeViewLibrary.Size = new System.Drawing.Size(334, 400);
-            this.treeViewLibrary.TabIndex = 0;
-            this.treeViewLibrary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewLibrary_KeyDown);
-            // 
-            // buttonFind
-            // 
-            this.buttonFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonFind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFind.Image = global::CodeLibrary.Properties.Resources.find_16x16;
-            this.buttonFind.Location = new System.Drawing.Point(296, 3);
-            this.buttonFind.Name = "buttonFind";
-            this.buttonFind.Size = new System.Drawing.Size(37, 23);
-            this.buttonFind.TabIndex = 2;
-            this.buttonFind.UseVisualStyleBackColor = true;
-            this.buttonFind.Click += new System.EventHandler(this.ButtonFind_Click);
-            // 
-            // textBoxFind
-            // 
-            this.textBoxFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFind.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxFind.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxFind.Location = new System.Drawing.Point(0, 3);
-            this.textBoxFind.Name = "textBoxFind";
-            this.textBoxFind.Size = new System.Drawing.Size(290, 22);
-            this.textBoxFind.TabIndex = 1;
-            this.textBoxFind.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBoxFind_KeyUp);
-            // 
-            // containerRtfEditor
-            // 
-            this.containerRtfEditor.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.containerRtfEditor.Controls.Add(this.rtfEditor);
-            this.containerRtfEditor.Location = new System.Drawing.Point(3, 394);
-            this.containerRtfEditor.Name = "containerRtfEditor";
-            this.containerRtfEditor.Size = new System.Drawing.Size(692, 99);
-            this.containerRtfEditor.TabIndex = 19;
-            this.containerRtfEditor.Text = "container2";
-            this.containerRtfEditor.Visible = false;
-            // 
-            // rtfEditor
-            // 
-            this.rtfEditor.BackColor = System.Drawing.SystemColors.Window;
-            this.rtfEditor.Location = new System.Drawing.Point(5, 15);
-            this.rtfEditor.Name = "rtfEditor";
-            this.rtfEditor.OwnTheme = false;
-            this.rtfEditor.Rtf = resources.GetString("rtfEditor.Rtf");
-            this.rtfEditor.SelectedRtf = "";
-            this.rtfEditor.SelectedText = "";
-            this.rtfEditor.Size = new System.Drawing.Size(433, 74);
-            this.rtfEditor.TabIndex = 0;
-            this.rtfEditor.TabStop = false;
-            this.rtfEditor.Theme = CodeLibrary.Core.ETheme.Dark;
-            this.rtfEditor.Zoom = 100;
-            // 
-            // containerInfoBar
-            // 
-            this.containerInfoBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.containerInfoBar.BackColor = System.Drawing.SystemColors.Control;
-            this.containerInfoBar.Controls.Add(this.lblLength);
-            this.containerInfoBar.Controls.Add(this.lblLengthText);
-            this.containerInfoBar.Controls.Add(this.labelStartText);
-            this.containerInfoBar.Controls.Add(this.lblStart);
-            this.containerInfoBar.Controls.Add(this.labelEndText);
-            this.containerInfoBar.Controls.Add(this.labelZoomPerc);
-            this.containerInfoBar.Controls.Add(this.lblEnd);
-            this.containerInfoBar.Controls.Add(this.hScrollBarZoom);
-            this.containerInfoBar.Location = new System.Drawing.Point(1, 722);
-            this.containerInfoBar.Name = "containerInfoBar";
-            this.containerInfoBar.Size = new System.Drawing.Size(816, 21);
-            this.containerInfoBar.TabIndex = 19;
-            // 
-            // lblLength
-            // 
-            this.lblLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblLength.AutoSize = true;
-            this.lblLength.Location = new System.Drawing.Point(189, 7);
-            this.lblLength.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblLength.Name = "lblLength";
-            this.lblLength.Size = new System.Drawing.Size(13, 13);
-            this.lblLength.TabIndex = 16;
-            this.lblLength.Text = "0";
-            // 
-            // lblLengthText
-            // 
-            this.lblLengthText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblLengthText.AutoSize = true;
-            this.lblLengthText.Location = new System.Drawing.Point(156, 7);
-            this.lblLengthText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblLengthText.Name = "lblLengthText";
-            this.lblLengthText.Size = new System.Drawing.Size(29, 13);
-            this.lblLengthText.TabIndex = 15;
-            this.lblLengthText.Text = "End:";
-            // 
-            // labelStartText
-            // 
-            this.labelStartText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelStartText.AutoSize = true;
-            this.labelStartText.Location = new System.Drawing.Point(2, 7);
-            this.labelStartText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelStartText.Name = "labelStartText";
-            this.labelStartText.Size = new System.Drawing.Size(32, 13);
-            this.labelStartText.TabIndex = 8;
-            this.labelStartText.Text = "Start:";
-            // 
-            // lblStart
-            // 
-            this.lblStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblStart.AutoSize = true;
-            this.lblStart.Location = new System.Drawing.Point(38, 7);
-            this.lblStart.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(13, 13);
-            this.lblStart.TabIndex = 9;
-            this.lblStart.Text = "0";
-            // 
-            // labelEndText
-            // 
-            this.labelEndText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelEndText.AutoSize = true;
-            this.labelEndText.Location = new System.Drawing.Point(77, 7);
-            this.labelEndText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelEndText.Name = "labelEndText";
-            this.labelEndText.Size = new System.Drawing.Size(29, 13);
-            this.labelEndText.TabIndex = 10;
-            this.labelEndText.Text = "End:";
-            // 
-            // labelZoomPerc
-            // 
-            this.labelZoomPerc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelZoomPerc.AutoSize = true;
-            this.labelZoomPerc.Location = new System.Drawing.Point(738, 7);
-            this.labelZoomPerc.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelZoomPerc.Name = "labelZoomPerc";
-            this.labelZoomPerc.Size = new System.Drawing.Size(13, 13);
-            this.labelZoomPerc.TabIndex = 14;
-            this.labelZoomPerc.Text = "0";
-            // 
-            // lblEnd
-            // 
-            this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblEnd.AutoSize = true;
-            this.lblEnd.Location = new System.Drawing.Point(110, 7);
-            this.lblEnd.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblEnd.Name = "lblEnd";
-            this.lblEnd.Size = new System.Drawing.Size(13, 13);
-            this.lblEnd.TabIndex = 11;
-            this.lblEnd.Text = "0";
-            // 
-            // hScrollBarZoom
-            // 
-            this.hScrollBarZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.hScrollBarZoom.Location = new System.Drawing.Point(578, 6);
-            this.hScrollBarZoom.Maximum = 250;
-            this.hScrollBarZoom.Minimum = 50;
-            this.hScrollBarZoom.Name = "hScrollBarZoom";
-            this.hScrollBarZoom.Size = new System.Drawing.Size(154, 14);
-            this.hScrollBarZoom.TabIndex = 13;
-            this.hScrollBarZoom.Value = 50;
-            this.hScrollBarZoom.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBarZoom_Scroll);
-            // 
-            // containerImage
-            // 
-            this.containerImage.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.containerImage.Controls.Add(this.imageViewer);
-            this.containerImage.Location = new System.Drawing.Point(3, 289);
-            this.containerImage.Name = "containerImage";
-            this.containerImage.Size = new System.Drawing.Size(692, 99);
-            this.containerImage.TabIndex = 18;
-            this.containerImage.Text = "container2";
-            // 
-            // imageViewer
-            // 
-            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageViewer.Location = new System.Drawing.Point(67, 20);
-            this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Size = new System.Drawing.Size(56, 48);
-            this.imageViewer.TabIndex = 0;
-            // 
-            // containerCode
-            // 
-            this.containerCode.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.containerCode.Controls.Add(this.splitContainerCode);
-            this.containerCode.Location = new System.Drawing.Point(0, 28);
-            this.containerCode.Name = "containerCode";
-            this.containerCode.Size = new System.Drawing.Size(695, 255);
-            this.containerCode.TabIndex = 17;
-            this.containerCode.Text = "container1";
-            // 
-            // splitContainerCode
-            // 
-            this.splitContainerCode.Location = new System.Drawing.Point(257, 3);
-            this.splitContainerCode.Name = "splitContainerCode";
-            this.splitContainerCode.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerCode.Panel1
-            // 
-            this.splitContainerCode.Panel1.Controls.Add(this.fastColoredTextBox);
-            this.splitContainerCode.Panel1.Controls.Add(this.listBoxInsight);
-            // 
-            // splitContainerCode.Panel2
-            // 
-            this.splitContainerCode.Panel2.Controls.Add(this.webBrowser);
-            this.splitContainerCode.Panel2.Margin = new System.Windows.Forms.Padding(3);
-            this.splitContainerCode.Size = new System.Drawing.Size(408, 229);
-            this.splitContainerCode.SplitterDistance = 114;
-            this.splitContainerCode.TabIndex = 17;
-            // 
-            // fastColoredTextBox
-            // 
-            this.fastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fastColoredTextBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.fastColoredTextBox.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
-    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
-            this.fastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.fastColoredTextBox.BackBrush = null;
-            this.fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.fastColoredTextBox.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-            this.fastColoredTextBox.CharHeight = 14;
-            this.fastColoredTextBox.CharWidth = 8;
-            this.fastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.fastColoredTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
-            this.fastColoredTextBox.Hotkeys = resources.GetString("fastColoredTextBox.Hotkeys");
-            this.fastColoredTextBox.IsReplaceMode = false;
-            this.fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
-            this.fastColoredTextBox.LeftBracket = '(';
-            this.fastColoredTextBox.LeftBracket2 = '{';
-            this.fastColoredTextBox.Location = new System.Drawing.Point(2, 4);
-            this.fastColoredTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.fastColoredTextBox.Name = "fastColoredTextBox";
-            this.fastColoredTextBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.fastColoredTextBox.RightBracket = ')';
-            this.fastColoredTextBox.RightBracket2 = '}';
-            this.fastColoredTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.fastColoredTextBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBox.ServiceColors")));
-            this.fastColoredTextBox.Size = new System.Drawing.Size(303, 58);
-            this.fastColoredTextBox.TabIndex = 15;
-            this.fastColoredTextBox.Zoom = 100;
-            // 
-            // listBoxInsight
-            // 
-            this.listBoxInsight.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBoxInsight.FormattingEnabled = true;
-            this.listBoxInsight.ItemHeight = 15;
-            this.listBoxInsight.Location = new System.Drawing.Point(3, 67);
-            this.listBoxInsight.Name = "listBoxInsight";
-            this.listBoxInsight.Size = new System.Drawing.Size(381, 34);
-            this.listBoxInsight.TabIndex = 16;
-            this.listBoxInsight.Visible = false;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Location = new System.Drawing.Point(24, 7);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(172, 91);
-            this.webBrowser.TabIndex = 1;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -897,6 +575,7 @@
             this.mncPasteTextPerLine,
             this.mncSep4,
             this.mncCopyPath,
+            this.mncCopyId,
             this.mncCopyContentsAndMerge});
             this.mncClipboard.Name = "mncClipboard";
             this.mncClipboard.Size = new System.Drawing.Size(196, 38);
@@ -1721,6 +1400,7 @@
             this.mnuPasteTextPerLine,
             this.mnuSep11,
             this.mnuCopyPath,
+            this.mnuCopyId,
             this.mnuCopyContentsAndMerge});
             this.mnuClipboard.Name = "mnuClipboard";
             this.mnuClipboard.Size = new System.Drawing.Size(248, 38);
@@ -1827,35 +1507,35 @@
             this.mnuTypeFolder.Image = global::CodeLibrary.Properties.Resources.open_32x32;
             this.mnuTypeFolder.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeFolder.Name = "mnuTypeFolder";
-            this.mnuTypeFolder.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeFolder.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeFolder.Text = "Folder";
             this.mnuTypeFolder.Click += new System.EventHandler(this.mnuTypeFolder_Click);
             // 
             // mnuSep12
             // 
             this.mnuSep12.Name = "mnuSep12";
-            this.mnuSep12.Size = new System.Drawing.Size(144, 6);
+            this.mnuSep12.Size = new System.Drawing.Size(193, 6);
             // 
             // mnuTypeNone
             // 
             this.mnuTypeNone.Image = global::CodeLibrary.Properties.Resources.Txt_Black;
             this.mnuTypeNone.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeNone.Name = "mnuTypeNone";
-            this.mnuTypeNone.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeNone.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeNone.Text = "None";
             this.mnuTypeNone.Click += new System.EventHandler(this.mnuTypeNone_Click);
             // 
             // mnuSep13
             // 
             this.mnuSep13.Name = "mnuSep13";
-            this.mnuSep13.Size = new System.Drawing.Size(144, 6);
+            this.mnuSep13.Size = new System.Drawing.Size(193, 6);
             // 
             // mnuTypeCSharp
             // 
             this.mnuTypeCSharp.Image = global::CodeLibrary.Properties.Resources.C__Black;
             this.mnuTypeCSharp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeCSharp.Name = "mnuTypeCSharp";
-            this.mnuTypeCSharp.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeCSharp.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeCSharp.Text = "C#";
             this.mnuTypeCSharp.Click += new System.EventHandler(this.mnuTypeCSharp_Click);
             // 
@@ -1864,7 +1544,7 @@
             this.mnuTypeSql.Image = global::CodeLibrary.Properties.Resources.SQL_Black;
             this.mnuTypeSql.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeSql.Name = "mnuTypeSql";
-            this.mnuTypeSql.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeSql.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeSql.Text = "SQL";
             this.mnuTypeSql.Click += new System.EventHandler(this.mnuTypeSql_Click);
             // 
@@ -1873,7 +1553,7 @@
             this.mnuTypeVB.Image = global::CodeLibrary.Properties.Resources.VB_Black;
             this.mnuTypeVB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeVB.Name = "mnuTypeVB";
-            this.mnuTypeVB.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeVB.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeVB.Text = "VB";
             this.mnuTypeVB.Click += new System.EventHandler(this.mnuTypeVB_Click);
             // 
@@ -1882,7 +1562,7 @@
             this.mnuTypeHTML.Image = global::CodeLibrary.Properties.Resources.Html_Black;
             this.mnuTypeHTML.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeHTML.Name = "mnuTypeHTML";
-            this.mnuTypeHTML.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeHTML.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeHTML.Text = "HTML";
             this.mnuTypeHTML.Click += new System.EventHandler(this.mnuTypeHTML_Click);
             // 
@@ -1891,7 +1571,7 @@
             this.mnuTypeXML.Image = global::CodeLibrary.Properties.Resources.XML_Black;
             this.mnuTypeXML.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeXML.Name = "mnuTypeXML";
-            this.mnuTypeXML.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeXML.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeXML.Text = "XML";
             this.mnuTypeXML.Click += new System.EventHandler(this.mnuTypeXML_Click);
             // 
@@ -1900,7 +1580,7 @@
             this.mnuTypeJs.Image = global::CodeLibrary.Properties.Resources.JS_Black;
             this.mnuTypeJs.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeJs.Name = "mnuTypeJs";
-            this.mnuTypeJs.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeJs.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeJs.Text = "JS";
             this.mnuTypeJs.Click += new System.EventHandler(this.mnuTypeJs_Click);
             // 
@@ -1909,7 +1589,7 @@
             this.mnuTypePhp.Image = global::CodeLibrary.Properties.Resources.PHP_Black;
             this.mnuTypePhp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypePhp.Name = "mnuTypePhp";
-            this.mnuTypePhp.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypePhp.Size = new System.Drawing.Size(196, 38);
             this.mnuTypePhp.Text = "PHP";
             this.mnuTypePhp.Click += new System.EventHandler(this.mnuTypePhp_Click);
             // 
@@ -1918,7 +1598,7 @@
             this.mnuTypeLua.Image = global::CodeLibrary.Properties.Resources.Lua_Black;
             this.mnuTypeLua.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeLua.Name = "mnuTypeLua";
-            this.mnuTypeLua.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeLua.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeLua.Text = "Lua";
             this.mnuTypeLua.Click += new System.EventHandler(this.mnuTypeLua_Click);
             // 
@@ -1927,35 +1607,35 @@
             this.mnuMarkDown.Image = global::CodeLibrary.Properties.Resources.Txt_Black;
             this.mnuMarkDown.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuMarkDown.Name = "mnuMarkDown";
-            this.mnuMarkDown.Size = new System.Drawing.Size(147, 38);
+            this.mnuMarkDown.Size = new System.Drawing.Size(196, 38);
             this.mnuMarkDown.Text = "Markdown";
             this.mnuMarkDown.Click += new System.EventHandler(this.mnuMarkDown_Click);
             // 
             // mnuSep22
             // 
             this.mnuSep22.Name = "mnuSep22";
-            this.mnuSep22.Size = new System.Drawing.Size(144, 6);
+            this.mnuSep22.Size = new System.Drawing.Size(193, 6);
             // 
             // mnuTypeTemplate
             // 
             this.mnuTypeTemplate.Image = global::CodeLibrary.Properties.Resources.document_rename_32x32;
             this.mnuTypeTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeTemplate.Name = "mnuTypeTemplate";
-            this.mnuTypeTemplate.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeTemplate.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeTemplate.Text = "Template";
             this.mnuTypeTemplate.Click += new System.EventHandler(this.mnuTypeTemplate_Click);
             // 
             // mnuSep23
             // 
             this.mnuSep23.Name = "mnuSep23";
-            this.mnuSep23.Size = new System.Drawing.Size(144, 6);
+            this.mnuSep23.Size = new System.Drawing.Size(193, 6);
             // 
             // mnuTypeRtf
             // 
             this.mnuTypeRtf.Image = global::CodeLibrary.Properties.Resources.RTF_black;
             this.mnuTypeRtf.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuTypeRtf.Name = "mnuTypeRtf";
-            this.mnuTypeRtf.Size = new System.Drawing.Size(147, 38);
+            this.mnuTypeRtf.Size = new System.Drawing.Size(196, 38);
             this.mnuTypeRtf.Text = "RTF";
             this.mnuTypeRtf.Click += new System.EventHandler(this.mnuTypeRtf_Click);
             // 
@@ -2357,6 +2037,20 @@
             this.mncClearClipboardMonitor.Size = new System.Drawing.Size(169, 38);
             this.mncClearClipboardMonitor.Text = "Clear";
             // 
+            // mnuCopyId
+            // 
+            this.mnuCopyId.Name = "mnuCopyId";
+            this.mnuCopyId.Size = new System.Drawing.Size(238, 22);
+            this.mnuCopyId.Text = "Copy Id";
+            this.mnuCopyId.Click += new System.EventHandler(this.mnuCopyId_Click);
+            // 
+            // mncCopyId
+            // 
+            this.mncCopyId.Name = "mncCopyId";
+            this.mncCopyId.Size = new System.Drawing.Size(238, 22);
+            this.mncCopyId.Text = "Copy Id";
+            this.mncCopyId.Click += new System.EventHandler(this.mncCopyId_Click);
+            // 
             // stateIcons
             // 
             this.stateIcons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2365,6 +2059,330 @@
             this.stateIcons.Name = "stateIcons";
             this.stateIcons.Size = new System.Drawing.Size(105, 16);
             this.stateIcons.TabIndex = 22;
+            // 
+            // containerLeft
+            // 
+            this.containerLeft.BackColor = System.Drawing.Color.Silver;
+            this.containerLeft.Controls.Add(this.containerTreeview);
+            this.containerLeft.Location = new System.Drawing.Point(9, 54);
+            this.containerLeft.Name = "containerLeft";
+            this.containerLeft.Size = new System.Drawing.Size(338, 430);
+            this.containerLeft.TabIndex = 4;
+            this.containerLeft.Text = "container1";
+            // 
+            // containerTreeview
+            // 
+            this.containerTreeview.BackColor = System.Drawing.Color.White;
+            this.containerTreeview.Controls.Add(this.pctType);
+            this.containerTreeview.Controls.Add(this.treeViewLibrary);
+            this.containerTreeview.Controls.Add(this.buttonFind);
+            this.containerTreeview.Controls.Add(this.textBoxFind);
+            this.containerTreeview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.containerTreeview.Location = new System.Drawing.Point(0, 0);
+            this.containerTreeview.Margin = new System.Windows.Forms.Padding(0);
+            this.containerTreeview.Name = "containerTreeview";
+            this.containerTreeview.Size = new System.Drawing.Size(338, 430);
+            this.containerTreeview.TabIndex = 3;
+            this.containerTreeview.Text = "container1";
+            // 
+            // pctType
+            // 
+            this.pctType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pctType.Location = new System.Drawing.Point(279, 31);
+            this.pctType.Name = "pctType";
+            this.pctType.Size = new System.Drawing.Size(34, 39);
+            this.pctType.TabIndex = 11;
+            this.pctType.TabStop = false;
+            this.pctType.Visible = false;
+            // 
+            // treeViewLibrary
+            // 
+            this.treeViewLibrary.AllowDrop = true;
+            this.treeViewLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeViewLibrary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.treeViewLibrary.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewLibrary.HideSelection = false;
+            this.treeViewLibrary.ImageIndex = 0;
+            this.treeViewLibrary.ImageList = this.imageList;
+            this.treeViewLibrary.Indent = 20;
+            this.treeViewLibrary.ItemHeight = 24;
+            this.treeViewLibrary.LabelEdit = true;
+            this.treeViewLibrary.Location = new System.Drawing.Point(1, 29);
+            this.treeViewLibrary.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewLibrary.Name = "treeViewLibrary";
+            this.treeViewLibrary.SelectedImageIndex = 0;
+            this.treeViewLibrary.Size = new System.Drawing.Size(334, 400);
+            this.treeViewLibrary.TabIndex = 0;
+            this.treeViewLibrary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewLibrary_KeyDown);
+            // 
+            // buttonFind
+            // 
+            this.buttonFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonFind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonFind.Image = global::CodeLibrary.Properties.Resources.find_16x16;
+            this.buttonFind.Location = new System.Drawing.Point(296, 3);
+            this.buttonFind.Name = "buttonFind";
+            this.buttonFind.Size = new System.Drawing.Size(37, 23);
+            this.buttonFind.TabIndex = 2;
+            this.buttonFind.UseVisualStyleBackColor = true;
+            this.buttonFind.Click += new System.EventHandler(this.ButtonFind_Click);
+            // 
+            // textBoxFind
+            // 
+            this.textBoxFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxFind.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxFind.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxFind.Location = new System.Drawing.Point(0, 3);
+            this.textBoxFind.Name = "textBoxFind";
+            this.textBoxFind.Size = new System.Drawing.Size(290, 22);
+            this.textBoxFind.TabIndex = 1;
+            this.textBoxFind.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBoxFind_KeyUp);
+            // 
+            // containerRtfEditor
+            // 
+            this.containerRtfEditor.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.containerRtfEditor.Controls.Add(this.rtfEditor);
+            this.containerRtfEditor.Location = new System.Drawing.Point(3, 394);
+            this.containerRtfEditor.Name = "containerRtfEditor";
+            this.containerRtfEditor.Size = new System.Drawing.Size(692, 99);
+            this.containerRtfEditor.TabIndex = 19;
+            this.containerRtfEditor.Text = "container2";
+            this.containerRtfEditor.Visible = false;
+            // 
+            // rtfEditor
+            // 
+            this.rtfEditor.BackColor = System.Drawing.SystemColors.Window;
+            this.rtfEditor.Location = new System.Drawing.Point(5, 15);
+            this.rtfEditor.Name = "rtfEditor";
+            this.rtfEditor.OwnTheme = false;
+            this.rtfEditor.Rtf = resources.GetString("rtfEditor.Rtf");
+            this.rtfEditor.SelectedRtf = "";
+            this.rtfEditor.SelectedText = "";
+            this.rtfEditor.Size = new System.Drawing.Size(433, 74);
+            this.rtfEditor.TabIndex = 0;
+            this.rtfEditor.TabStop = false;
+            this.rtfEditor.Theme = CodeLibrary.Core.ETheme.Dark;
+            this.rtfEditor.Zoom = 100;
+            // 
+            // containerInfoBar
+            // 
+            this.containerInfoBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.containerInfoBar.BackColor = System.Drawing.SystemColors.Control;
+            this.containerInfoBar.Controls.Add(this.lblLength);
+            this.containerInfoBar.Controls.Add(this.lblLengthText);
+            this.containerInfoBar.Controls.Add(this.labelStartText);
+            this.containerInfoBar.Controls.Add(this.lblStart);
+            this.containerInfoBar.Controls.Add(this.labelEndText);
+            this.containerInfoBar.Controls.Add(this.labelZoomPerc);
+            this.containerInfoBar.Controls.Add(this.lblEnd);
+            this.containerInfoBar.Controls.Add(this.hScrollBarZoom);
+            this.containerInfoBar.Location = new System.Drawing.Point(1, 722);
+            this.containerInfoBar.Name = "containerInfoBar";
+            this.containerInfoBar.Size = new System.Drawing.Size(816, 21);
+            this.containerInfoBar.TabIndex = 19;
+            // 
+            // lblLength
+            // 
+            this.lblLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLength.AutoSize = true;
+            this.lblLength.Location = new System.Drawing.Point(189, 7);
+            this.lblLength.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblLength.Name = "lblLength";
+            this.lblLength.Size = new System.Drawing.Size(13, 13);
+            this.lblLength.TabIndex = 16;
+            this.lblLength.Text = "0";
+            // 
+            // lblLengthText
+            // 
+            this.lblLengthText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLengthText.AutoSize = true;
+            this.lblLengthText.Location = new System.Drawing.Point(156, 7);
+            this.lblLengthText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblLengthText.Name = "lblLengthText";
+            this.lblLengthText.Size = new System.Drawing.Size(29, 13);
+            this.lblLengthText.TabIndex = 15;
+            this.lblLengthText.Text = "End:";
+            // 
+            // labelStartText
+            // 
+            this.labelStartText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelStartText.AutoSize = true;
+            this.labelStartText.Location = new System.Drawing.Point(2, 7);
+            this.labelStartText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelStartText.Name = "labelStartText";
+            this.labelStartText.Size = new System.Drawing.Size(32, 13);
+            this.labelStartText.TabIndex = 8;
+            this.labelStartText.Text = "Start:";
+            // 
+            // lblStart
+            // 
+            this.lblStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblStart.AutoSize = true;
+            this.lblStart.Location = new System.Drawing.Point(38, 7);
+            this.lblStart.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStart.Name = "lblStart";
+            this.lblStart.Size = new System.Drawing.Size(13, 13);
+            this.lblStart.TabIndex = 9;
+            this.lblStart.Text = "0";
+            // 
+            // labelEndText
+            // 
+            this.labelEndText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelEndText.AutoSize = true;
+            this.labelEndText.Location = new System.Drawing.Point(77, 7);
+            this.labelEndText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelEndText.Name = "labelEndText";
+            this.labelEndText.Size = new System.Drawing.Size(29, 13);
+            this.labelEndText.TabIndex = 10;
+            this.labelEndText.Text = "End:";
+            // 
+            // labelZoomPerc
+            // 
+            this.labelZoomPerc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelZoomPerc.AutoSize = true;
+            this.labelZoomPerc.Location = new System.Drawing.Point(738, 7);
+            this.labelZoomPerc.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelZoomPerc.Name = "labelZoomPerc";
+            this.labelZoomPerc.Size = new System.Drawing.Size(13, 13);
+            this.labelZoomPerc.TabIndex = 14;
+            this.labelZoomPerc.Text = "0";
+            // 
+            // lblEnd
+            // 
+            this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblEnd.AutoSize = true;
+            this.lblEnd.Location = new System.Drawing.Point(110, 7);
+            this.lblEnd.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblEnd.Name = "lblEnd";
+            this.lblEnd.Size = new System.Drawing.Size(13, 13);
+            this.lblEnd.TabIndex = 11;
+            this.lblEnd.Text = "0";
+            // 
+            // hScrollBarZoom
+            // 
+            this.hScrollBarZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.hScrollBarZoom.Location = new System.Drawing.Point(578, 6);
+            this.hScrollBarZoom.Maximum = 250;
+            this.hScrollBarZoom.Minimum = 50;
+            this.hScrollBarZoom.Name = "hScrollBarZoom";
+            this.hScrollBarZoom.Size = new System.Drawing.Size(154, 14);
+            this.hScrollBarZoom.TabIndex = 13;
+            this.hScrollBarZoom.Value = 50;
+            this.hScrollBarZoom.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HScrollBarZoom_Scroll);
+            // 
+            // containerImage
+            // 
+            this.containerImage.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.containerImage.Controls.Add(this.imageViewer);
+            this.containerImage.Location = new System.Drawing.Point(3, 289);
+            this.containerImage.Name = "containerImage";
+            this.containerImage.Size = new System.Drawing.Size(692, 99);
+            this.containerImage.TabIndex = 18;
+            this.containerImage.Text = "container2";
+            // 
+            // imageViewer
+            // 
+            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageViewer.Location = new System.Drawing.Point(67, 20);
+            this.imageViewer.Name = "imageViewer";
+            this.imageViewer.Size = new System.Drawing.Size(56, 48);
+            this.imageViewer.TabIndex = 0;
+            // 
+            // containerCode
+            // 
+            this.containerCode.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.containerCode.Controls.Add(this.splitContainerCode);
+            this.containerCode.Location = new System.Drawing.Point(0, 28);
+            this.containerCode.Name = "containerCode";
+            this.containerCode.Size = new System.Drawing.Size(695, 255);
+            this.containerCode.TabIndex = 17;
+            this.containerCode.Text = "container1";
+            // 
+            // splitContainerCode
+            // 
+            this.splitContainerCode.Location = new System.Drawing.Point(257, 3);
+            this.splitContainerCode.Name = "splitContainerCode";
+            this.splitContainerCode.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerCode.Panel1
+            // 
+            this.splitContainerCode.Panel1.Controls.Add(this.fastColoredTextBox);
+            this.splitContainerCode.Panel1.Controls.Add(this.listBoxInsight);
+            // 
+            // splitContainerCode.Panel2
+            // 
+            this.splitContainerCode.Panel2.Controls.Add(this.webBrowser);
+            this.splitContainerCode.Panel2.Margin = new System.Windows.Forms.Padding(3);
+            this.splitContainerCode.Size = new System.Drawing.Size(408, 229);
+            this.splitContainerCode.SplitterDistance = 114;
+            this.splitContainerCode.TabIndex = 17;
+            // 
+            // fastColoredTextBox
+            // 
+            this.fastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fastColoredTextBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBox.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
+    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
+            this.fastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
+            this.fastColoredTextBox.BackBrush = null;
+            this.fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBox.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+            this.fastColoredTextBox.CharHeight = 14;
+            this.fastColoredTextBox.CharWidth = 8;
+            this.fastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
+            this.fastColoredTextBox.Hotkeys = resources.GetString("fastColoredTextBox.Hotkeys");
+            this.fastColoredTextBox.IsReplaceMode = false;
+            this.fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.fastColoredTextBox.LeftBracket = '(';
+            this.fastColoredTextBox.LeftBracket2 = '{';
+            this.fastColoredTextBox.Location = new System.Drawing.Point(2, 4);
+            this.fastColoredTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.fastColoredTextBox.Name = "fastColoredTextBox";
+            this.fastColoredTextBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBox.RightBracket = ')';
+            this.fastColoredTextBox.RightBracket2 = '}';
+            this.fastColoredTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBox.ServiceColors")));
+            this.fastColoredTextBox.Size = new System.Drawing.Size(303, 58);
+            this.fastColoredTextBox.TabIndex = 15;
+            this.fastColoredTextBox.Zoom = 100;
+            // 
+            // listBoxInsight
+            // 
+            this.listBoxInsight.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxInsight.FormattingEnabled = true;
+            this.listBoxInsight.ItemHeight = 15;
+            this.listBoxInsight.Location = new System.Drawing.Point(3, 67);
+            this.listBoxInsight.Name = "listBoxInsight";
+            this.listBoxInsight.Size = new System.Drawing.Size(381, 34);
+            this.listBoxInsight.TabIndex = 16;
+            this.listBoxInsight.Visible = false;
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Location = new System.Drawing.Point(24, 7);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(172, 91);
+            this.webBrowser.TabIndex = 1;
             // 
             // container1
             // 
@@ -2399,6 +2417,13 @@
             this.splitContainerMain.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.mncTrashcan.ResumeLayout(false);
+            this.mncLibrary.ResumeLayout(false);
+            this.mncImage.ResumeLayout(false);
+            this.mnuMainStrip.ResumeLayout(false);
+            this.mnuMainStrip.PerformLayout();
+            this.mncClipboardMonitor.ResumeLayout(false);
             this.containerLeft.ResumeLayout(false);
             this.containerTreeview.ResumeLayout(false);
             this.containerTreeview.PerformLayout();
@@ -2413,13 +2438,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerCode)).EndInit();
             this.splitContainerCode.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.mncTrashcan.ResumeLayout(false);
-            this.mncLibrary.ResumeLayout(false);
-            this.mncImage.ResumeLayout(false);
-            this.mnuMainStrip.ResumeLayout(false);
-            this.mnuMainStrip.PerformLayout();
-            this.mncClipboardMonitor.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2655,6 +2673,8 @@
         private System.Windows.Forms.ToolStripMenuItem exportLibraryToolStripMenuItem;
         internal Controls.Controls.ZoomBrowser webBrowser;
         internal System.Windows.Forms.ToolStripMenuItem mncExportSnippet;
+        internal System.Windows.Forms.ToolStripMenuItem mnuCopyId;
+        internal System.Windows.Forms.ToolStripMenuItem mncCopyId;
     }
 }
 

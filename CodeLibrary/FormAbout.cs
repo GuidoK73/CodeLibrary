@@ -15,10 +15,17 @@ Version 3.2
     new: https://github.com/Guido73/CodeLibrary
     old: https://github.com/Guido1234/CodeLibrary
 
+-   Bug Fix: Moving snippets did not refresh index.
+
+-   Clipboard menu item Copy Id.
+    Copies the Id as #[497e1b9c-2adf-4183-ba23-c7b5bcb3557a] which can be used as mergeable tags in text. same as the Copy Path.
+
+-   Searchbox now supports searching on Id.
+
 -   New MarkDown parser, now based on MarkDig
     features like tables and Fenced code also work.
 
--   Improved Relative Path merging
+-   Improved path merging, path tags located in nested Snippets are parsed as well.
 
 -   Copy and Merge content either html or Markdown.
 

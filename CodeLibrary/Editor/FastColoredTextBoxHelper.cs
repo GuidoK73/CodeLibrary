@@ -157,9 +157,17 @@ namespace CodeLibrary.Editor
 
                 foreach (Match match in _matches)
                 {
+                    // Get by path
                     CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.GetByPath(match.Value);
                     if (_snippet == null)
                     {
+                        // Get by id
+                        _snippet = CodeLib.Instance.CodeSnippets.Get(match.Value);
+                        _text = SnippetToText(_snippet, targetType);
+                    }
+                    else if (_snippet == null)
+                    {
+                        // try get by pattern.
                         var _snippets = CodeLib.Instance.CodeSnippets.GetChildsByPathAndPattern(match.Value);
                         StringBuilder _sb = new StringBuilder();
                         foreach (CodeSnippet snippet in _snippets)
@@ -381,6 +389,11 @@ namespace CodeLibrary.Editor
         private string SnippetToText(CodeSnippet snippet, CodeType targetType)
         {
             string _result = string.Empty;
+            if (snippet == null)
+            {
+                return String.Empty;
+            }
+
             if (snippet.CodeType == CodeType.ReferenceLink)
             {
                 snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);

@@ -1175,6 +1175,8 @@ namespace CodeLibrary
 
             _mainform.mnuCopyPath.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && !IsReference(_treeViewLibrary.SelectedNode);
             _mainform.mncCopyPath.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && !IsReference(_treeViewLibrary.SelectedNode);
+            _mainform.mnuCopyId.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && !IsReference(_treeViewLibrary.SelectedNode);
+            _mainform.mncCopyId.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && !IsReference(_treeViewLibrary.SelectedNode);
 
             _mainform.mncSortChildrenAscending.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && TreeViewExtensions.ParentCount(_treeViewLibrary.SelectedNode) > 1 && _treeViewLibrary.SelectedNode.Nodes.Count > 1 && !IsReference(_treeViewLibrary.SelectedNode);
             _mainform.mnuSortChildrenAscending.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && TreeViewExtensions.ParentCount(_treeViewLibrary.SelectedNode) > 1 && _treeViewLibrary.SelectedNode.Nodes.Count > 1 && !IsReference(_treeViewLibrary.SelectedNode);
@@ -1565,6 +1567,7 @@ namespace CodeLibrary
             {
                 UpdateNodePath(child);
             }
+            CodeLib.Instance.Refresh();
         }
     }
 }
