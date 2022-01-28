@@ -319,6 +319,9 @@ namespace CodeLibrary.Editor
                             _sb.Append("</style>");
                             _sb.Append(_text);
                             _text = _sb.ToString();
+
+                            _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+
                         }
                         else
                         {

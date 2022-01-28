@@ -145,6 +145,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\edit_mathematics_16x16.png" />
   </ItemGroup>
   <ItemGroup>

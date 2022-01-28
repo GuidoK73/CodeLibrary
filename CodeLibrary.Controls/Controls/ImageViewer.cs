@@ -10,7 +10,7 @@ namespace CodeLibrary.Controls.Controls
         private Point _Offset = new Point(0, 0);
 
         private bool _Pressed = false;
-         
+
         public ImageViewer()
         {
             DoubleBuffered = true;

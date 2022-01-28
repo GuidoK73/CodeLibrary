@@ -201,6 +201,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\Add.ico" />
   </ItemGroup>
   <ItemGroup>

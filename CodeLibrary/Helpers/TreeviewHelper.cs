@@ -1181,11 +1181,11 @@ namespace CodeLibrary
             _mainform.mncSortChildrenAscending.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && TreeViewExtensions.ParentCount(_treeViewLibrary.SelectedNode) > 1 && _treeViewLibrary.SelectedNode.Nodes.Count > 1 && !IsReference(_treeViewLibrary.SelectedNode);
             _mainform.mnuSortChildrenAscending.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && TreeViewExtensions.ParentCount(_treeViewLibrary.SelectedNode) > 1 && _treeViewLibrary.SelectedNode.Nodes.Count > 1 && !IsReference(_treeViewLibrary.SelectedNode);
 
-            _mainform.mncMoveLeft.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode.Parent != null;
-            _mainform.mnuMoveLeft.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode.Parent != null;
+            _mainform.mncMoveLeft.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode?.Parent != null;
+            _mainform.mnuMoveLeft.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode?.Parent != null;
 
-            _mainform.mncMoveRight.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode.PrevNode != null;
-            _mainform.mnuMoveRight.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode.PrevNode != null;
+            _mainform.mncMoveRight.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode?.PrevNode != null;
+            _mainform.mnuMoveRight.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && _treeViewLibrary.SelectedNode?.PrevNode != null;
 
             _mainform.mncMoveUp.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && TreeViewExtensions.ParentCount(_treeViewLibrary.SelectedNode) > 1;
             _mainform.mnuMoveUp.Enabled = !IsTrashcan(_treeViewLibrary.SelectedNode) && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && TreeViewExtensions.ParentCount(_treeViewLibrary.SelectedNode) > 1;
