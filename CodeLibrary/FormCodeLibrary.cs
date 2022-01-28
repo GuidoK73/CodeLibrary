@@ -13,11 +13,9 @@ namespace CodeLibrary
 {
     public partial class FormCodeLibrary : Form
     {
-        private readonly ClipboardMonitorHelper _clipboardMonitorHelper;
         private readonly DebugHelper _debugHelper;
         private readonly FavoriteHelper _FavoriteHelper;
         private readonly FileHelper _fileHelper;
-        private readonly MenuHelper _menuHelper;
         private readonly PasswordHelper _passwordHelper;
         internal readonly StateIconHelper _stateIconHelper;
         private readonly TextBoxHelper _textboxHelper;
@@ -42,8 +40,6 @@ namespace CodeLibrary
             _treeHelper = new TreeviewHelper(this, _textboxHelper, _fileHelper, _themeHelper);
             _fileHelper.TreeHelper = _treeHelper;
             _FavoriteHelper = new FavoriteHelper(this, _fileHelper);
-            _clipboardMonitorHelper = new ClipboardMonitorHelper(this, _textboxHelper, _treeHelper, _stateIconHelper);
-            _menuHelper = new MenuHelper(this, _treeHelper, _FavoriteHelper);
 
             containerLeft.Dock = DockStyle.Fill;
 
@@ -255,11 +251,7 @@ namespace CodeLibrary
 
         private void mncCopyContentsAndMerge_Click(object sender, EventArgs e) => Clipboard.SetText(_textboxHelper.Merge());
 
-        private void mncCopyPath_Click(object sender, EventArgs e)
-        {
-            string path = treeViewLibrary.SelectedNode.FullPath;
-            Clipboard.SetText($"#[{path}]#");
-        }
+        private void mncCopyPath_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{treeViewLibrary.SelectedNode.FullPath}]#");
 
         private void mncCut_Click(object sender, EventArgs e) => _textboxHelper.Cut();
 
@@ -289,9 +281,6 @@ namespace CodeLibrary
             string result = stringtemplate.Format(Clipboard.GetText(), _textboxHelper.SelectedText);
             _textboxHelper.SelectedText = result;
         }
-
-
-
 
         private void mncProperties_Click(object sender, EventArgs e) => EditNodeProperties();
 
@@ -366,7 +355,6 @@ namespace CodeLibrary
 
         private void mnuCopyContentsAndMerge_Click(object sender, EventArgs e) => Clipboard.SetText(_textboxHelper.Merge());
 
-
         private void mncExportSnippet_Click(object sender, EventArgs e)
         {
             //var _snippet = _treeHelper.FromNode(_treeHelper.SelectedNode);
@@ -394,12 +382,7 @@ namespace CodeLibrary
             //}
         }
 
-
-        private void mnuCopyPath_Click(object sender, EventArgs e)
-        {
-            string path = treeViewLibrary.SelectedNode.FullPath;
-            Clipboard.SetText($"#[{path}]#");
-        }
+        private void mnuCopyPath_Click(object sender, EventArgs e) =>  Clipboard.SetText($"#[{treeViewLibrary.SelectedNode.FullPath}]#");
 
         private void mnuCopyWithMarkup_Click(object sender, EventArgs e) => _textboxHelper.CopyWithMarkup();
 
@@ -583,7 +566,6 @@ namespace CodeLibrary
             _textboxHelper.SelectIsCopy = mnuSelectAndCopy.Checked;
         }
 
-
         private void mncAddReference_Click(object sender, EventArgs e)
         {
             if (_treeHelper.IsSystem(treeViewLibrary.SelectedNode))
@@ -624,21 +606,10 @@ namespace CodeLibrary
             _treeHelper.SetSelectedNode(_node, false);
         }
 
-        private void exportLibraryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileHelper.ExportLibrary();
-        }
+        private void exportLibraryToolStripMenuItem_Click(object sender, EventArgs e) =>  _fileHelper.ExportLibrary();
 
-        private void mnuCopyId_Click(object sender, EventArgs e)
-        {
-            var _snippet = _treeHelper.FromNode(treeViewLibrary.SelectedNode);
-            Clipboard.SetText($"#[{_snippet.Id.ToString()}]#");
-        }
+        private void mnuCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
 
-        private void mncCopyId_Click(object sender, EventArgs e)
-        {
-            var _snippet = _treeHelper.FromNode(treeViewLibrary.SelectedNode);
-            Clipboard.SetText($"#[{_snippet.Id.ToString()}]#");
-        }
+        private void mncCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
     }
 }

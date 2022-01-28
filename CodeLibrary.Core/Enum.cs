@@ -2,6 +2,24 @@
 
 namespace CodeLibrary.Core
 {
+    public enum KeysLanguage
+    {
+        AllLanguages = 0,
+        None = 1,
+        CSharp = 2,
+        SQL = 4,
+        VB = 8,
+        HTML = 16,
+        Template = 32,
+        XML = 64,
+        PHP = 128,
+        Lua = 256,
+        JS = 512,
+        RTF = 1024,
+        MarkDown = 2048
+    }
+
+
     public enum CodeType
     {
         Folder = 0,

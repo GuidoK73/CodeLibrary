@@ -307,6 +307,26 @@ namespace CodeLibrary.Editor
                         MarkDigWrapper _markdown = new MarkDigWrapper();
                         string _text = Merge(_tb.Text, CodeType.MarkDown);
                         _text = _markdown.Transform(_text);
+                        if (Config.Theme != ETheme.Light)
+                        {
+                            StringBuilder _sb = new StringBuilder();
+                            _sb.Append("<body style =\"background-color:#333333;color:#cccccc;font-family:Arial\"></body>\r\n");
+                            _sb.Append("<style>");
+                            _sb.Append("a:link { color: green; background-color: transparent; text-decoration: none; }");
+                            _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
+                            _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
+                            _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
+                            _sb.Append("</style>");
+                            _sb.Append(_text);
+                            _text = _sb.ToString();
+                        }
+                        else
+                        {
+                            StringBuilder _sb = new StringBuilder();
+                            _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
+                            _sb.Append(_text);
+                            _text = _sb.ToString();
+                        }
                         _mainform.webBrowser.DocumentText = _text;
                     }
                     catch (Exception)

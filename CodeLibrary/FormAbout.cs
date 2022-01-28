@@ -11,6 +11,8 @@ namespace CodeLibrary
         private readonly string _Content = @"
 ----------------------------------------------------------------------
 Version 3.2
+-   Markdown DarkMode, chahged font.
+
 -   Moved source to new location: 
     new: https://github.com/Guido73/CodeLibrary
     old: https://github.com/Guido1234/CodeLibrary

@@ -126,6 +126,9 @@ namespace CodeLibrary.Core
         [DataMember(Name = "SCKS")]
         public Keys ShortCutKeys { get; set; }
 
+        [DataMember(Name = "SCKSL")]
+        public KeysLanguage ShortCutKeyLanguage { get; set; }
+        
         [DataMember(Name = "WW")]
         public bool Wordwrap { get; set; }
 
