@@ -24,6 +24,7 @@ namespace CodeLibrary
         private TextEditorContainer _CurrentEditor = new TextEditorContainer();
         private bool _exitWithoutSaving = false;
         private MainPluginHelper _PluginHelper;
+        private MenuHelper _MenuHelper;
         private string _preSearchSelectedId = string.Empty;
 
         public FormCodeLibrary()
@@ -40,6 +41,8 @@ namespace CodeLibrary
             _treeHelper = new TreeviewHelper(this, _textboxHelper, _fileHelper, _themeHelper);
             _fileHelper.TreeHelper = _treeHelper;
             _FavoriteHelper = new FavoriteHelper(this, _fileHelper);
+            _MenuHelper = new MenuHelper(this, _treeHelper, _FavoriteHelper);
+
 
             containerLeft.Dock = DockStyle.Fill;
 
@@ -611,5 +614,7 @@ namespace CodeLibrary
         private void mnuCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
 
         private void mncCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
+
+
     }
 }

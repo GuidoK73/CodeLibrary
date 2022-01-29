@@ -316,6 +316,7 @@ namespace CodeLibrary.Editor
                             _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
                             _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
                             _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
+                            _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
                             _sb.Append("</style>");
                             _sb.Append(_text);
                             _text = _sb.ToString();
@@ -327,6 +328,9 @@ namespace CodeLibrary.Editor
                         {
                             StringBuilder _sb = new StringBuilder();
                             _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
+                            _sb.Append("<style>");
+                            _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
+                            _sb.Append("</style>");
                             _sb.Append(_text);
                             _text = _sb.ToString();
                         }
