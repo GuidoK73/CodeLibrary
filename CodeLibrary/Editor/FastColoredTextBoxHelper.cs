@@ -40,8 +40,6 @@ namespace CodeLibrary.Editor
             _tb.MouseUp += new MouseEventHandler(TbCode_MouseUp);
         }
 
-
-
         public ITextEditor Editor
         {
             get
@@ -152,7 +150,6 @@ namespace CodeLibrary.Editor
 
             while (_matches.Count > 0)
             {
-
                 string _text = string.Empty;
 
                 foreach (Match match in _matches)
@@ -191,7 +188,7 @@ namespace CodeLibrary.Editor
         }
 
         public string Merge()
-        {           
+        {
             return Merge(Text, _StateSnippet.CodeType);
         }
 
@@ -242,7 +239,7 @@ namespace CodeLibrary.Editor
 
             _TextBoxHelper.SetEditorView(snippet);
 
-            string _text = snippet.GetCode(); 
+            string _text = snippet.GetCode();
             _tb.Text = !string.IsNullOrEmpty(_text) ? _text : "";
             _tb.ClearUndo();
             _mainform.tbPath.Text = snippet.GetPath();// + $"    [C: {snippet.CreationDate},M:{snippet.CodeLastModificationDate:yyyy-MM-dd HH:mm:ss}]";
@@ -297,7 +294,6 @@ namespace CodeLibrary.Editor
         {
             _mainform.webBrowser.AllowNavigation = true;
 
-
             if (!_mainform.splitContainerCode.Panel2Collapsed)
             {
                 if (_StateSnippet.CodeType == CodeType.MarkDown)
@@ -322,7 +318,6 @@ namespace CodeLibrary.Editor
                             _text = _sb.ToString();
 
                             _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
-
                         }
                         else
                         {
@@ -346,10 +341,59 @@ namespace CodeLibrary.Editor
                     _mainform.webBrowser.DocumentText = Merge(_tb.Text, CodeType.HTML);
                 }
 
-
                 _ThemeHelper.SetWebBrowserTheme(Config.Theme);
-                // 
             }
+        }
+
+        public bool ToPdf()
+        {
+            SaveFileDialog _dialog = new SaveFileDialog();
+            DialogResult _dlgresult = _dialog.ShowDialog();
+            if (_dlgresult == DialogResult.Cancel)
+            {
+                return false;
+            }
+            string _fileName = _dialog.FileName;
+
+            string _text = string.Empty;
+            MarkDigWrapper _markdown = new MarkDigWrapper();
+
+            switch (_StateSnippet.CodeType)
+            {
+                case CodeType.MarkDown:
+                    try
+                    {
+                        _text = Merge(_tb.Text, CodeType.MarkDown);
+                        _text = _markdown.Transform(_text);
+
+                        StringBuilder _sb = new StringBuilder();
+                        _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
+                        _sb.Append("<style>");
+                        _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
+                        _sb.Append("</style>");
+                        _sb.Append(_text);
+                        _text = _sb.ToString();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Error converting Markdown to PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    break;
+                case CodeType.Image:
+                case CodeType.RTF:
+                case CodeType.ReferenceLink:
+                case CodeType.UnSuported:
+                case CodeType.System:
+                    MessageBox.Show("Error converting to PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;                    
+                default:
+                    _text = Merge(_tb.Text, _StateSnippet.CodeType);
+                    break;
+
+            }
+            _markdown.ToPDF(_fileName, _text);
+            return true;
         }
 
         private void _tb_SelectionChanged(object sender, EventArgs e)
@@ -359,7 +403,6 @@ namespace CodeLibrary.Editor
                 _mainform.lblStart.Text = _tb.SelectionStart.ToString();
                 _mainform.lblEnd.Text = (_tb.SelectionStart + _tb.SelectionLength).ToString();
                 _mainform.lblLength.Text = _tb.SelectionLength.ToString();
-                
             }
             catch { }
         }
@@ -425,25 +468,61 @@ namespace CodeLibrary.Editor
             {
                 snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);
             }
-            if (snippet.CodeType == CodeType.Image)
-            {
-                string _base64 = Convert.ToBase64String(snippet.Blob);
-                switch (targetType)
-                {
-                    case CodeType.MarkDown:
-                        _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
-                        break;
+            switch (snippet.CodeType)
+            { 
+                case CodeType.Image:  
+                    string _base64 = Convert.ToBase64String(snippet.Blob);
+                    switch (targetType)
+                    {
+                        case CodeType.MarkDown:
+                            _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
+                            break;
 
-                    default:
-                        _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
-                        break;
-                }
+                        case CodeType.HTML:
+                            _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
+                            break;
+                    }
+                    break;
+                case CodeType.CSharp:
+                case CodeType.HTML:
+                case CodeType.JS:
+                case CodeType.Lua:
+                case CodeType.PHP:
+                case CodeType.SQL:
+                case CodeType.VB:
+                case CodeType.XML:
+                    _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", MarkdownInlineCode(snippet.CodeType), snippet.GetCode());
+                    break;
+                default:
+                    _result = snippet.GetCode();
+                    break;
             }
-            else
-            {
-                _result = snippet.GetCode();
-            }
+
             return _result;
+        }
+
+        private string MarkdownInlineCode(CodeType codeType)
+        {
+            switch (codeType)
+            {
+                case CodeType.SQL: 
+                    return "sql";
+                case CodeType.JS:
+                    return "js";
+                case CodeType.XML:
+                    return "xml";
+                case CodeType.CSharp:
+                    return "cs";
+                case CodeType.HTML:
+                    return "html";
+                case CodeType.Lua:
+                    return "lua";
+                case CodeType.PHP:
+                    return "php";
+                case CodeType.VB:
+                    return "vb";
+            }
+            return String.Empty;
         }
 
         private void TbCode_KeyDown(object sender, KeyEventArgs e)

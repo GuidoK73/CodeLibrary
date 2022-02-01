@@ -10,6 +10,11 @@ namespace CodeLibrary
     {
         private readonly string _Content = @"
 ----------------------------------------------------------------------
+Version 3.3
+-   Markdown, using CodeLibrary references in text will auto create codeblocks for specific language on Preview and Copy Contents and Merge.
+
+-   Export to PDF.
+
 Version 3.2
 -   Markdown, Added SynraxHighlighting extensions.
     github syntax highlighting blocks like ~~~sql, ~~~cs, now supported.

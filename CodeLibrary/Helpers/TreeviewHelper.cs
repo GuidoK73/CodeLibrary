@@ -27,7 +27,7 @@ namespace CodeLibrary
         private bool _timerTick = false;
         private int _updating = 0;
         private CodeType DialogSelectedCodeType = CodeType.None;
-
+        
         public TreeviewHelper(FormCodeLibrary mainform, TextBoxHelper textBoxHelper, FileHelper fileHelper, ThemeHelper themeHelper)
         {
             _treeViewLibrary = mainform.treeViewLibrary;
@@ -52,6 +52,14 @@ namespace CodeLibrary
             _timer.Interval = 1000;
             _timer.Tick += Timer_Tick;
             _timer.Start();
+        }
+
+        public TextBoxHelper TextBoxHelper
+        {
+            get
+            {
+                return _textBoxHelper;
+            }
         }
 
         public string SelectedId

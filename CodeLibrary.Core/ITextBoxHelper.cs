@@ -44,5 +44,7 @@
         void UpdateHtmlPreview();
 
         void SwitchHtmlPreview();
+
+        bool ToPdf();
     }
 }

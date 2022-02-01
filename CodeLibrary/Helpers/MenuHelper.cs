@@ -38,6 +38,13 @@ namespace CodeLibrary.Helpers
             _mainform.mncCopyImageAsHTMLIMG.Click += mnuCopyImageAsHTMLIMG_Click;
 
             _mainform.mnuManageFavorites.Click += MnuManageFavorites_Click;
+
+            _mainform.mnuExportNoteToPdf.Click += MnuExportNoteToPdf_Click;
+        }
+
+        private void MnuExportNoteToPdf_Click(object sender, EventArgs e)
+        {
+            _treeviewHelper.TextBoxHelper.ToPdf();
         }
 
         private void mnuCopyImage_Click(object sender, EventArgs e)

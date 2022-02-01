@@ -153,6 +153,11 @@ namespace CodeLibrary.Editor
         {
         }
 
+        public bool ToPdf()
+        {
+            return false;
+        }
+
         public bool SwitchWordWrap() => false;
 
         public void UpdateHtmlPreview()

@@ -123,6 +123,8 @@ namespace CodeLibrary.Editor
 
         public void SelectLine() => _ActiveTextBoxHelper.SelectLine();
 
+        public bool ToPdf() => _ActiveTextBoxHelper.ToPdf();
+
         public void SetEditorView(CodeSnippet snippet)
         {
             bool _htmlpreview = false;
