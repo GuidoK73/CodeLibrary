@@ -71,7 +71,6 @@ namespace CodeLibrary
             cbAlarm.Checked = Snippet.AlarmActive;
             cbWordWrap.Checked = Snippet.Wordwrap;
             cbHtmlPreview.Checked = Snippet.HtmlPreview;
-            txtAutoExportFile.Text = Snippet.ExportPath;
             cbDefaultType.SelectedIndexChanged += CbDefaultType_SelectedIndexChanged;
 
             if (Snippet.AlarmDate.HasValue)
@@ -142,7 +141,6 @@ namespace CodeLibrary
                 Snippet.AlarmActive = cbAlarm.Checked;
                 Snippet.Wordwrap = cbWordWrap.Checked;
                 Snippet.HtmlPreview = cbHtmlPreview.Checked;
-                Snippet.ExportPath = txtAutoExportFile.Text ?? string.Empty; 
 
                 if (Snippet.AlarmActive)
                 {

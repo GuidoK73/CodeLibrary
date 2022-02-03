@@ -14,6 +14,8 @@ Version 3.3
 -   Markdown, using CodeLibrary references in text will auto create codeblocks for specific language on Preview and Copy Contents and Merge.
 
 -   Export to PDF.
+-   Export to File.
+    (Both merge Content)
 
 Version 3.2
 -   Markdown, Added SynraxHighlighting extensions.

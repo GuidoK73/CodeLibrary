@@ -134,7 +134,7 @@ namespace CodeLibrary.Core
 
         public override int GetHashCode() => Code.GetHashCode() + Path.GetHashCode() + Name.GetHashCode() + Order;
 
-        public string LabelName() => Utils.SplitPath(GetPath()).Last();
+        public string LabelName() => GetPath().Split(new char[] { '\\' }).Last();
 
         public string Title()
         {

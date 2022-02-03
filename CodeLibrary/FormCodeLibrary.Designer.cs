@@ -131,7 +131,6 @@
             this.mncMoveLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.mncMoveRight = new System.Windows.Forms.ToolStripMenuItem();
             this.mncProperties = new System.Windows.Forms.ToolStripMenuItem();
-            this.mncExportSnippet = new System.Windows.Forms.ToolStripMenuItem();
             this.mncImage = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mncSaveImage = new System.Windows.Forms.ToolStripMenuItem();
             this.mncCopyImage = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,6 +143,9 @@
             this.mnuLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportNoteToPdf = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportNoteToFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFavoriteLibraries = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuManageFavorites = new System.Windows.Forms.ToolStripMenuItem();
@@ -261,7 +263,6 @@
             this.mncClearClipboardMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.stateIcons = new CodeLibrary.Controls.Controls.StateIcons();
             this.container1 = new CodeLibrary.Controls.Container();
-            this.mnuExportNoteToPdf = new System.Windows.Forms.ToolStripMenuItem();
             this.mncEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
@@ -740,7 +741,6 @@
             this.fastColoredTextBox.CharWidth = 8;
             this.fastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox.Hotkeys = resources.GetString("fastColoredTextBox.Hotkeys");
             this.fastColoredTextBox.IsReplaceMode = false;
             this.fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
@@ -838,10 +838,9 @@
             this.mncSep9,
             this.mncOrdering,
             this.mncSep10,
-            this.mncProperties,
-            this.mncExportSnippet});
+            this.mncProperties});
             this.mncLibrary.Name = "contextMenuStripLibrary";
-            this.mncLibrary.Size = new System.Drawing.Size(174, 452);
+            this.mncLibrary.Size = new System.Drawing.Size(174, 414);
             // 
             // mncAdd
             // 
@@ -1296,15 +1295,6 @@
             this.mncProperties.Text = "Properties";
             this.mncProperties.Click += new System.EventHandler(this.mncProperties_Click);
             // 
-            // mncExportSnippet
-            // 
-            this.mncExportSnippet.Image = global::CodeLibrary.Properties.Resources.export_32x32;
-            this.mncExportSnippet.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.mncExportSnippet.Name = "mncExportSnippet";
-            this.mncExportSnippet.Size = new System.Drawing.Size(173, 38);
-            this.mncExportSnippet.Text = "Export";
-            this.mncExportSnippet.Click += new System.EventHandler(this.mncExportSnippet_Click);
-            // 
             // mncImage
             // 
             this.mncImage.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1358,7 +1348,7 @@
             this.mnuLoad,
             this.mnuSave,
             this.mnuSaveAs,
-            this.mnuExportNoteToPdf,
+            this.exportToolStripMenuItem,
             this.mnuSep2,
             this.mnuFavoriteLibraries,
             this.mnuManageFavorites,
@@ -1417,6 +1407,27 @@
             this.mnuSaveAs.Size = new System.Drawing.Size(196, 38);
             this.mnuSaveAs.Text = "Save as";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExportNoteToPdf,
+            this.mnuExportNoteToFile});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // mnuExportNoteToPdf
+            // 
+            this.mnuExportNoteToPdf.Name = "mnuExportNoteToPdf";
+            this.mnuExportNoteToPdf.Size = new System.Drawing.Size(176, 22);
+            this.mnuExportNoteToPdf.Text = "Export Note To PDF";
+            // 
+            // mnuExportNoteToFile
+            // 
+            this.mnuExportNoteToFile.Name = "mnuExportNoteToFile";
+            this.mnuExportNoteToFile.Size = new System.Drawing.Size(176, 22);
+            this.mnuExportNoteToFile.Text = "Export Note to File";
             // 
             // mnuSep2
             // 
@@ -2395,12 +2406,6 @@
             this.container1.TabIndex = 19;
             this.container1.Text = "container2";
             // 
-            // mnuExportNoteToPdf
-            // 
-            this.mnuExportNoteToPdf.Name = "mnuExportNoteToPdf";
-            this.mnuExportNoteToPdf.Size = new System.Drawing.Size(196, 38);
-            this.mnuExportNoteToPdf.Text = "Export Note To PDF";
-            // 
             // FormCodeLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2680,10 +2685,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem exportLibraryToolStripMenuItem;
         internal Controls.Controls.ZoomBrowser webBrowser;
-        internal System.Windows.Forms.ToolStripMenuItem mncExportSnippet;
         internal System.Windows.Forms.ToolStripMenuItem mnuCopyId;
         internal System.Windows.Forms.ToolStripMenuItem mncCopyId;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem mnuExportNoteToPdf;
+        internal System.Windows.Forms.ToolStripMenuItem mnuExportNoteToFile;
     }
 }
 

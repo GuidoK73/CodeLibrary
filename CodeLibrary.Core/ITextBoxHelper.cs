@@ -45,6 +45,8 @@
 
         void SwitchHtmlPreview();
 
-        bool ToPdf();
+        bool ExportToPdfFile();
+
+        bool ExportToFile();
     }
 }

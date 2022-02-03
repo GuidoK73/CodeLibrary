@@ -153,7 +153,12 @@ namespace CodeLibrary.Editor
         {
         }
 
-        public bool ToPdf()
+        public bool ExportToPdfFile()
+        {
+            return false;
+        }
+
+        public bool ExportToFile()
         {
             return false;
         }

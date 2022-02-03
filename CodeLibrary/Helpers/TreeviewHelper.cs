@@ -1553,11 +1553,6 @@ namespace CodeLibrary
                     return;
                 }
 
-                var _snippet = FromNode(_treeViewLibrary.SelectedNode);
-                if (_snippet != null)
-                {
-                    _mainform.mncExportSnippet.Visible = (!string.IsNullOrEmpty(_snippet.ExportPath));
-                }
 
                 _mainform.mncLibrary.Show(Cursor.Position.X, Cursor.Position.Y);
             }

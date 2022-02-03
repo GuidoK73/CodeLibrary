@@ -123,7 +123,9 @@ namespace CodeLibrary.Editor
 
         public void SelectLine() => _ActiveTextBoxHelper.SelectLine();
 
-        public bool ToPdf() => _ActiveTextBoxHelper.ToPdf();
+        public bool ExportToPdfFile() => _ActiveTextBoxHelper.ExportToPdfFile();
+
+        public bool ExportToFile() => _ActiveTextBoxHelper.ExportToFile();
 
         public void SetEditorView(CodeSnippet snippet)
         {

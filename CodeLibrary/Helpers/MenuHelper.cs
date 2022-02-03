@@ -40,11 +40,17 @@ namespace CodeLibrary.Helpers
             _mainform.mnuManageFavorites.Click += MnuManageFavorites_Click;
 
             _mainform.mnuExportNoteToPdf.Click += MnuExportNoteToPdf_Click;
+            _mainform.mnuExportNoteToFile.Click += MnuExportNoteToFile_Click;
+        }
+
+        private void MnuExportNoteToFile_Click(object sender, EventArgs e)
+        {
+            _treeviewHelper.TextBoxHelper.ExportToFile();
         }
 
         private void MnuExportNoteToPdf_Click(object sender, EventArgs e)
         {
-            _treeviewHelper.TextBoxHelper.ToPdf();
+            _treeviewHelper.TextBoxHelper.ExportToPdfFile();
         }
 
         private void mnuCopyImage_Click(object sender, EventArgs e)

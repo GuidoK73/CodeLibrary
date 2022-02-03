@@ -345,15 +345,57 @@ namespace CodeLibrary.Editor
             }
         }
 
-        public bool ToPdf()
+        private enum ExportType
         {
+            Pdf = 0,
+            File = 1
+        }
+
+
+
+        public bool ExportToPdfFile()
+        {
+            return Export(ExportType.Pdf);
+        }
+
+        public bool ExportToFile()
+        {
+            return Export(ExportType.File);
+        }
+
+
+        private bool Export(ExportType exportType)
+        {
+            string _exportExtension = CodeTypeToString(_StateSnippet.CodeType);
+            string _fileName = string.Empty;
+
             SaveFileDialog _dialog = new SaveFileDialog();
+
+            if (string.IsNullOrEmpty(_StateSnippet.ExportPath))
+            {
+                if (Directory.Exists(_StateSnippet.ExportPath))
+                {
+                    _fileName = Path.Combine(_StateSnippet.ExportPath, $"{_StateSnippet.LabelName()}.{_exportExtension}");
+                }
+                else
+                {
+                    _fileName = $"{_StateSnippet.LabelName()}.{_exportExtension}";
+                }
+            }
+            else
+            {
+                _fileName = _StateSnippet.ExportPath;
+            }
+
+            _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+            _dialog.FileName = _fileName;
             DialogResult _dlgresult = _dialog.ShowDialog();
+            
             if (_dlgresult == DialogResult.Cancel)
             {
                 return false;
             }
-            string _fileName = _dialog.FileName;
+            _fileName = _dialog.FileName;
 
             string _text = string.Empty;
             MarkDigWrapper _markdown = new MarkDigWrapper();
@@ -392,7 +434,16 @@ namespace CodeLibrary.Editor
                     break;
 
             }
-            _markdown.ToPDF(_fileName, _text);
+            if (exportType == ExportType.Pdf)
+            {
+                _markdown.ToPDF(_fileName, _text);
+            }
+            if (exportType == ExportType.File)
+            {
+                File.WriteAllText(_fileName, _text);
+            }
+
+            _StateSnippet.ExportPath = _fileName;
             return true;
         }
 
@@ -491,7 +542,8 @@ namespace CodeLibrary.Editor
                 case CodeType.SQL:
                 case CodeType.VB:
                 case CodeType.XML:
-                    _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", MarkdownInlineCode(snippet.CodeType), snippet.GetCode());
+                case CodeType.MarkDown:
+                    _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
                     break;
                 default:
                     _result = snippet.GetCode();
@@ -501,7 +553,7 @@ namespace CodeLibrary.Editor
             return _result;
         }
 
-        private string MarkdownInlineCode(CodeType codeType)
+        private string CodeTypeToString(CodeType codeType)
         {
             switch (codeType)
             {
@@ -521,6 +573,8 @@ namespace CodeLibrary.Editor
                     return "php";
                 case CodeType.VB:
                     return "vb";
+                case CodeType.MarkDown:
+                    return "md";
             }
             return String.Empty;
         }
