@@ -3,6 +3,7 @@ using CodeLibrary.Helpers;
 using FastColoredTextBoxNS;
 using GK.Template;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,9 @@ namespace CodeLibrary.Editor
             _tb.SelectionChangedDelayed += _tb_SelectionChangedDelayed;
             _tb.KeyDown += new KeyEventHandler(TbCode_KeyDown);
             _tb.MouseUp += new MouseEventHandler(TbCode_MouseUp);
+            _tb.PasteImage += _tb_PasteImage;
         }
+
 
         public ITextEditor Editor
         {
@@ -148,8 +151,16 @@ namespace CodeLibrary.Editor
                 return text;
             }
 
+            int _counter = 0;
+
+
             while (_matches.Count > 0)
             {
+                _counter++;
+                if (_counter > 300)
+                {
+                    return "CIRCULAR REFERENCE ERROR!";
+                }
                 string _text = string.Empty;
 
                 foreach (Match match in _matches)
@@ -192,7 +203,27 @@ namespace CodeLibrary.Editor
             return Merge(Text, _StateSnippet.CodeType);
         }
 
-        public void Paste() => _tb.Paste();
+        public void Paste()
+        {
+            if (Clipboard.ContainsImage())
+            {
+                Image _image = Clipboard.GetImage();
+
+                string _id = _mainform._treeHelper.AddImageNode(_mainform._treeHelper.SelectedNode, _image, "New Image");
+
+                this.SelectedText = $"#[{_id}]#";
+            }
+            else if (Clipboard.ContainsText())
+            {
+                _tb.Paste();
+            }
+        }
+
+
+        private void _tb_PasteImage(object sender, EventArgs e)
+        {
+            Paste();
+        }
 
         public void RefreshEditor()
         {
@@ -352,6 +383,16 @@ namespace CodeLibrary.Editor
         }
 
 
+        public void CopyHtml()
+        {
+            if (_StateSnippet.CodeType == CodeType.MarkDown)
+            {
+                MarkDigWrapper _markdown = new MarkDigWrapper();
+                string _text = Merge(_tb.Text, CodeType.MarkDown);
+                _text = _markdown.Transform(_text);
+                Clipboard.SetText(_text);
+            }
+        }
 
         public bool ExportToPdfFile()
         {
@@ -398,30 +439,9 @@ namespace CodeLibrary.Editor
             _fileName = _dialog.FileName;
 
             string _text = string.Empty;
-            MarkDigWrapper _markdown = new MarkDigWrapper();
 
             switch (_StateSnippet.CodeType)
             {
-                case CodeType.MarkDown:
-                    try
-                    {
-                        _text = Merge(_tb.Text, CodeType.MarkDown);
-                        _text = _markdown.Transform(_text);
-
-                        StringBuilder _sb = new StringBuilder();
-                        _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
-                        _sb.Append("<style>");
-                        _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
-                        _sb.Append("</style>");
-                        _sb.Append(_text);
-                        _text = _sb.ToString();
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Error converting Markdown to PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    break;
                 case CodeType.Image:
                 case CodeType.RTF:
                 case CodeType.ReferenceLink:
@@ -436,6 +456,7 @@ namespace CodeLibrary.Editor
             }
             if (exportType == ExportType.Pdf)
             {
+                MarkDigWrapper _markdown = new MarkDigWrapper();
                 _markdown.ToPDF(_fileName, _text);
             }
             if (exportType == ExportType.File)

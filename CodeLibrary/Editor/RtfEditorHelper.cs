@@ -3,6 +3,7 @@ using CodeLibrary.Core;
 using FastColoredTextBoxNS;
 using GK.Template;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -160,7 +161,47 @@ namespace CodeLibrary.Editor
 
         public bool ExportToFile()
         {
-            return false;
+            string _exportExtension = "rtf";
+            string _fileName = string.Empty;
+
+            SaveFileDialog _dialog = new SaveFileDialog();
+
+            if (string.IsNullOrEmpty(_StateSnippet.ExportPath))
+            {
+                if (Directory.Exists(_StateSnippet.ExportPath))
+                {
+                    _fileName = Path.Combine(_StateSnippet.ExportPath, $"{_StateSnippet.LabelName()}.{_exportExtension}");
+                }
+                else
+                {
+                    _fileName = $"{_StateSnippet.LabelName()}.{_exportExtension}";
+                }
+            }
+            else
+            {
+                _fileName = _StateSnippet.ExportPath;
+            }
+
+            _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+            _dialog.FileName = _fileName;
+            DialogResult _dlgresult = _dialog.ShowDialog();
+
+            if (_dlgresult == DialogResult.Cancel)
+            {
+                return false;
+            }
+            _fileName = _dialog.FileName;
+
+            File.WriteAllText(_fileName, _rtf.Rtf);
+
+            _StateSnippet.ExportPath = _fileName;
+            return true;
+        }
+
+
+        public void CopyHtml()
+        {
+
         }
 
         public bool SwitchWordWrap() => false;

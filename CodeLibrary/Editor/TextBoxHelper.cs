@@ -127,6 +127,9 @@ namespace CodeLibrary.Editor
 
         public bool ExportToFile() => _ActiveTextBoxHelper.ExportToFile();
 
+        public void CopyHtml() => _ActiveTextBoxHelper.CopyHtml();
+
+
         public void SetEditorView(CodeSnippet snippet)
         {
             bool _htmlpreview = false;

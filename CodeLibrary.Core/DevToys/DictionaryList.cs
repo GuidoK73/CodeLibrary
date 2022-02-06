@@ -365,6 +365,9 @@ namespace DevToys
 
         private TPRIMARYKEY GetRealPrimaryKey(TPRIMARYKEY primaryKey)
         {
+            if (primaryKey == null)
+                return default;
+
             if (_Items.ContainsKey(primaryKey))
                 return primaryKey; // the items collection contains the primary key, return it.
 

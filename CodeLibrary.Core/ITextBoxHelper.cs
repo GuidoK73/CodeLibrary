@@ -48,5 +48,7 @@
         bool ExportToPdfFile();
 
         bool ExportToFile();
+
+        void CopyHtml();
     }
 }

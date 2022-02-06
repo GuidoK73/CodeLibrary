@@ -20,7 +20,7 @@ namespace CodeLibrary
         internal readonly StateIconHelper _stateIconHelper;
         private readonly TextBoxHelper _textboxHelper;
         private readonly ThemeHelper _themeHelper;
-        private readonly TreeviewHelper _treeHelper;
+        internal readonly TreeviewHelper _treeHelper;
         private TextEditorContainer _CurrentEditor = new TextEditorContainer();
         private bool _exitWithoutSaving = false;
         private MainPluginHelper _PluginHelper;
@@ -614,7 +614,6 @@ namespace CodeLibrary
         private void mnuCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
 
         private void mncCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
-
 
     }
 }

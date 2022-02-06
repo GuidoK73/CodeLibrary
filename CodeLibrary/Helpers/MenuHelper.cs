@@ -1,5 +1,7 @@
 ﻿using CodeLibrary.Core;
+using CodeLibrary.Extensions;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -36,11 +38,23 @@ namespace CodeLibrary.Helpers
             _mainform.mncCopyImageAsBase64String.Click += mnuCopyImageAsBase64String_Click;
             _mainform.mncCopyImageAsMarkDownImage.Click += mnuCopyImageAsMarkDownImage_Click;
             _mainform.mncCopyImageAsHTMLIMG.Click += mnuCopyImageAsHTMLIMG_Click;
+            _mainform.mncResizeimageToCurrentZoom.Click += MncResizeimageToCurrentZoom_Click;
+
 
             _mainform.mnuManageFavorites.Click += MnuManageFavorites_Click;
 
             _mainform.mnuExportNoteToPdf.Click += MnuExportNoteToPdf_Click;
             _mainform.mnuExportNoteToFile.Click += MnuExportNoteToFile_Click;
+
+            _mainform.mncCopyAsHtml.Click += MncCopyAsHtml_Click;
+            _mainform.mnuCopyAsHtml.Click += MncCopyAsHtml_Click;
+        }
+
+
+
+        private void MncCopyAsHtml_Click(object sender, EventArgs e)
+        {
+            _treeviewHelper.TextBoxHelper.CopyHtml();
         }
 
         private void MnuExportNoteToFile_Click(object sender, EventArgs e)
@@ -63,6 +77,17 @@ namespace CodeLibrary.Helpers
             CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
             string _base64 = Convert.ToBase64String(_snippet.Blob);
             Clipboard.SetText(_base64);
+        }
+
+        private void MncResizeimageToCurrentZoom_Click(object sender, EventArgs e)
+        {
+            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
+            Image _image = ImageExtensions.ConvertByteArrayToImage(_snippet.Blob);
+
+            Size _size = _mainform.imageViewer.ImageSize;
+            Image _imageResized = _image.ResizeImage(_size.Width, _size.Height);
+            _snippet.Blob = _imageResized.ConvertImageToByteArray();
+
         }
 
         private void mnuCopyImageAsHTMLIMG_Click(object sender, EventArgs e)

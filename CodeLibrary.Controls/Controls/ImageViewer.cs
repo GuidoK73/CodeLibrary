@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 
@@ -67,6 +69,8 @@ namespace CodeLibrary.Controls.Controls
             return img;
         }
 
+
+
         private void ImageViewer_MouseClick(object sender, MouseEventArgs e)
         {
             ImageMouseClick(sender, e);
@@ -99,6 +103,30 @@ namespace CodeLibrary.Controls.Controls
             if (e.Button == MouseButtons.Left && _Pressed == true)
             {
                 picture.Location = new Point(_p.X - _Offset.X, _p.Y - _Offset.Y);
+            }
+        }
+
+        public Size ImageSize
+        {
+            get
+            {
+                if (picture.Image.Width > picture.Image.Height)
+                {
+                    int newH = picture.Height;
+                    int newW = (newH * picture.Image.Width) / picture.Image.Height;
+                    return new Size(newW, newH);
+                }
+                if (picture.Image.Width < picture.Image.Height)
+                {
+                    int newW = picture.Width;
+                    int newH = (newW * picture.Image.Height) / picture.Image.Width;
+                    return new Size(newW, newH);
+                }
+                if (picture.Image.Width == picture.Image.Height)
+                {
+                    return new Size(picture.Width, picture.Height);
+                }
+                return new Size(0, 0);
             }
         }
 

@@ -27,7 +27,7 @@ namespace CodeLibrary
         private bool _timerTick = false;
         private int _updating = 0;
         private CodeType DialogSelectedCodeType = CodeType.None;
-        
+
         public TreeviewHelper(FormCodeLibrary mainform, TextBoxHelper textBoxHelper, FileHelper fileHelper, ThemeHelper themeHelper)
         {
             _treeViewLibrary = mainform.treeViewLibrary;
@@ -48,7 +48,6 @@ namespace CodeLibrary
             _treeViewLibrary.AfterLabelEdit += _treeViewLibrary_AfterLabelEdit;
             _treeViewLibrary.BeforeLabelEdit += _treeViewLibrary_BeforeLabelEdit;
             _mainform.imageViewer.ImageMouseClick += ImageViewer_ImageMouseClick;
-
             _timer.Interval = 1000;
             _timer.Tick += Timer_Tick;
             _timer.Start();
@@ -87,16 +86,16 @@ namespace CodeLibrary
             }
         }
 
-        public void AddImageNode(TreeNode parentNode, Image image, string name)
+        public string AddImageNode(TreeNode parentNode, Image image, string name)
         {
             byte[] _imageData = image.ConvertImageToByteArray(33L);
-            AddImageNode(parentNode, _imageData, name);
+            return AddImageNode(parentNode, _imageData, name);
         }
 
-        public void AddImageNodeNoCompression(TreeNode parentNode, Image image, string name)
+        public string AddImageNodeNoCompression(TreeNode parentNode, Image image, string name)
         {
             byte[] _imageData = image.ConvertImageToByteArray();
-            AddImageNode(parentNode, _imageData, name);
+            return AddImageNode(parentNode, _imageData, name);
         }
 
         public TreeNode AddReferenceNode(TreeNode parent)
@@ -339,7 +338,7 @@ namespace CodeLibrary
             return false;
         }
 
-        public CodeSnippet FromNode(TreeNode node) => CodeLib.Instance.CodeSnippets.Get(node.Name);
+        public CodeSnippet FromNode(TreeNode node) => CodeLib.Instance.CodeSnippets.Get(node?.Name);
 
         public string GetDefaultCode(TreeNode node, string defaultDefault, int level, ref int nodecount)
         {
@@ -1039,7 +1038,7 @@ namespace CodeLibrary
             }
         }
 
-        private void AddImageNode(TreeNode parentNode, byte[] _imageData, string name)
+        private string AddImageNode(TreeNode parentNode, byte[] _imageData, string name)
         {
             CodeSnippet snippet = new CodeSnippet(string.Empty, string.Empty, string.Empty) { CodeType = CodeType.Image, Locked = false, Blob = _imageData };
             CodeLib.Instance.CodeSnippets.Add(snippet);
@@ -1049,6 +1048,7 @@ namespace CodeLibrary
             TreeNode _node = parentNode.Nodes.Add(snippet.Id, name, _imageIndex, _imageIndex);
             UpdateNodePath(_node);
             CodeLib.Instance.TreeNodes.Add(_node);
+            return snippet.Id;
         }
 
         // Determine whether one node is a parent
@@ -1229,6 +1229,9 @@ namespace CodeLibrary
 
             _mainform.mncPasteText.Visible = !IsTrashcan(_treeViewLibrary.SelectedNode) && Clipboard.ContainsText() && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && !IsReference(_treeViewLibrary.SelectedNode);
             _mainform.mnuPasteText.Visible = !IsTrashcan(_treeViewLibrary.SelectedNode) && Clipboard.ContainsText() && !IsClipBoardMonitor(_treeViewLibrary.SelectedNode) && !IsReference(_treeViewLibrary.SelectedNode);
+
+            _mainform.mncCopyAsHtml.Visible = FromNode(_treeViewLibrary.SelectedNode)?.CodeType == CodeType.MarkDown;
+            _mainform.mnuCopyAsHtml.Visible = FromNode(_treeViewLibrary.SelectedNode)?.CodeType == CodeType.MarkDown;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -1552,7 +1555,6 @@ namespace CodeLibrary
                     _mainform.mncClipboardMonitor.Show(Cursor.Position.X, Cursor.Position.Y);
                     return;
                 }
-
 
                 _mainform.mncLibrary.Show(Cursor.Position.X, Cursor.Position.Y);
             }

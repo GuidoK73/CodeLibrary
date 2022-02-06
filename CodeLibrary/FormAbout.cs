@@ -16,6 +16,14 @@ Version 3.3
 -   Export to PDF.
 -   Export to File.
     (Both merge Content)
+-   Clipboard => Copy as Html (Markdown only).
+-   Export to File (Rtf).
+
+-   Paste Images directly into text, an Id will occur and the image is placed in the folder structure directly under the current Note.
+-   Resize image, in the Image viewer you can no resize to current zoom.
+
+Bugfixes
+-   Circular Reference when merge content points to circular notes.
 
 Version 3.2
 -   Markdown, Added SynraxHighlighting extensions.

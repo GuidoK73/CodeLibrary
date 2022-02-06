@@ -2619,20 +2619,35 @@ namespace FastColoredTextBoxNS
             }
         }
 
+        public event EventHandler<EventArgs> PasteImage = delegate { };
+
+
         /// <summary>
         /// Paste text from clipboard into selected position
         /// </summary>
         public virtual void Paste()
         {
             string text = null;
-            var thread = new Thread(() =>
-                                        {
-                                            if (Clipboard.ContainsText())
-                                                text = Clipboard.GetText();
-                                        });
+            bool _pasteImage = false;
+            var thread = new Thread(() => {
+                if (Clipboard.ContainsText())
+                {
+                    text = Clipboard.GetText();
+                }
+                if (Clipboard.ContainsImage())
+                {
+                    _pasteImage = true;
+                }
+            });
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
+
+            if (_pasteImage)
+            {
+                PasteImage(this, new EventArgs());
+                return;
+            }
 
             if (Pasting != null)
             {
