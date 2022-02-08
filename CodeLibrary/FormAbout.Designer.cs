@@ -30,9 +30,7 @@ namespace CodeLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
-            this.tbCode = new FastColoredTextBoxNS.FastColoredTextBox();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -44,54 +42,9 @@ namespace CodeLibrary
             this.dialogButton = new CodeLibrary.Controls.DialogButton();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.lblVersion = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.tbCode)).BeginInit();
+            this.webBrowser = new CodeLibrary.Controls.Controls.ZoomBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tbCode
-            // 
-            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCode.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.tbCode.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
-    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
-            this.tbCode.AutoScrollMinSize = new System.Drawing.Size(0, 14);
-            this.tbCode.BackBrush = null;
-            this.tbCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbCode.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-            this.tbCode.CharHeight = 14;
-            this.tbCode.CharWidth = 8;
-            this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.tbCode.Hotkeys = resources.GetString("tbCode.Hotkeys");
-            this.tbCode.IsReplaceMode = false;
-            this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
-            this.tbCode.LeftBracket = '(';
-            this.tbCode.LeftBracket2 = '{';
-            this.tbCode.Location = new System.Drawing.Point(3, 223);
-            this.tbCode.Name = "tbCode";
-            this.tbCode.Paddings = new System.Windows.Forms.Padding(0);
-            this.tbCode.ReadOnly = true;
-            this.tbCode.RightBracket = ')';
-            this.tbCode.RightBracket2 = '}';
-            this.tbCode.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.tbCode.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("tbCode.ServiceColors")));
-            this.tbCode.Size = new System.Drawing.Size(1006, 398);
-            this.tbCode.TabIndex = 6;
-            this.tbCode.WordWrap = true;
-            this.tbCode.Zoom = 100;
-            this.tbCode.Load += new System.EventHandler(this.TbCode_Load);
             // 
             // lbTitle
             // 
@@ -221,12 +174,21 @@ namespace CodeLibrary
             this.lblVersion.TabIndex = 18;
             this.lblVersion.Text = "...";
             // 
+            // webBrowser
+            // 
+            this.webBrowser.Location = new System.Drawing.Point(5, 225);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(993, 387);
+            this.webBrowser.TabIndex = 19;
+            // 
             // FormAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1010, 665);
+            this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.linkLabel4);
             this.Controls.Add(this.label3);
@@ -238,7 +200,6 @@ namespace CodeLibrary
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lbTitle);
             this.Controls.Add(this.dialogButton);
-            this.Controls.Add(this.tbCode);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -247,7 +208,6 @@ namespace CodeLibrary
             this.Name = "FormAbout";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormAbout";
-            ((System.ComponentModel.ISupportInitialize)(this.tbCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -255,8 +215,6 @@ namespace CodeLibrary
         }
 
         #endregion
-
-        private FastColoredTextBoxNS.FastColoredTextBox tbCode;
         private DialogButton dialogButton;
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -268,5 +226,6 @@ namespace CodeLibrary
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.Label lblVersion;
+        internal Controls.Controls.ZoomBrowser webBrowser;
     }
 }

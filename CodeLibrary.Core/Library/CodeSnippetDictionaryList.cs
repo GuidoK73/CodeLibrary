@@ -21,7 +21,7 @@ namespace CodeLibrary.Core
             RegisterLookup(LOOKUP_TIMERACTIVE, p => p.AlarmActive);
             RegisterLookup(LOOKUP_PATH, p => p.GetPath().ToLower());
             RegisterLookup(LOOKUP_PARENT_PATH, p => Utils.ParentPath( p.GetPath(), '\\').ToLower());
-            RegisterLookup(LOOKUP_SHORTCUT, p => p.ShortCutKeys);
+            RegisterLookup(LOOKUP_SHORTCUT, p => $"{p.ShortCutKeys}_{p.ShortCutKeyLanguage}");
             RegisterLookup(LOOKUP_REFERENCELINKID, p => p.ReferenceLinkId); 
         }
 
@@ -51,7 +51,7 @@ namespace CodeLibrary.Core
             }
         }
 
-        public IEnumerable<CodeSnippet> GetByShortCut(Keys shortcut) => Lookup(LOOKUP_SHORTCUT, shortcut);
+        public IEnumerable<CodeSnippet> GetByShortCut(Keys shortcut, KeysLanguage language) => Lookup(LOOKUP_SHORTCUT, $"{shortcut}_{language}");
 
         public IEnumerable<CodeSnippet> GetReferencesById(string id) => Lookup(LOOKUP_REFERENCELINKID, id);
 

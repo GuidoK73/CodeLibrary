@@ -11,6 +11,8 @@ namespace CodeLibrary
         private readonly EnumComboBoxModeHelper<CodeType> _defaultTypeComboBoxHelper;
         private readonly EnumComboBoxModeHelper<Keys> _shortCutKeysComboHelper;
         private readonly EnumComboBoxModeHelper<CodeType> _typeComboBoxHelper;
+        private readonly EnumComboBoxModeHelper<KeysLanguage> _typeComboBoxTargetKeysHelper;
+
         private readonly ThemeHelper _themeHelper;
 
         public FormProperties(ThemeHelper themeHelper)
@@ -27,6 +29,9 @@ namespace CodeLibrary
             _shortCutKeysComboHelper.Fill();
             AcceptButton = dialogButton.buttonOk;
             CancelButton = dialogButton.buttonCancel;
+
+            _typeComboBoxTargetKeysHelper = new EnumComboBoxModeHelper<KeysLanguage>(cbKeysTarget, KeysLanguage.None);
+            _typeComboBoxTargetKeysHelper.Fill();
         }
 
         public CodeSnippet Snippet { get; set; }
@@ -88,8 +93,7 @@ namespace CodeLibrary
             _keys = _keys & ~Keys.Alt;
             _keys = _keys & ~Keys.Shift;
             _shortCutKeysComboHelper.SetSelectedIndex(_keys);
-
-
+            _typeComboBoxTargetKeysHelper.SetSelectedIndex(Snippet.ShortCutKeyLanguage);
         }
 
         private void DialogButton_DialogButtonClick(object sender, DialogButton.DialogButtonClickEventArgs e)
@@ -169,6 +173,8 @@ namespace CodeLibrary
                 }
 
                 Snippet.ShortCutKeys = _keys;
+
+                Snippet.ShortCutKeyLanguage = (KeysLanguage)_typeComboBoxTargetKeysHelper.GetValue();
             }
             Close();
         }

@@ -267,6 +267,9 @@
             this.mncClearClipboardMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.stateIcons = new CodeLibrary.Controls.Controls.StateIcons();
             this.container1 = new CodeLibrary.Controls.Container();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuRotateImageLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRotateImageRight = new System.Windows.Forms.ToolStripMenuItem();
             this.mncEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
@@ -745,7 +748,6 @@
             this.fastColoredTextBox.CharWidth = 8;
             this.fastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox.Hotkeys = resources.GetString("fastColoredTextBox.Hotkeys");
             this.fastColoredTextBox.IsReplaceMode = false;
             this.fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
@@ -1316,9 +1318,12 @@
             this.mncCopyImageAsHTMLIMG,
             this.mncCopyImageAsMarkDownImage,
             this.toolStripMenuItem7,
-            this.mncResizeimageToCurrentZoom});
+            this.mncResizeimageToCurrentZoom,
+            this.toolStripMenuItem8,
+            this.mnuRotateImageLeft,
+            this.mnuRotateImageRight});
             this.mncImage.Name = "contextMenuImage";
-            this.mncImage.Size = new System.Drawing.Size(218, 260);
+            this.mncImage.Size = new System.Drawing.Size(218, 342);
             // 
             // mncSaveImage
             // 
@@ -2438,6 +2443,23 @@
             this.container1.TabIndex = 19;
             this.container1.Text = "container2";
             // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(214, 6);
+            // 
+            // mnuRotateImageLeft
+            // 
+            this.mnuRotateImageLeft.Name = "mnuRotateImageLeft";
+            this.mnuRotateImageLeft.Size = new System.Drawing.Size(217, 38);
+            this.mnuRotateImageLeft.Text = "Rotate Left";
+            // 
+            // mnuRotateImageRight
+            // 
+            this.mnuRotateImageRight.Name = "mnuRotateImageRight";
+            this.mnuRotateImageRight.Size = new System.Drawing.Size(217, 38);
+            this.mnuRotateImageRight.Text = "Rotate Right";
+            // 
             // FormCodeLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2726,6 +2748,9 @@
         internal System.Windows.Forms.ToolStripMenuItem mnuCopyAsHtml;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         internal System.Windows.Forms.ToolStripMenuItem mncResizeimageToCurrentZoom;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        internal System.Windows.Forms.ToolStripMenuItem mnuRotateImageLeft;
+        internal System.Windows.Forms.ToolStripMenuItem mnuRotateImageRight;
     }
 }
 

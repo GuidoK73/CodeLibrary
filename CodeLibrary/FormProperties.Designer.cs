@@ -63,8 +63,8 @@ namespace CodeLibrary
             this.rtf = new CodeLibrary.Controls.Controls.RtfControl();
             this.dialogButton = new CodeLibrary.Controls.DialogButton();
             this.lblModifiedOn = new System.Windows.Forms.Label();
+            this.cbKeysTarget = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtAutoExportFile = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.tbCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -99,7 +99,6 @@ namespace CodeLibrary
             this.tbCode.CharWidth = 8;
             this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.tbCode.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.tbCode.Hotkeys = resources.GetString("tbCode.Hotkeys");
             this.tbCode.IsReplaceMode = false;
             this.tbCode.Location = new System.Drawing.Point(415, 195);
@@ -306,7 +305,7 @@ namespace CodeLibrary
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(61, 340);
+            this.label7.Location = new System.Drawing.Point(61, 396);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(355, 13);
             this.label7.TabIndex = 27;
@@ -388,7 +387,7 @@ namespace CodeLibrary
             // 
             this.dialogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.dialogButton.ButtonMode = CodeLibrary.Controls.DialogButton.DialogButtonMode.OkCancel;
-            this.dialogButton.Location = new System.Drawing.Point(571, 420);
+            this.dialogButton.Location = new System.Drawing.Point(571, 464);
             this.dialogButton.Name = "dialogButton";
             this.dialogButton.Size = new System.Drawing.Size(156, 23);
             this.dialogButton.TabIndex = 0;
@@ -404,37 +403,39 @@ namespace CodeLibrary
             // 
             this.lblModifiedOn.AutoSize = true;
             this.lblModifiedOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblModifiedOn.Location = new System.Drawing.Point(12, 409);
+            this.lblModifiedOn.Location = new System.Drawing.Point(12, 422);
             this.lblModifiedOn.Name = "lblModifiedOn";
             this.lblModifiedOn.Size = new System.Drawing.Size(65, 13);
             this.lblModifiedOn.TabIndex = 33;
             this.lblModifiedOn.Text = "Modified on:";
             // 
+            // cbKeysTarget
+            // 
+            this.cbKeysTarget.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbKeysTarget.FormattingEnabled = true;
+            this.cbKeysTarget.Location = new System.Drawing.Point(64, 359);
+            this.cbKeysTarget.Name = "cbKeysTarget";
+            this.cbKeysTarget.Size = new System.Drawing.Size(175, 21);
+            this.cbKeysTarget.TabIndex = 34;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(61, 366);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(61, 343);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(209, 13);
-            this.label8.TabIndex = 34;
-            this.label8.Text = "Auto Export Snippet to file on save:";
-            // 
-            // txtAutoExportFile
-            // 
-            this.txtAutoExportFile.Location = new System.Drawing.Point(64, 382);
-            this.txtAutoExportFile.Name = "txtAutoExportFile";
-            this.txtAutoExportFile.Size = new System.Drawing.Size(663, 20);
-            this.txtAutoExportFile.TabIndex = 35;
+            this.label8.Size = new System.Drawing.Size(120, 13);
+            this.label8.TabIndex = 35;
+            this.label8.Text = "Shortcut key target type";
             // 
             // FormProperties
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(760, 455);
-            this.Controls.Add(this.txtAutoExportFile);
+            this.ClientSize = new System.Drawing.Size(760, 499);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.cbKeysTarget);
             this.Controls.Add(this.lblModifiedOn);
             this.Controls.Add(this.cbExpand);
             this.Controls.Add(this.lbName);
@@ -514,7 +515,7 @@ namespace CodeLibrary
         private System.Windows.Forms.Label lbName;
         private System.Windows.Forms.CheckBox cbExpand;
         private System.Windows.Forms.Label lblModifiedOn;
+        private System.Windows.Forms.ComboBox cbKeysTarget;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtAutoExportFile;
     }
 }

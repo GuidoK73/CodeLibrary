@@ -39,6 +39,8 @@ namespace CodeLibrary.Helpers
             _mainform.mncCopyImageAsMarkDownImage.Click += mnuCopyImageAsMarkDownImage_Click;
             _mainform.mncCopyImageAsHTMLIMG.Click += mnuCopyImageAsHTMLIMG_Click;
             _mainform.mncResizeimageToCurrentZoom.Click += MncResizeimageToCurrentZoom_Click;
+            _mainform.mnuRotateImageLeft.Click += MnuRotateImageLeft_Click;
+            _mainform.mnuRotateImageRight.Click += MnuRotateImageRight_Click;
 
 
             _mainform.mnuManageFavorites.Click += MnuManageFavorites_Click;
@@ -49,7 +51,6 @@ namespace CodeLibrary.Helpers
             _mainform.mncCopyAsHtml.Click += MncCopyAsHtml_Click;
             _mainform.mnuCopyAsHtml.Click += MncCopyAsHtml_Click;
         }
-
 
 
         private void MncCopyAsHtml_Click(object sender, EventArgs e)
@@ -83,11 +84,27 @@ namespace CodeLibrary.Helpers
         {
             CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
             Image _image = ImageExtensions.ConvertByteArrayToImage(_snippet.Blob);
-
             Size _size = _mainform.imageViewer.ImageSize;
             Image _imageResized = _image.ResizeImage(_size.Width, _size.Height);
             _snippet.Blob = _imageResized.ConvertImageToByteArray();
+        }
 
+        private void MnuRotateImageRight_Click(object sender, EventArgs e)
+        {
+            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
+            Image _image = ImageExtensions.ConvertByteArrayToImage(_snippet.Blob);
+            _image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            _snippet.Blob = _image.ConvertImageToByteArray();
+            _mainform.imageViewer.setImage(_snippet.Blob);
+        }
+
+        private void MnuRotateImageLeft_Click(object sender, EventArgs e)
+        {
+            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
+            Image _image = ImageExtensions.ConvertByteArrayToImage(_snippet.Blob);
+            _image.RotateFlip(RotateFlipType.Rotate90FlipXY);
+            _snippet.Blob = _image.ConvertImageToByteArray();
+            _mainform.imageViewer.setImage(_snippet.Blob);
         }
 
         private void mnuCopyImageAsHTMLIMG_Click(object sender, EventArgs e)

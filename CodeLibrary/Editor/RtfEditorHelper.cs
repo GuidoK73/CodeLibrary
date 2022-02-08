@@ -275,8 +275,12 @@ namespace CodeLibrary.Editor
 
         private bool DocShortCut(KeyEventArgs e)
         {
-            var _snippet = CodeLib.Instance.CodeSnippets.GetByShortCut(e.KeyData).FirstOrDefault();
-
+            KeysLanguage _targetLangue = LocalUtils.KeysLanguageForCodeType(_StateSnippet.CodeType);
+            var _snippet = CodeLib.Instance.CodeSnippets.GetByShortCut(e.KeyData, _targetLangue).FirstOrDefault();
+            if (_snippet == null)
+            {
+                _snippet = CodeLib.Instance.CodeSnippets.GetByShortCut(e.KeyData, KeysLanguage.AllLanguages).FirstOrDefault();
+            }
             if (_snippet != null)
             {
                 StringTemplate stringtemplate = new StringTemplate();

@@ -1,8 +1,10 @@
 ﻿using CodeLibrary.Core;
+using CodeLibrary.Extensions;
 using CodeLibrary.Helpers;
 using FastColoredTextBoxNS;
 using GK.Template;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -39,7 +41,7 @@ namespace CodeLibrary.Editor
             _tb.SelectionChangedDelayed += _tb_SelectionChangedDelayed;
             _tb.KeyDown += new KeyEventHandler(TbCode_KeyDown);
             _tb.MouseUp += new MouseEventHandler(TbCode_MouseUp);
-            _tb.PasteImage += _tb_PasteImage;
+            _tb.PasteOther += _tb_PasteOther;
         }
 
 
@@ -203,15 +205,90 @@ namespace CodeLibrary.Editor
             return Merge(Text, _StateSnippet.CodeType);
         }
 
-        public void Paste()
+        public void PasteAdvanced()
         {
             if (Clipboard.ContainsImage())
             {
                 Image _image = Clipboard.GetImage();
 
-                string _id = _mainform._treeHelper.AddImageNode(_mainform._treeHelper.SelectedNode, _image, "New Image");
+                string _base64 = Convert.ToBase64String(_image.ConvertImageToByteArray());
+                switch (_StateSnippet.CodeType)
+                {
+                    case CodeType.MarkDown:
+                        SelectedText = string.Format(@"![{0}](data:image/png;base64,{1})", _StateSnippet.GetPath(), _base64);
+                        break;
 
-                this.SelectedText = $"#[{_id}]#";
+                    case CodeType.HTML:
+                        SelectedText = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
+                        break;
+
+                    default:
+                        SelectedText = _base64;
+                        break;
+                }
+            }
+            else if (Clipboard.ContainsFileDropList())
+            {
+                List<string> _filenames = new List<string>();
+                foreach (string s in Clipboard.GetFileDropList())
+                {
+                    _filenames.Add(s);
+                }
+
+                StringBuilder _sb = new StringBuilder();
+
+                foreach (string _filename in _filenames)
+                {
+                    FileInfo _file = new FileInfo(_filename);
+                    var _type = LocalUtils.CodeTypeByExtension(_file);
+
+                    switch (_type)
+                    {
+                        case CodeType.Image:
+                            byte[] _imageData = File.ReadAllBytes(_filename);
+                            string _base64 = Convert.ToBase64String(_imageData);
+                            switch (_StateSnippet.CodeType)
+                            {
+                                case CodeType.MarkDown:
+                                    _sb.AppendLine(string.Format(@"![{0}](data:image/png;base64,{1})", _StateSnippet.GetPath(), _base64));
+                                    _sb.AppendLine();
+                                    break;
+
+                                case CodeType.HTML:
+                                    _sb.AppendLine(string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64));
+                                    _sb.AppendLine();
+                                    break;
+
+                                default:
+                                    SelectedText = _base64;
+                                    break;
+                            }
+                            break;
+
+                        case CodeType.CSharp:
+                        case CodeType.HTML:
+                        case CodeType.MarkDown:
+                        case CodeType.JS:
+                        case CodeType.Lua:
+                        case CodeType.PHP:
+                        case CodeType.VB:
+                        case CodeType.None:
+                        case CodeType.SQL:
+                        case CodeType.XML:
+                        case CodeType.Template:
+                        case CodeType.RTF:
+                            string _text = File.ReadAllText(_filename);
+                            CodeType _codeType = LocalUtils.CodeTypeByExtension(new FileInfo(_filename));
+                            _sb.AppendLine(string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(_codeType), _text));
+                            _sb.AppendLine();
+                            break;
+
+                        case CodeType.System:
+                        case CodeType.UnSuported:
+                            break;
+                    }
+                }
+                SelectedText = _sb.ToString();
             }
             else if (Clipboard.ContainsText())
             {
@@ -219,8 +296,43 @@ namespace CodeLibrary.Editor
             }
         }
 
+        public void Paste()
+        {
+            if (Clipboard.ContainsImage())
+            {
+                Image _image = Clipboard.GetImage();
 
-        private void _tb_PasteImage(object sender, EventArgs e)
+                string _id = _mainform._treeHelper.AddImageNode(_mainform._treeHelper.SelectedNode, _image);
+
+                this.SelectedText = $"#[{_id}]#";
+            }
+            else if (Clipboard.ContainsFileDropList())
+            {
+                List<string> items = new List<string>();
+                foreach (string s in Clipboard.GetFileDropList())
+                {
+                    items.Add(s);
+                }
+                if (items.Count > 0)
+                {
+                    TreeNode _parentNode = CodeLib.Instance.TreeNodes.Get(_StateSnippet.Id);
+                    List<string> _ids = _mainform._treeHelper.AddFiles(_parentNode, items.ToArray(), false);
+                    StringBuilder _sb = new StringBuilder();
+
+                    foreach (string _id in _ids)
+                    {
+                        _sb.AppendLine($"#[{_id}]#\r\n");                        
+                    }
+                    this.SelectedText = _sb.ToString();
+                }
+            }
+            else if (Clipboard.ContainsText())
+            {
+                _tb.Paste();
+            }
+        }
+
+        private void _tb_PasteOther(object sender, EventArgs e)
         {
             Paste();
         }
@@ -376,6 +488,8 @@ namespace CodeLibrary.Editor
             }
         }
 
+
+
         private enum ExportType
         {
             Pdf = 0,
@@ -388,7 +502,13 @@ namespace CodeLibrary.Editor
             if (_StateSnippet.CodeType == CodeType.MarkDown)
             {
                 MarkDigWrapper _markdown = new MarkDigWrapper();
-                string _text = Merge(_tb.Text, CodeType.MarkDown);
+
+                StringBuilder _sb = new StringBuilder();
+                //_sb.Append("<style>\r\n");
+                //_sb.Append(LocalUtils.SplendorCSS());
+                //_sb.Append("</style>\r\n");
+                _sb.Append(Merge(_tb.Text, CodeType.MarkDown));
+                string _text = _sb.ToString();
                 _text = _markdown.Transform(_text);
                 Clipboard.SetText(_text);
             }
@@ -429,6 +549,12 @@ namespace CodeLibrary.Editor
             }
 
             _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+            if (_StateSnippet.CodeType == CodeType.MarkDown)
+            {
+                _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}|*.html|*.html";
+
+            }
+
             _dialog.FileName = _fileName;
             DialogResult _dlgresult = _dialog.ShowDialog();
             
@@ -450,7 +576,21 @@ namespace CodeLibrary.Editor
                     MessageBox.Show("Error converting to PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;                    
                 default:
-                    _text = Merge(_tb.Text, _StateSnippet.CodeType);
+
+                    if (_StateSnippet.CodeType == CodeType.MarkDown && _fileName.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+                    {
+                        StringBuilder _sb = new StringBuilder();
+                        _sb.Append("<style>\r\n");
+                        _sb.Append(LocalUtils.SplendorCSS());
+                        _sb.Append("</style>\r\n");
+                        _sb.Append(Merge(_tb.Text, CodeType.MarkDown));
+                        MarkDigWrapper _markdown = new MarkDigWrapper();                        
+                        _text = _markdown.Transform(_sb.ToString());
+                    }
+                    else
+                    {
+                        _text = Merge(_tb.Text, _StateSnippet.CodeType);
+                    }
                     break;
 
             }
@@ -493,7 +633,12 @@ namespace CodeLibrary.Editor
 
         private bool DocShortCut(KeyEventArgs e)
         {
-            var _snippet = CodeLib.Instance.CodeSnippets.GetByShortCut(e.KeyData).FirstOrDefault();
+            KeysLanguage _targetLangue = LocalUtils.KeysLanguageForCodeType(_StateSnippet.CodeType);
+            var _snippet = CodeLib.Instance.CodeSnippets.GetByShortCut(e.KeyData, _targetLangue).FirstOrDefault();
+            if (_snippet == null)
+            {
+                _snippet = CodeLib.Instance.CodeSnippets.GetByShortCut(e.KeyData, KeysLanguage.AllLanguages).FirstOrDefault();
+            }
 
             if (_snippet != null)
             {
@@ -506,6 +651,8 @@ namespace CodeLibrary.Editor
 
             return false;
         }
+
+
 
         private void FastColoredTextBox_DragDrop(object sender, DragEventArgs e)
         {
@@ -564,7 +711,19 @@ namespace CodeLibrary.Editor
                 case CodeType.VB:
                 case CodeType.XML:
                 case CodeType.MarkDown:
-                    _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
+                    if (snippet.CodeType == CodeType.MarkDown && targetType == CodeType.HTML)
+                    {
+                        MarkDigWrapper _markDig = new MarkDigWrapper();
+                        _result = _markDig.Transform(snippet.GetCode());
+                    }
+                    else if (targetType == CodeType.MarkDown)
+                    {
+                        _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
+                    }
+                    else
+                    {
+                        _result = snippet.GetCode();
+                    }
                     break;
                 default:
                     _result = snippet.GetCode();
@@ -606,6 +765,11 @@ namespace CodeLibrary.Editor
 
             if (DocShortCut(e))
                 return;
+
+            if (e.Control && e.Shift && e.KeyValue == 86)
+            {
+                PasteAdvanced();
+            }
 
             if (string.IsNullOrEmpty(tb.SelectedText))
                 return;

@@ -86,10 +86,18 @@ namespace CodeLibrary
             }
         }
 
+
+
         public string AddImageNode(TreeNode parentNode, Image image, string name)
         {
             byte[] _imageData = image.ConvertImageToByteArray(33L);
             return AddImageNode(parentNode, _imageData, name);
+        }
+
+        public string AddImageNode(TreeNode parentNode, Image image)
+        {
+            byte[] _imageData = image.ConvertImageToByteArray(33L);
+            return AddImageNode(parentNode, _imageData);
         }
 
         public string AddImageNodeNoCompression(TreeNode parentNode, Image image, string name)
@@ -165,6 +173,22 @@ namespace CodeLibrary
             }
         }
 
+        public string CreateNewNodeReturnId(TreeNodeCollection parent, CodeType codetype, string name, string text, string rtf, string referenceId = null)
+        {
+            CodeSnippet snippet = new CodeSnippet(text, rtf, string.Empty) { CodeType = codetype, Locked = false, ReferenceLinkId = referenceId };
+            if (snippet.CodeType == CodeType.HTML || snippet.CodeType == CodeType.MarkDown)
+            {
+                snippet.HtmlPreview = true;
+            }
+            CodeLib.Instance.CodeSnippets.Add(snippet);
+
+            int _imageIndex = LocalUtils.GetImageIndex(snippet);
+            TreeNode _node = parent.Add(snippet.Id, name, _imageIndex, _imageIndex);
+            UpdateNodePath(_node);
+            CodeLib.Instance.TreeNodes.Add(_node);
+            return snippet.Id;
+        }
+
         public TreeNode CreateNewNode(TreeNodeCollection parent, CodeType codetype, string name, string text, string rtf, string referenceId = null)
         {
             CodeSnippet snippet = new CodeSnippet(text, rtf, string.Empty) { CodeType = codetype, Locked = false, ReferenceLinkId = referenceId };
@@ -178,7 +202,6 @@ namespace CodeLibrary
             TreeNode _node = parent.Add(snippet.Id, name, _imageIndex, _imageIndex);
             UpdateNodePath(_node);
             CodeLib.Instance.TreeNodes.Add(_node);
-
             return _node;
         }
 
@@ -998,10 +1021,14 @@ namespace CodeLibrary
             }
         }
 
-        private void AddFiles(TreeNode targetNode, string[] filenames)
+        public List<string> AddFiles(TreeNode targetNode, string[] filenames, bool sort = true)
         {
             List<string> _filenames = filenames.ToList();
-            _filenames.Sort();
+            List<string> _result = new List<string>();
+            string _id = string.Empty;
+
+            if (sort)
+                _filenames.Sort();
 
             foreach (string filename in _filenames)
             {
@@ -1012,7 +1039,8 @@ namespace CodeLibrary
                 {
                     case CodeType.Image:
                         byte[] _imageData = File.ReadAllBytes(filename);
-                        AddImageNode(targetNode, _imageData, _file.Name);
+                        _id = AddImageNode(targetNode, _imageData, _file.Name);
+                        _result.Add(_id);
                         break;
 
                     case CodeType.CSharp:
@@ -1028,7 +1056,8 @@ namespace CodeLibrary
                     case CodeType.Template:
                     case CodeType.RTF:
                         string _text = File.ReadAllText(filename);
-                        CreateNewNode(targetNode.Nodes, _type, _file.Name, _text, _text); // ## LET OP
+                        _id = CreateNewNodeReturnId(targetNode.Nodes, _type, _file.Name, _text, _text); // ## LET OP
+                        _result.Add(_id);
                         break;
 
                     case CodeType.System:
@@ -1036,6 +1065,20 @@ namespace CodeLibrary
                         break;
                 }
             }
+            return _result;
+        }
+
+        private string AddImageNode(TreeNode parentNode, byte[] _imageData)
+        {
+            CodeSnippet snippet = new CodeSnippet(string.Empty, string.Empty, string.Empty) { CodeType = CodeType.Image, Locked = false, Blob = _imageData };
+            CodeLib.Instance.CodeSnippets.Add(snippet);
+
+            int _imageIndex = LocalUtils.GetImageIndex(snippet);
+
+            TreeNode _node = parentNode.Nodes.Add(snippet.Id, snippet.Id, _imageIndex, _imageIndex);
+            UpdateNodePath(_node);
+            CodeLib.Instance.TreeNodes.Add(_node);
+            return snippet.Id;
         }
 
         private string AddImageNode(TreeNode parentNode, byte[] _imageData, string name)

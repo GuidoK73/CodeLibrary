@@ -1482,8 +1482,8 @@ namespace FastColoredTextBoxNS
             set
             {
                 Range _currentRange = Selection.Clone();
-                InsertTextAndRestoreSelection(_currentRange, value, null);
-                //InsertText(value);
+               // InsertTextAndRestoreSelection(_currentRange, value, null);
+                InsertText(value);
             }
         }
 
@@ -2619,7 +2619,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        public event EventHandler<EventArgs> PasteImage = delegate { };
+        public event EventHandler<EventArgs> PasteOther = delegate { };
 
 
         /// <summary>
@@ -2628,7 +2628,7 @@ namespace FastColoredTextBoxNS
         public virtual void Paste()
         {
             string text = null;
-            bool _pasteImage = false;
+            bool _pasteOther = false;
             var thread = new Thread(() => {
                 if (Clipboard.ContainsText())
                 {
@@ -2636,16 +2636,20 @@ namespace FastColoredTextBoxNS
                 }
                 if (Clipboard.ContainsImage())
                 {
-                    _pasteImage = true;
+                    _pasteOther = true;
+                }
+                if (Clipboard.ContainsFileDropList())
+                {
+                    _pasteOther = true;
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
 
-            if (_pasteImage)
+            if (_pasteOther)
             {
-                PasteImage(this, new EventArgs());
+                PasteOther(this, new EventArgs());
                 return;
             }
 
