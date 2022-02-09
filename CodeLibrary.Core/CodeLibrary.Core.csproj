@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupInfo.cs" />
+    <Compile Include="CssStyles.cs" />
     <Compile Include="DevToys\PocoMapper.cs" />
     <Compile Include="DevToys\StopWatch.cs" />
     <Compile Include="EncryptedBinaryFile.cs" />

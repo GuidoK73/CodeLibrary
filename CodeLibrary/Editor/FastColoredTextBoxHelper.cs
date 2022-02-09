@@ -44,7 +44,6 @@ namespace CodeLibrary.Editor
             _tb.PasteOther += _tb_PasteOther;
         }
 
-
         public ITextEditor Editor
         {
             get
@@ -154,7 +153,6 @@ namespace CodeLibrary.Editor
             }
 
             int _counter = 0;
-
 
             while (_matches.Count > 0)
             {
@@ -321,7 +319,7 @@ namespace CodeLibrary.Editor
 
                     foreach (string _id in _ids)
                     {
-                        _sb.AppendLine($"#[{_id}]#\r\n");                        
+                        _sb.AppendLine($"#[{_id}]#\r\n");
                     }
                     this.SelectedText = _sb.ToString();
                 }
@@ -488,14 +486,11 @@ namespace CodeLibrary.Editor
             }
         }
 
-
-
         private enum ExportType
         {
             Pdf = 0,
             File = 1
         }
-
 
         public void CopyHtml()
         {
@@ -516,21 +511,18 @@ namespace CodeLibrary.Editor
 
         public bool ExportToPdfFile()
         {
-            return Export(ExportType.Pdf);
+            return Export(ExportType.Pdf, true);
         }
 
-        public bool ExportToFile()
+        public bool ExportToFile(bool saveAs)
         {
-            return Export(ExportType.File);
+            return Export(ExportType.File, saveAs);
         }
 
-
-        private bool Export(ExportType exportType)
+        private bool Export(ExportType exportType, bool saveAs)
         {
             string _exportExtension = CodeTypeToString(_StateSnippet.CodeType);
             string _fileName = string.Empty;
-
-            SaveFileDialog _dialog = new SaveFileDialog();
 
             if (string.IsNullOrEmpty(_StateSnippet.ExportPath))
             {
@@ -548,21 +540,23 @@ namespace CodeLibrary.Editor
                 _fileName = _StateSnippet.ExportPath;
             }
 
-            _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
-            if (_StateSnippet.CodeType == CodeType.MarkDown)
+            bool skipDialog = File.Exists(_fileName) && saveAs == false;
+            if (!skipDialog)
             {
-                _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}|*.html|*.html";
-
+                SaveFileDialog _dialog = new SaveFileDialog();
+                _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+                if (_StateSnippet.CodeType == CodeType.MarkDown)
+                {
+                    _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}|*.html|*.html";
+                }
+                _dialog.FileName = _fileName;
+                DialogResult _dlgresult = _dialog.ShowDialog();
+                if (_dlgresult == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                _fileName = _dialog.FileName;
             }
-
-            _dialog.FileName = _fileName;
-            DialogResult _dlgresult = _dialog.ShowDialog();
-            
-            if (_dlgresult == DialogResult.Cancel)
-            {
-                return false;
-            }
-            _fileName = _dialog.FileName;
 
             string _text = string.Empty;
 
@@ -574,17 +568,18 @@ namespace CodeLibrary.Editor
                 case CodeType.UnSuported:
                 case CodeType.System:
                     MessageBox.Show("Error converting to PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;                    
+                    return false;
+
                 default:
 
                     if (_StateSnippet.CodeType == CodeType.MarkDown && _fileName.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
                     {
                         StringBuilder _sb = new StringBuilder();
                         _sb.Append("<style>\r\n");
-                        _sb.Append(LocalUtils.SplendorCSS());
+                        _sb.Append(CssStyles.GetCSS(Config.MarkdownCssStyle));
                         _sb.Append("</style>\r\n");
                         _sb.Append(Merge(_tb.Text, CodeType.MarkDown));
-                        MarkDigWrapper _markdown = new MarkDigWrapper();                        
+                        MarkDigWrapper _markdown = new MarkDigWrapper();
                         _text = _markdown.Transform(_sb.ToString());
                     }
                     else
@@ -592,7 +587,6 @@ namespace CodeLibrary.Editor
                         _text = Merge(_tb.Text, _StateSnippet.CodeType);
                     }
                     break;
-
             }
             if (exportType == ExportType.Pdf)
             {
@@ -652,8 +646,6 @@ namespace CodeLibrary.Editor
             return false;
         }
 
-
-
         private void FastColoredTextBox_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
@@ -688,8 +680,8 @@ namespace CodeLibrary.Editor
                 snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);
             }
             switch (snippet.CodeType)
-            { 
-                case CodeType.Image:  
+            {
+                case CodeType.Image:
                     string _base64 = Convert.ToBase64String(snippet.Blob);
                     switch (targetType)
                     {
@@ -702,6 +694,7 @@ namespace CodeLibrary.Editor
                             break;
                     }
                     break;
+
                 case CodeType.CSharp:
                 case CodeType.HTML:
                 case CodeType.JS:
@@ -725,6 +718,7 @@ namespace CodeLibrary.Editor
                         _result = snippet.GetCode();
                     }
                     break;
+
                 default:
                     _result = snippet.GetCode();
                     break;
@@ -737,22 +731,30 @@ namespace CodeLibrary.Editor
         {
             switch (codeType)
             {
-                case CodeType.SQL: 
+                case CodeType.SQL:
                     return "sql";
+
                 case CodeType.JS:
                     return "js";
+
                 case CodeType.XML:
                     return "xml";
+
                 case CodeType.CSharp:
                     return "cs";
+
                 case CodeType.HTML:
                     return "html";
+
                 case CodeType.Lua:
                     return "lua";
+
                 case CodeType.PHP:
                     return "php";
+
                 case CodeType.VB:
                     return "vb";
+
                 case CodeType.MarkDown:
                     return "md";
             }

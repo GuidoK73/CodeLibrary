@@ -159,7 +159,7 @@ namespace CodeLibrary.Editor
             return false;
         }
 
-        public bool ExportToFile()
+        public bool ExportToFile(bool saveAs)
         {
             string _exportExtension = "rtf";
             string _fileName = string.Empty;
@@ -182,18 +182,21 @@ namespace CodeLibrary.Editor
                 _fileName = _StateSnippet.ExportPath;
             }
 
-            _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
-            _dialog.FileName = _fileName;
-            DialogResult _dlgresult = _dialog.ShowDialog();
-
-            if (_dlgresult == DialogResult.Cancel)
+            bool skipDialog = File.Exists(_fileName) && saveAs == false;
+            if (!skipDialog)
             {
-                return false;
+                _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+                _dialog.FileName = _fileName;
+                DialogResult _dlgresult = _dialog.ShowDialog();
+
+                if (_dlgresult == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                _fileName = _dialog.FileName;
             }
-            _fileName = _dialog.FileName;
 
             File.WriteAllText(_fileName, _rtf.Rtf);
-
             _StateSnippet.ExportPath = _fileName;
             return true;
         }

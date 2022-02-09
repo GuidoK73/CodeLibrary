@@ -14,6 +14,8 @@ namespace CodeLibrary
     - When Markdown is merged in to HTML document then it's converted to HTML.
 - Export to PDF.
 - Export to File.(Both merge Content)
+    - MD can be exported to HTML, by changing the file extension.
+    - when exporting MD to HTML, a stylesheet is used, this stylesheet can be configured in settings.
 - Clipboard => Copy as Html (Markdown only).
 - Export to File (Rtf).
 

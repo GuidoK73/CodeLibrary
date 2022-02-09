@@ -13,18 +13,23 @@ namespace CodeLibrary
 {
     public partial class FormSettings : Form
     {
-        private EnumComboBoxModeHelper<ETheme> _ComboBoxHelper;
+        private EnumComboBoxModeHelper<ETheme> _ComboBoxHelperTheme;
+        private EnumComboBoxModeHelper<CssStyle> _ComboBoxHelperMDCss;
 
         public FormSettings()
         {
             InitializeComponent();         
-            _ComboBoxHelper = new EnumComboBoxModeHelper<ETheme>(comboBoxTheme, ETheme.Dark);
-            _ComboBoxHelper.Fill();
+            _ComboBoxHelperTheme = new EnumComboBoxModeHelper<ETheme>(comboBoxTheme, ETheme.Dark);
+            _ComboBoxHelperTheme.Fill();
+
+            _ComboBoxHelperMDCss = new EnumComboBoxModeHelper<CssStyle>(comboBoxMDCSS, CssStyle.Splendor);
+            _ComboBoxHelperMDCss.Fill();
         }
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            _ComboBoxHelper.SetSelectedIndex(Config.Theme);
+            _ComboBoxHelperTheme.SetSelectedIndex(Config.Theme);
+            _ComboBoxHelperMDCss.SetSelectedIndex(Config.MarkdownCssStyle);
             rbSortA.Checked = Config.SortMode == ESortMode.Alphabetic;
             rbSortB.Checked = Config.SortMode == ESortMode.AlphabeticGrouped;
         }
@@ -34,7 +39,8 @@ namespace CodeLibrary
             DialogResult = e.Result;
             if (e.Result == DialogResult.OK)
             {
-                Config.Theme = (ETheme)_ComboBoxHelper.GetValue();
+                Config.Theme = (ETheme)_ComboBoxHelperTheme.GetValue();
+                Config.MarkdownCssStyle = (CssStyle)_ComboBoxHelperMDCss.GetValue();
                 if (rbSortA.Checked)
                 {
                     Config.SortMode = ESortMode.Alphabetic;

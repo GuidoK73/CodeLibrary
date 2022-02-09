@@ -29,6 +29,7 @@
         void GotoLine(int line);
 
         void Paste();
+
         bool SaveState();
 
         void SelectAll();
@@ -47,7 +48,7 @@
 
         bool ExportToPdfFile();
 
-        bool ExportToFile();
+        bool ExportToFile(bool saveAs);
 
         void CopyHtml();
     }

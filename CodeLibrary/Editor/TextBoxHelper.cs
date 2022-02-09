@@ -125,7 +125,7 @@ namespace CodeLibrary.Editor
 
         public bool ExportToPdfFile() => _ActiveTextBoxHelper.ExportToPdfFile();
 
-        public bool ExportToFile() => _ActiveTextBoxHelper.ExportToFile();
+        public bool ExportToFile(bool saveAs) => _ActiveTextBoxHelper.ExportToFile(saveAs);
 
         public void CopyHtml() => _ActiveTextBoxHelper.CopyHtml();
 

@@ -18,6 +18,8 @@ namespace CodeLibrary.Core
 
         public static ESortMode SortMode { get; set; } = ESortMode.Alphabetic;
 
+        public static CssStyle MarkdownCssStyle { get; set; } = CssStyle.Splendor;
+
         public static string DefaultNoteType { get; set; }
         public static string FavoriteFile => Utils.PathCombine(AppFolder, "Favorite.json");
 
@@ -50,11 +52,16 @@ namespace CodeLibrary.Core
             string regpath = Regpath();
             LastOpenedDir = Utils.GetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDDIR);
             LastOpenedFile = Utils.GetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDFILE);
-
             BackupLocation = Utils.GetCurrentUserRegisterKey(regpath, Constants.BACKUPLOCATION);
 
             OpenDefaultOnStart = ConvertUtility.ToBoolean(Utils.GetCurrentUserRegisterKey(regpath, Constants.OPENDEFAULTONSTART), false);
             Zoom = ConvertUtility.ToInt32(Utils.GetCurrentUserRegisterKey(regpath, Constants.ZOOM), 100);
+
+            try
+            {
+                MarkdownCssStyle = (CssStyle)Enum.Parse(typeof(CssStyle), Utils.GetCurrentUserRegisterKey(regpath, Constants.MARKDOWNCSS));
+            }
+            catch { }
 
             try
             {
@@ -100,17 +107,17 @@ namespace CodeLibrary.Core
             LastOpenedDir = string.IsNullOrEmpty(LastOpenedDir) ? string.Empty : LastOpenedDir;
             LastOpenedFile = string.IsNullOrEmpty(LastOpenedFile) ? string.Empty : LastOpenedFile;
 
-
             Utils.SetCurrentUserRegisterKey(regpath, Constants.THEME, Theme.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.SORTMODE, SortMode.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.BACKUPMODE, BackupMode.ToString());
+            Utils.SetCurrentUserRegisterKey(regpath, Constants.MARKDOWNCSS, MarkdownCssStyle.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDDIR, LastOpenedDir);
             Utils.SetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDFILE, LastOpenedFile);
             Utils.SetCurrentUserRegisterKey(regpath, Constants.BACKUPLOCATION, BackupLocation);
             Utils.SetCurrentUserRegisterKey(regpath, Constants.OPENDEFAULTONSTART, OpenDefaultOnStart.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.ZOOM, Zoom.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.SPLITTERDISTANCE, SplitterDistance.ToString());
-             
+
             if (string.IsNullOrEmpty(DefaultNoteType))
             {
                 DefaultNoteType = string.Empty;

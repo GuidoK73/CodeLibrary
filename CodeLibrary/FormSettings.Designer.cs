@@ -40,6 +40,8 @@ namespace CodeLibrary
             this.comboBoxTheme = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dialogButton = new CodeLibrary.Controls.DialogButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxMDCSS = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -63,7 +65,7 @@ namespace CodeLibrary
             this.lbName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbName.Location = new System.Drawing.Point(76, 15);
             this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(64, 16);
+            this.lbName.Size = new System.Drawing.Size(63, 16);
             this.lbName.TabIndex = 6;
             this.lbName.Text = "Settings";
             // 
@@ -140,7 +142,7 @@ namespace CodeLibrary
             // 
             this.dialogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.dialogButton.ButtonMode = CodeLibrary.Controls.DialogButton.DialogButtonMode.OkCancel;
-            this.dialogButton.Location = new System.Drawing.Point(253, 288);
+            this.dialogButton.Location = new System.Drawing.Point(253, 312);
             this.dialogButton.Name = "dialogButton";
             this.dialogButton.Size = new System.Drawing.Size(156, 23);
             this.dialogButton.TabIndex = 14;
@@ -152,11 +154,32 @@ namespace CodeLibrary
             this.dialogButton.TextYes = "Yes";
             this.dialogButton.DialogButtonClick += new CodeLibrary.Controls.DialogButton.DialogButtonClickEventHandler(this.dialogButton_DialogButtonClick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(76, 256);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(159, 13);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Markdown to HTML Export CSS";
+            // 
+            // comboBoxMDCSS
+            // 
+            this.comboBoxMDCSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMDCSS.FormattingEnabled = true;
+            this.comboBoxMDCSS.Location = new System.Drawing.Point(80, 272);
+            this.comboBoxMDCSS.Name = "comboBoxMDCSS";
+            this.comboBoxMDCSS.Size = new System.Drawing.Size(191, 21);
+            this.comboBoxMDCSS.TabIndex = 15;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(421, 323);
+            this.ClientSize = new System.Drawing.Size(421, 347);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.comboBoxMDCSS);
             this.Controls.Add(this.dialogButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBoxTheme);
@@ -194,5 +217,7 @@ namespace CodeLibrary
         private System.Windows.Forms.ComboBox comboBoxTheme;
         private System.Windows.Forms.Label label2;
         private Controls.DialogButton dialogButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBoxMDCSS;
     }
 }
