@@ -18,7 +18,9 @@ namespace CodeLibrary.Core
 
         public static ESortMode SortMode { get; set; } = ESortMode.Alphabetic;
 
-        public static CssStyle MarkdownCssStyle { get; set; } = CssStyle.Splendor;
+        public static CssStyle MarkdownCssStyle { get; set; } = CssStyle.Modest;
+
+        public static CssStyle MarkdownCssPreviewStyle { get; set; } = CssStyle.None;
 
         public static string DefaultNoteType { get; set; }
         public static string FavoriteFile => Utils.PathCombine(AppFolder, "Favorite.json");
@@ -62,6 +64,14 @@ namespace CodeLibrary.Core
                 MarkdownCssStyle = (CssStyle)Enum.Parse(typeof(CssStyle), Utils.GetCurrentUserRegisterKey(regpath, Constants.MARKDOWNCSS));
             }
             catch { }
+
+            try
+            {
+                MarkdownCssPreviewStyle = (CssStyle)Enum.Parse(typeof(CssStyle), Utils.GetCurrentUserRegisterKey(regpath, Constants.MARKDOWNPREVIEWCSS));
+            }
+            catch { }
+
+            
 
             try
             {
@@ -111,6 +121,7 @@ namespace CodeLibrary.Core
             Utils.SetCurrentUserRegisterKey(regpath, Constants.SORTMODE, SortMode.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.BACKUPMODE, BackupMode.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.MARKDOWNCSS, MarkdownCssStyle.ToString());
+            Utils.SetCurrentUserRegisterKey(regpath, Constants.MARKDOWNPREVIEWCSS, MarkdownCssPreviewStyle.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDDIR, LastOpenedDir);
             Utils.SetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDFILE, LastOpenedFile);
             Utils.SetCurrentUserRegisterKey(regpath, Constants.BACKUPLOCATION, BackupLocation);

@@ -42,6 +42,8 @@ namespace CodeLibrary
             this.dialogButton = new CodeLibrary.Controls.DialogButton();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxMDCSS = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxMDCSSPreview = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -142,7 +144,7 @@ namespace CodeLibrary
             // 
             this.dialogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.dialogButton.ButtonMode = CodeLibrary.Controls.DialogButton.DialogButtonMode.OkCancel;
-            this.dialogButton.Location = new System.Drawing.Point(253, 312);
+            this.dialogButton.Location = new System.Drawing.Point(253, 362);
             this.dialogButton.Name = "dialogButton";
             this.dialogButton.Size = new System.Drawing.Size(156, 23);
             this.dialogButton.TabIndex = 14;
@@ -173,11 +175,32 @@ namespace CodeLibrary
             this.comboBoxMDCSS.Size = new System.Drawing.Size(191, 21);
             this.comboBoxMDCSS.TabIndex = 15;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(75, 302);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 13);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Markdown to HTML Preview";
+            // 
+            // comboBoxMDCSSPreview
+            // 
+            this.comboBoxMDCSSPreview.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMDCSSPreview.FormattingEnabled = true;
+            this.comboBoxMDCSSPreview.Location = new System.Drawing.Point(79, 318);
+            this.comboBoxMDCSSPreview.Name = "comboBoxMDCSSPreview";
+            this.comboBoxMDCSSPreview.Size = new System.Drawing.Size(191, 21);
+            this.comboBoxMDCSSPreview.TabIndex = 17;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(421, 347);
+            this.ClientSize = new System.Drawing.Size(421, 397);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboBoxMDCSSPreview);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxMDCSS);
             this.Controls.Add(this.dialogButton);
@@ -219,5 +242,7 @@ namespace CodeLibrary
         private Controls.DialogButton dialogButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxMDCSS;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBoxMDCSSPreview;
     }
 }

@@ -9,7 +9,7 @@ namespace CodeLibrary
     public partial class FormAbout : Form
     {
         private readonly string _Content = @"
-# Version 3.3
+# Version 3.3.2
 - Markdown, using CodeLibrary references in text will auto create codeblocks for specific language on Preview and Copy Contents and Merge.
     - When Markdown is merged in to HTML document then it's converted to HTML.
 - Export to PDF.
@@ -32,6 +32,7 @@ namespace CodeLibrary
     - Paste File lists direcly into the text editor, depending on source type and target type data will be included in the text.
 
 - Shortcut Template Keys can now be set for a specific language.
+
 
 ### Bugfixes
 -   Circular Reference when merge content points to circular notes.

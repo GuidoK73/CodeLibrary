@@ -143,65 +143,9 @@ namespace CodeLibrary.Editor
 
         public void GotoLine(int line) => _tb.GotoLine(line);
 
-        public string Merge(string text, CodeType targetType)
-        {
-            string _newText = text;
-            var _matches = _regexWildCards.Matches(text);
-            if (_matches == null)
-            {
-                return text;
-            }
+        public string Merge(string text, CodeType targetType) => Core.Utils.Merge(text, targetType);
 
-            int _counter = 0;
-
-            while (_matches.Count > 0)
-            {
-                _counter++;
-                if (_counter > 300)
-                {
-                    return "CIRCULAR REFERENCE ERROR!";
-                }
-                string _text = string.Empty;
-
-                foreach (Match match in _matches)
-                {
-                    // Get by path
-                    CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.GetByPath(match.Value);
-                    if (_snippet == null)
-                    {
-                        // Get by id
-                        _snippet = CodeLib.Instance.CodeSnippets.Get(match.Value);
-                        _text = SnippetToText(_snippet, targetType);
-                    }
-                    else if (_snippet == null)
-                    {
-                        // try get by pattern.
-                        var _snippets = CodeLib.Instance.CodeSnippets.GetChildsByPathAndPattern(match.Value);
-                        StringBuilder _sb = new StringBuilder();
-                        foreach (CodeSnippet snippet in _snippets)
-                        {
-                            _sb.Append(SnippetToText(snippet, targetType));
-                        }
-                        _text = _sb.ToString();
-                    }
-                    else
-                    {
-                        _text = SnippetToText(_snippet, targetType);
-                    }
-
-                    _newText = _newText.Replace($"#[{match.Value}]#", _text);
-                }
-
-                _matches = _regexWildCards.Matches(_newText);
-            }
-
-            return _newText;
-        }
-
-        public string Merge()
-        {
-            return Merge(Text, _StateSnippet.CodeType);
-        }
+        public string Merge() => Core.Utils.Merge(Text, _StateSnippet.CodeType);
 
         public void PasteAdvanced()
         {
@@ -277,7 +221,7 @@ namespace CodeLibrary.Editor
                         case CodeType.RTF:
                             string _text = File.ReadAllText(_filename);
                             CodeType _codeType = LocalUtils.CodeTypeByExtension(new FileInfo(_filename));
-                            _sb.AppendLine(string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(_codeType), _text));
+                            _sb.AppendLine(string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", Core.Utils.CodeTypeToString(_codeType), _text));
                             _sb.AppendLine();
                             break;
 
@@ -444,32 +388,46 @@ namespace CodeLibrary.Editor
                         MarkDigWrapper _markdown = new MarkDigWrapper();
                         string _text = Merge(_tb.Text, CodeType.MarkDown);
                         _text = _markdown.Transform(_text);
-                        if (Config.Theme != ETheme.Light)
-                        {
-                            StringBuilder _sb = new StringBuilder();
-                            _sb.Append("<body style =\"background-color:#333333;color:#cccccc;font-family:Arial\"></body>\r\n");
-                            _sb.Append("<style>");
-                            _sb.Append("a:link { color: green; background-color: transparent; text-decoration: none; }");
-                            _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
-                            _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
-                            _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
-                            _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
-                            _sb.Append("</style>");
-                            _sb.Append(_text);
-                            _text = _sb.ToString();
 
-                            _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
-                        }
-                        else
+                        if (Config.MarkdownCssPreviewStyle == CssStyle.None)
+                        {
+                            if (Config.Theme != ETheme.Light)
+                            {
+                                StringBuilder _sb = new StringBuilder();
+                                _sb.Append("<body style =\"background-color:#333333;color:#cccccc;font-family:Arial\"></body>\r\n");
+                                _sb.Append("<style>");
+                                _sb.Append("a:link { color: green; background-color: transparent; text-decoration: none; }");
+                                _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
+                                _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
+                                _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
+                                _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
+                                _sb.Append("</style>");
+                                _sb.Append(_text);
+                                _text = _sb.ToString();
+
+                                _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+                            }
+                            else
+                            {
+                                StringBuilder _sb = new StringBuilder();
+                                _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
+                                _sb.Append("<style>");
+                                _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
+                                _sb.Append("</style>");
+                                _sb.Append(_text);
+                                _text = _sb.ToString();
+                            }
+                        } 
+                        else 
                         {
                             StringBuilder _sb = new StringBuilder();
-                            _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
-                            _sb.Append("<style>");
-                            _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
-                            _sb.Append("</style>");
+                            _sb.Append("<style>\r\n");
+                            _sb.Append(CssStyles.GetCSS(Config.MarkdownCssPreviewStyle));
+                            _sb.Append("</style>\r\n");
                             _sb.Append(_text);
                             _text = _sb.ToString();
                         }
+
                         _mainform.webBrowser.DocumentText = _text;
                     }
                     catch (Exception)
@@ -521,7 +479,7 @@ namespace CodeLibrary.Editor
 
         private bool Export(ExportType exportType, bool saveAs)
         {
-            string _exportExtension = CodeTypeToString(_StateSnippet.CodeType);
+            string _exportExtension = Core.Utils.CodeTypeToString(_StateSnippet.CodeType);
             string _fileName = string.Empty;
 
             if (string.IsNullOrEmpty(_StateSnippet.ExportPath))
@@ -665,100 +623,6 @@ namespace CodeLibrary.Editor
             {
                 e.Effect = DragDropEffects.Move;
             }
-        }
-
-        private string SnippetToText(CodeSnippet snippet, CodeType targetType)
-        {
-            string _result = string.Empty;
-            if (snippet == null)
-            {
-                return String.Empty;
-            }
-
-            if (snippet.CodeType == CodeType.ReferenceLink)
-            {
-                snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);
-            }
-            switch (snippet.CodeType)
-            {
-                case CodeType.Image:
-                    string _base64 = Convert.ToBase64String(snippet.Blob);
-                    switch (targetType)
-                    {
-                        case CodeType.MarkDown:
-                            _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
-                            break;
-
-                        case CodeType.HTML:
-                            _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
-                            break;
-                    }
-                    break;
-
-                case CodeType.CSharp:
-                case CodeType.HTML:
-                case CodeType.JS:
-                case CodeType.Lua:
-                case CodeType.PHP:
-                case CodeType.SQL:
-                case CodeType.VB:
-                case CodeType.XML:
-                case CodeType.MarkDown:
-                    if (snippet.CodeType == CodeType.MarkDown && targetType == CodeType.HTML)
-                    {
-                        MarkDigWrapper _markDig = new MarkDigWrapper();
-                        _result = _markDig.Transform(snippet.GetCode());
-                    }
-                    else if (targetType == CodeType.MarkDown)
-                    {
-                        _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
-                    }
-                    else
-                    {
-                        _result = snippet.GetCode();
-                    }
-                    break;
-
-                default:
-                    _result = snippet.GetCode();
-                    break;
-            }
-
-            return _result;
-        }
-
-        private string CodeTypeToString(CodeType codeType)
-        {
-            switch (codeType)
-            {
-                case CodeType.SQL:
-                    return "sql";
-
-                case CodeType.JS:
-                    return "js";
-
-                case CodeType.XML:
-                    return "xml";
-
-                case CodeType.CSharp:
-                    return "cs";
-
-                case CodeType.HTML:
-                    return "html";
-
-                case CodeType.Lua:
-                    return "lua";
-
-                case CodeType.PHP:
-                    return "php";
-
-                case CodeType.VB:
-                    return "vb";
-
-                case CodeType.MarkDown:
-                    return "md";
-            }
-            return String.Empty;
         }
 
         private void TbCode_KeyDown(object sender, KeyEventArgs e)

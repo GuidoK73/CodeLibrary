@@ -13,7 +13,162 @@ namespace CodeLibrary.Core
 {
     public static class Utils
     {
+        private static Regex _regexWildCards = new Regex("(?<=#\\[)(.*?)(?=\\]#)");
+
         public const string REG_USRSETTING = @"Software\{0}\Settings";
+
+        public static string Merge(string text, CodeType targetType)
+        {
+            string _newText = text;
+            var _matches = _regexWildCards.Matches(text);
+            if (_matches == null)
+            {
+                return text;
+            }
+
+            int _counter = 0;
+
+            while (_matches.Count > 0)
+            {
+                _counter++;
+                if (_counter > 300)
+                {
+                    return "CIRCULAR REFERENCE ERROR!";
+                }
+                string _text = string.Empty;
+
+                foreach (Match match in _matches)
+                {
+                    // Get by path
+                    CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.GetByPath(match.Value);
+                    if (_snippet == null)
+                    {
+                        // Get by id
+                        _snippet = CodeLib.Instance.CodeSnippets.Get(match.Value);
+                        _text = Core.Utils.SnippetToText(_snippet, targetType);
+                    }
+                    else if (_snippet == null)
+                    {
+                        // try get by pattern.
+                        var _snippets = CodeLib.Instance.CodeSnippets.GetChildsByPathAndPattern(match.Value);
+                        StringBuilder _sb = new StringBuilder();
+                        foreach (CodeSnippet snippet in _snippets)
+                        {
+                            _sb.Append(Core.Utils.SnippetToText(snippet, targetType));
+                        }
+                        _text = _sb.ToString();
+                    }
+                    else
+                    {
+                        _text = Core.Utils.SnippetToText(_snippet, targetType);
+                    }
+
+                    _newText = _newText.Replace($"#[{match.Value}]#", _text);
+                }
+
+                _matches = _regexWildCards.Matches(_newText);
+            }
+
+            return _newText;
+        }
+
+        public static string SnippetToText(CodeSnippet snippet, CodeType targetType)
+        {
+            string _result = string.Empty;
+            if (snippet == null)
+            {
+                return String.Empty;
+            }
+
+            if (snippet.CodeType == CodeType.ReferenceLink)
+            {
+                snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);
+            }
+            switch (snippet.CodeType)
+            {
+                case CodeType.Image:
+                    string _base64 = Convert.ToBase64String(snippet.Blob);
+                    switch (targetType)
+                    {
+                        case CodeType.MarkDown:
+                            _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
+                            break;
+
+                        case CodeType.HTML:
+                            _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
+                            break;
+                        default:
+                            _result = _base64;
+                            break;
+                    }
+                    break;
+
+                case CodeType.CSharp:
+                case CodeType.HTML:
+                case CodeType.JS:
+                case CodeType.Lua:
+                case CodeType.PHP:
+                case CodeType.SQL:
+                case CodeType.VB:
+                case CodeType.XML:
+                case CodeType.MarkDown:
+                    if (snippet.CodeType == CodeType.MarkDown && targetType == CodeType.HTML)
+                    {
+                        MarkDigWrapper _markDig = new MarkDigWrapper();
+                        _result = _markDig.Transform(snippet.GetCode());
+                    }
+                    else if (targetType == CodeType.MarkDown)
+                    {
+                        _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
+                    }
+                    else
+                    {
+                        _result = snippet.GetCode();
+                    }
+                    break;
+
+                default:
+                    _result = snippet.GetCode();
+                    break;
+            }
+
+            return _result;
+        }
+
+
+        public static string CodeTypeToString(CodeType codeType)
+        {
+            switch (codeType)
+            {
+                case CodeType.SQL:
+                    return "sql";
+
+                case CodeType.JS:
+                    return "js";
+
+                case CodeType.XML:
+                    return "xml";
+
+                case CodeType.CSharp:
+                    return "cs";
+
+                case CodeType.HTML:
+                    return "html";
+
+                case CodeType.Lua:
+                    return "lua";
+
+                case CodeType.PHP:
+                    return "php";
+
+                case CodeType.VB:
+                    return "vb";
+
+                case CodeType.MarkDown:
+                    return "md";
+            }
+            return String.Empty;
+        }
 
         public enum FileOrDirectory
         {
@@ -54,6 +209,51 @@ namespace CodeLibrary.Core
             return $"{path1}\\{path2}";
         }
 
+        public static string CompressString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return string.Empty;
+
+            byte[] buffer = Encoding.UTF8.GetBytes(s);
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
+                    gZipStream.Write(buffer, 0, buffer.Length);
+
+                memoryStream.Position = 0;
+
+                byte[] compressedData = new byte[memoryStream.Length];
+                memoryStream.Read(compressedData, 0, compressedData.Length);
+
+                byte[] gZipBuffer = new byte[compressedData.Length + 4];
+                Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
+                Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
+                return Convert.ToBase64String(gZipBuffer);
+            }
+        }
+
+        public static string DecompressString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            byte[] gZipBuffer = Convert.FromBase64String(s);
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
+                memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
+
+                byte[] buffer = new byte[dataLength];
+
+                memoryStream.Position = 0;
+                using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
+                    gZipStream.Read(buffer, 0, buffer.Length);
+
+                return Encoding.UTF8.GetString(buffer);
+            }
+        }
+
         public static bool DerivesFromBaseType(Type type, Type basetype)
         {
             if (type == basetype)
@@ -72,6 +272,78 @@ namespace CodeLibrary.Core
             return false;
         }
 
+        public static string FromBase64(string text) => ByteArrayToString(Convert.FromBase64String(text));
+
+        public static T FromJson<T>(string json)
+        {
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+                return (T)serializer.ReadObject(memoryStream);
+        }
+
+        public static List<T> FromJsonToList<T>(string json)
+        {
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<T>));
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+                return (List<T>)serializer.ReadObject(memoryStream);
+        }
+
+        public static string GetCurrentUserRegisterKey(string regpath, string key, string defaultvalue)
+        {
+            if (string.IsNullOrEmpty(regpath))
+                return string.Empty;
+
+            if (string.IsNullOrEmpty(key))
+                return string.Empty;
+
+            string keyValue = defaultvalue;
+            try
+            {
+                RegistryKey regKey = Registry.CurrentUser.OpenSubKey(regpath);
+                if (regKey != null)
+                {
+                    keyValue = regKey.GetValue(key) as string;
+                }
+            }
+            catch
+            {
+            }
+
+            return keyValue;
+        }
+
+        public static string GetCurrentUserRegisterKey(string regpath, string key)
+        {
+            return GetCurrentUserRegisterKey(regpath, key, string.Empty);
+        }
+
+        public static Encoding GetEncoder(TextEncoding encoding)
+        {
+            switch (encoding)
+            {
+                case TextEncoding.ASCII:
+                    return Encoding.ASCII;
+
+                case TextEncoding.BigEndianUnicode:
+                    return Encoding.BigEndianUnicode;
+
+                case TextEncoding.Default:
+                    return Encoding.Default;
+
+                case TextEncoding.Unicode:
+                    return Encoding.Unicode;
+
+                case TextEncoding.UTF32:
+                    return Encoding.UTF32;
+
+                case TextEncoding.UTF7:
+                    return Encoding.UTF7;
+
+                case TextEncoding.UTF8:
+                    return Encoding.UTF8;
+            }
+            return Encoding.Default;
+        }
 
         /// <summary>
         /// <para>when path does not exist, it returns the closest directory to the specified path</para>
@@ -130,130 +402,6 @@ namespace CodeLibrary.Core
                 path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             }
             return path;
-        }
-
-        /// <summary>
-        /// Fixes a full path, removes invalid chars like :\/?*|: from string.
-        /// </summary>
-        /// <param name="fullpath">full path to normalize.</param>
-        /// <returns>string.Empty when fullpath is null or empty.</returns>
-        public static string NormalizeFullPath(string fullpath)
-        {
-            return NormalizeFullPath(fullpath, ' ');
-        }
-
-        /// <summary>
-        /// Fixes a full path, removes invalid chars like :\/?*|: from string.
-        /// </summary>
-        /// <param name="fullpath">full path to normalize.</param>
-        /// <param name="invalidCharReplacement">Replacementchar for invalid chars.</param>
-        /// <returns>string.Empty when fullpath is null or empty.</returns>
-        public static string NormalizeFullPath(string fullpath, char invalidCharReplacement)
-        {
-            if (string.IsNullOrEmpty(fullpath))
-            {
-                return string.Empty;
-            }
-            int filenameIndex = fullpath.LastIndexOf(Path.DirectorySeparatorChar);
-
-            char[] chpath = fullpath.ToCharArray();
-            char[] invalidPathChars = Path.GetInvalidPathChars();
-            char[] invalidFileChars = Path.GetInvalidFileNameChars();
-
-            for (int ii = 0; ii < chpath.Length; ii++)
-            {
-                if (ii <= filenameIndex)
-                {
-                    for (int xx = 0; xx < invalidPathChars.Length; xx++)
-                    {
-                        if (chpath[ii] == invalidPathChars[xx])
-                            chpath[ii] = invalidCharReplacement;
-                    }
-                }
-                else
-                {
-                    for (int xx = 0; xx < invalidFileChars.Length; xx++)
-                    {
-                        if (chpath[ii] == invalidFileChars[xx])
-                            chpath[ii] = invalidCharReplacement;
-                    }
-                }
-            }
-            return new string(chpath);
-        }
-
-        public static string FromBase64(string text) => ByteArrayToString(Convert.FromBase64String(text));
-
-        public static T FromJson<T>(string json)
-        {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
-                return (T)serializer.ReadObject(memoryStream);
-        }
-
-        public static List<T> FromJsonToList<T>(string json)
-        {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<T>));
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
-                return (List<T>)serializer.ReadObject(memoryStream);
-        }
-
-        public static string GetCurrentUserRegisterKey(string regpath, string key, string defaultvalue)
-        {
-            if (string.IsNullOrEmpty(regpath))
-                return string.Empty;
-
-            if (string.IsNullOrEmpty(key))
-                return string.Empty;
-
-            string keyValue = defaultvalue;
-            try
-            {
-                RegistryKey regKey = Registry.CurrentUser.OpenSubKey(regpath);
-                if (regKey != null)
-                {
-                    keyValue = regKey.GetValue(key) as string;
-                }
-            }
-            catch
-            {
-
-            }
-
-            return keyValue;
-        }
-
-        public static string GetCurrentUserRegisterKey(string regpath, string key)
-        {
-            return GetCurrentUserRegisterKey(regpath, key, string.Empty);
-        }
-
-        public static Encoding GetEncoder(TextEncoding encoding)
-        {
-            switch (encoding)
-            {
-                case TextEncoding.ASCII:
-                    return Encoding.ASCII;
-
-                case TextEncoding.BigEndianUnicode:
-                    return Encoding.BigEndianUnicode;
-
-                case TextEncoding.Default:
-                    return Encoding.Default;
-
-                case TextEncoding.Unicode:
-                    return Encoding.Unicode;
-
-                case TextEncoding.UTF32:
-                    return Encoding.UTF32;
-
-                case TextEncoding.UTF7:
-                    return Encoding.UTF7;
-
-                case TextEncoding.UTF8:
-                    return Encoding.UTF8;
-            }
-            return Encoding.Default;
         }
 
         public static List<Type> GetObjectsWithBaseType(Type basetype, bool skipBaseType)
@@ -388,6 +536,21 @@ namespace CodeLibrary.Core
             return startDateFirstWeek.AddDays((week - 1) * 7);
         }
 
+        public static string InsertLine(string text, int line, string insert)
+        {
+            string[] _lines = CodeLibrary.Core.Utils.SplitLines(text);
+            StringBuilder _sb = new StringBuilder();
+            for (int index = 0; index < _lines.Length; index++)
+            {
+                _sb.AppendLine(_lines[index]);
+                if (index == line)
+                {
+                    _sb.AppendLine(insert);
+                }
+            }
+            return _sb.ToString();
+        }
+
         public static FileOrDirectory IsFileOrDirectory(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -414,6 +577,56 @@ namespace CodeLibrary.Core
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Fixes a full path, removes invalid chars like :\/?*|: from string.
+        /// </summary>
+        /// <param name="fullpath">full path to normalize.</param>
+        /// <returns>string.Empty when fullpath is null or empty.</returns>
+        public static string NormalizeFullPath(string fullpath)
+        {
+            return NormalizeFullPath(fullpath, ' ');
+        }
+
+        /// <summary>
+        /// Fixes a full path, removes invalid chars like :\/?*|: from string.
+        /// </summary>
+        /// <param name="fullpath">full path to normalize.</param>
+        /// <param name="invalidCharReplacement">Replacementchar for invalid chars.</param>
+        /// <returns>string.Empty when fullpath is null or empty.</returns>
+        public static string NormalizeFullPath(string fullpath, char invalidCharReplacement)
+        {
+            if (string.IsNullOrEmpty(fullpath))
+            {
+                return string.Empty;
+            }
+            int filenameIndex = fullpath.LastIndexOf(Path.DirectorySeparatorChar);
+
+            char[] chpath = fullpath.ToCharArray();
+            char[] invalidPathChars = Path.GetInvalidPathChars();
+            char[] invalidFileChars = Path.GetInvalidFileNameChars();
+
+            for (int ii = 0; ii < chpath.Length; ii++)
+            {
+                if (ii <= filenameIndex)
+                {
+                    for (int xx = 0; xx < invalidPathChars.Length; xx++)
+                    {
+                        if (chpath[ii] == invalidPathChars[xx])
+                            chpath[ii] = invalidCharReplacement;
+                    }
+                }
+                else
+                {
+                    for (int xx = 0; xx < invalidFileChars.Length; xx++)
+                    {
+                        if (chpath[ii] == invalidFileChars[xx])
+                            chpath[ii] = invalidCharReplacement;
+                    }
+                }
+            }
+            return new string(chpath);
         }
 
         public static string ParentPath(string path)
@@ -612,61 +825,11 @@ namespace CodeLibrary.Core
             using (MemoryStream stream = new MemoryStream())
             {
                 DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-                serializer.WriteObject(stream, items );
+                serializer.WriteObject(stream, items);
                 stream.Position = 0;
                 using (StreamReader streamReader = new StreamReader(stream))
                     return streamReader.ReadToEnd();
             }
         }
-
-
-
-        public static string CompressString(string s)
-        {
-            if (string.IsNullOrEmpty(s))
-                return string.Empty;
-
-            byte[] buffer = Encoding.UTF8.GetBytes(s);
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
-                    gZipStream.Write(buffer, 0, buffer.Length);
-
-                memoryStream.Position = 0;
-
-                byte[] compressedData = new byte[memoryStream.Length];
-                memoryStream.Read(compressedData, 0, compressedData.Length);
-
-                byte[] gZipBuffer = new byte[compressedData.Length + 4];
-                Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
-                Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
-                return Convert.ToBase64String(gZipBuffer);
-            }
-        }
-
-
-        public static string DecompressString(string s)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-            byte[] gZipBuffer = Convert.FromBase64String(s);
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
-                memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
-
-                byte[] buffer = new byte[dataLength];
-
-                memoryStream.Position = 0;
-                using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-                    gZipStream.Read(buffer, 0, buffer.Length);
-
-                return Encoding.UTF8.GetString(buffer);
-            }
-        }
-
-
     }
 }

@@ -15,6 +15,7 @@
         public const string SNIPPETS = "Snippets";
         public const string SORTMODE = "SortMode";
         public const string MARKDOWNCSS = "MarkDownCss";
+        public const string MARKDOWNPREVIEWCSS = "MarkDownPreviewCss";
         public const string SPLITTERDISTANCE = "SplitterDistance";
         public const string THEME = "Theme";
         public const string BACKUPMODE = "BackupMode";

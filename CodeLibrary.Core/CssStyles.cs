@@ -15,7 +15,42 @@ namespace CodeLibrary.Core
 
     public static class CssStyles
     {
+        public static string GetCSSByPath(string path, out bool found)
+        {
+            string[] _items = Utils.Split(path, @"\", false).ToArray();
+            if (_items.Length != 2)
+            {
+                found = false;
+                return string.Empty;
+            }    
+            if (_items[0].Equals("CSS"))
+            {
+                foreach (int value in Enum.GetValues(typeof(CssStyle)))
+                {
+                    string _name = Enum.GetName(typeof(CssStyle), value);
+                    if(_items[1].Equals(_name))
+                    {
+                        found = true;
+                        return GetCSSDefault((CssStyle)value);
+                    }
+                }
+            }
+            found = false;
+            return string.Empty;
+        }
+
+
         public static string GetCSS(CssStyle style)
+        {
+            var _snippet = CodeLib.Instance.CodeSnippets.GetByPath($@"CSS\{style}");
+            if (_snippet != null)
+            {
+                return Utils.Merge(_snippet.GetCode(), _snippet.CodeType);
+            }
+            return GetCSSDefault(style);
+        }
+
+        public static string GetCSSDefault(CssStyle style)
         {
             switch (style)
             {

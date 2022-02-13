@@ -185,6 +185,13 @@ namespace CodeLibrary
             int _imageIndex = LocalUtils.GetImageIndex(snippet);
             TreeNode _node = parent.Add(snippet.Id, name, _imageIndex, _imageIndex);
             UpdateNodePath(_node);
+
+            string _css = CssStyles.GetCSSByPath(snippet.GetPath(), out bool foundCss);
+            if (foundCss)
+            {
+                snippet.SetCode(_css, out bool changed);
+            }
+
             CodeLib.Instance.TreeNodes.Add(_node);
             return snippet.Id;
         }
@@ -201,6 +208,13 @@ namespace CodeLibrary
             int _imageIndex = LocalUtils.GetImageIndex(snippet);
             TreeNode _node = parent.Add(snippet.Id, name, _imageIndex, _imageIndex);
             UpdateNodePath(_node);
+
+            string _css = CssStyles.GetCSSByPath(snippet.GetPath(), out bool foundCss);
+            if (foundCss)
+            {
+                snippet.SetCode(_css, out bool changed);
+            }
+
             CodeLib.Instance.TreeNodes.Add(_node);
             return _node;
         }
