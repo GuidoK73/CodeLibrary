@@ -1,4 +1,5 @@
 ﻿using CodeLibrary.Core;
+using CodeLibrary.Editor.EditorLanguageHelpers;
 using CodeLibrary.Extensions;
 using CodeLibrary.Helpers;
 using FastColoredTextBoxNS;
@@ -42,6 +43,24 @@ namespace CodeLibrary.Editor
             _tb.KeyDown += new KeyEventHandler(TbCode_KeyDown);
             _tb.MouseUp += new MouseEventHandler(TbCode_MouseUp);
             _tb.PasteOther += _tb_PasteOther;
+
+            EditorHelperFactory.Instance.Register(CodeType.CSharp, new CSharpEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.Folder, new TextEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.JS, new TemplateEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.Lua, new LuaEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.MarkDown, new MarkdownEditorLClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.None, new TextEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.PHP, new PhpEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.RTF, new RtfEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.SQL, new SqlEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.System, new TextEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.Template, new TemplateEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.VB, new VbEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.XML, new XmlEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.HTML, new HtmlEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+
+
+
         }
 
         public ITextEditor Editor
@@ -149,129 +168,15 @@ namespace CodeLibrary.Editor
 
         public void PasteAdvanced()
         {
-            if (Clipboard.ContainsImage())
-            {
-                Image _image = Clipboard.GetImage();
-
-                string _base64 = Convert.ToBase64String(_image.ConvertImageToByteArray());
-                switch (_StateSnippet.CodeType)
-                {
-                    case CodeType.MarkDown:
-                        SelectedText = string.Format(@"![{0}](data:image/png;base64,{1})", _StateSnippet.GetPath(), _base64);
-                        break;
-
-                    case CodeType.HTML:
-                        SelectedText = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
-                        break;
-
-                    default:
-                        SelectedText = _base64;
-                        break;
-                }
-            }
-            else if (Clipboard.ContainsFileDropList())
-            {
-                List<string> _filenames = new List<string>();
-                foreach (string s in Clipboard.GetFileDropList())
-                {
-                    _filenames.Add(s);
-                }
-
-                StringBuilder _sb = new StringBuilder();
-
-                foreach (string _filename in _filenames)
-                {
-                    FileInfo _file = new FileInfo(_filename);
-                    var _type = LocalUtils.CodeTypeByExtension(_file);
-
-                    switch (_type)
-                    {
-                        case CodeType.Image:
-                            byte[] _imageData = File.ReadAllBytes(_filename);
-                            string _base64 = Convert.ToBase64String(_imageData);
-                            switch (_StateSnippet.CodeType)
-                            {
-                                case CodeType.MarkDown:
-                                    _sb.AppendLine(string.Format(@"![{0}](data:image/png;base64,{1})", _StateSnippet.GetPath(), _base64));
-                                    _sb.AppendLine();
-                                    break;
-
-                                case CodeType.HTML:
-                                    _sb.AppendLine(string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64));
-                                    _sb.AppendLine();
-                                    break;
-
-                                default:
-                                    SelectedText = _base64;
-                                    break;
-                            }
-                            break;
-
-                        case CodeType.CSharp:
-                        case CodeType.HTML:
-                        case CodeType.MarkDown:
-                        case CodeType.JS:
-                        case CodeType.Lua:
-                        case CodeType.PHP:
-                        case CodeType.VB:
-                        case CodeType.None:
-                        case CodeType.SQL:
-                        case CodeType.XML:
-                        case CodeType.Template:
-                        case CodeType.RTF:
-                            string _text = File.ReadAllText(_filename);
-                            CodeType _codeType = LocalUtils.CodeTypeByExtension(new FileInfo(_filename));
-                            _sb.AppendLine(string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", Core.Utils.CodeTypeToString(_codeType), _text));
-                            _sb.AppendLine();
-                            break;
-
-                        case CodeType.System:
-                        case CodeType.UnSuported:
-                            break;
-                    }
-                }
-                SelectedText = _sb.ToString();
-            }
-            else if (Clipboard.ContainsText())
-            {
-                _tb.Paste();
-            }
+            var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
+            _helper.PasteAdvanced();
         }
+
 
         public void Paste()
         {
-            if (Clipboard.ContainsImage())
-            {
-                Image _image = Clipboard.GetImage();
-
-                string _id = _mainform._treeHelper.AddImageNode(_mainform._treeHelper.SelectedNode, _image);
-
-                this.SelectedText = $"#[{_id}]#";
-            }
-            else if (Clipboard.ContainsFileDropList())
-            {
-                List<string> items = new List<string>();
-                foreach (string s in Clipboard.GetFileDropList())
-                {
-                    items.Add(s);
-                }
-                if (items.Count > 0)
-                {
-                    TreeNode _parentNode = CodeLib.Instance.TreeNodes.Get(_StateSnippet.Id);
-                    List<string> _ids = _mainform._treeHelper.AddFiles(_parentNode, items.ToArray(), false);
-                    StringBuilder _sb = new StringBuilder();
-
-                    foreach (string _id in _ids)
-                    {
-                        _sb.AppendLine($"#[{_id}]#\r\n");
-                    }
-                    this.SelectedText = _sb.ToString();
-                }
-            }
-            else if (Clipboard.ContainsText())
-            {
-                _tb.Paste();
-            }
+            var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
+            _helper.Paste();
         }
 
         private void _tb_PasteOther(object sender, EventArgs e)

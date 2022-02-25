@@ -1,9 +1,11 @@
 ﻿using CodeLibrary.Core;
+using CodeLibrary.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace CodeLibrary
 {
@@ -11,82 +13,77 @@ namespace CodeLibrary
     {
         private string _patternDate = $"[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9]";
         private Regex _regExDate;
+        private FormCodeLibrary _mainForm;
 
-        public BackupHelper(string currentFile)
+
+        public BackupHelper(string currentFile) : this(currentFile, null)
         {
-            CurrentFile = currentFile;
+        }
+
+        public BackupHelper(string currentFile, FormCodeLibrary mainForm)
+        {
+            if (string.IsNullOrEmpty(currentFile))
+                throw new FileLoadException("currentfile not specified for backuphelper.");
+
+            _mainForm = mainForm;
+
+            CurrentFile = new FileInfo(currentFile);
             _regExDate = new Regex(_patternDate);
         }
 
-        public string CurrentFile { get; set; }
+        private FileInfo CurrentFile { get; set; }
 
         public void Backup()
         {
-            if (string.IsNullOrEmpty(CurrentFile))
+            
+            if (!CurrentFile.Exists)
                 return;
 
-            if (!File.Exists(CurrentFile))
-                return;
+            string newName = $"{CurrentFile.Name.Replace($".{CurrentFile.Extension}", string.Empty)}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.bak";
 
-            FileInfo file = new FileInfo(CurrentFile);
-            string newName = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.bak";
+            FileInfo bakfile = new FileInfo(Path.Combine(CurrentFile.Directory.FullName, newName));
 
-            foreach (DirectoryInfo backupLocation in BackupLocations())
+            if (!bakfile.Exists)
             {
-                FileInfo bakfile = new FileInfo(Path.Combine(backupLocation.FullName, newName));
-
-                if (!bakfile.Exists)
+                try
                 {
-                    try
-                    {
-                        File.Move(file.FullName, bakfile.FullName);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        return;
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
+                    File.Move(CurrentFile.FullName, bakfile.FullName);
                 }
-                DeleteOlderbackupFiles(-21); // Delete everything.
-                DeleteOlderbackupFilesKeepOnePerDay(-2); // keep latest per day.
+                catch (UnauthorizedAccessException)
+                {
+                    return;
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
+
+            if (Directory.Exists(Config.BackupLocation))
+            {
+                // Move backup files.
+                Task t = new Task(StartBackup);
+                t.Start();
             }
         }
 
-        public IEnumerable<DirectoryInfo> BackupLocations()
+        private string GetBackupLocation()
         {
-            if (Config.BackupMode == EBackupMode.FileLocation || Config.BackupMode == EBackupMode.Both)
-            {
-                FileInfo _currentfile = new FileInfo(CurrentFile);
-                if (_currentfile.Exists)
-                {
-                    yield return _currentfile.Directory;
-                }
-            }
-            if (Config.BackupMode == EBackupMode.SpecifiedDirectory || Config.BackupMode == EBackupMode.Both)
-            {
-                string documentBackupLocation = Path.Combine(Config.BackupLocation, CodeLib.Instance.DocumentId.ToString());
+            if (Directory.Exists(Config.BackupLocation))
+                return Config.BackupLocation;
 
-                DirectoryInfo _directory = new DirectoryInfo(documentBackupLocation);
-                if (!_directory.Exists)
-                {
-                    Directory.CreateDirectory(_directory.FullName);
-                }
-                yield return _directory;
-
-            }
+            return CurrentFile.Directory.FullName;
         }
 
         public IEnumerable<BackupInfo> GetBackups()
         {
-            FileInfo _currentfile = new FileInfo(CurrentFile);
-            string _pattern = $"^{_currentfile.Name.Replace($".{_currentfile.Extension}", string.Empty)}_[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9].bak$";
+            string _pattern = $"^{CurrentFile.Name.Replace($".{CurrentFile.Extension}", string.Empty)}_[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9].bak$";
 
             Regex _regEx = new Regex(_pattern);
 
-            foreach (FileInfo file in MultiDirectoryGetFiles(BackupLocations().ToArray()))
+            DirectoryInfo _directory = new DirectoryInfo(GetBackupLocation());
+            
+            foreach (FileInfo file in _directory.GetFiles())
             {
                 if (_regEx.Match(file.Name).Success)
                 {
@@ -94,7 +91,7 @@ namespace CodeLibrary
 
                     var _backupInfo = new BackupInfo()
                     {
-                        Name = _currentfile.Name,
+                        Name = CurrentFile.Name,
                         FileName = file.Name,
                         Path = file.FullName,
                         DateTime = _date
@@ -105,63 +102,84 @@ namespace CodeLibrary
             }
         }
 
-        public IEnumerable<FileInfo> MultiDirectoryGetFiles(params DirectoryInfo[] directories)
+
+        private void DeleteOlderbackupFiles(string directory, string name, int days)
         {
-            foreach (DirectoryInfo directory in directories)
-            {
-                foreach (FileInfo file in directory.EnumerateFiles())
-                {
-                    yield return file;
-                }
-            }
+            FileInfo file = new FileInfo(Path.Combine(directory, name));
+
+            if (!file.Directory.Exists)
+                return;
+
+            string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
+
+            DateTime filterDate = DateTime.Now.AddDays(-2);
+
+            IEnumerable<FileInfo> files = file.Directory.GetFiles()
+                .Where(p => Utils.MatchPattern(p.Name, pattern))
+                .Where(p => p.LastAccessTime < filterDate);
+
+            foreach (FileInfo fileInfo in files)
+                fileInfo.Delete();
         }
 
-        private void DeleteOlderbackupFiles(int days)
+        private void DeletebackupFiles(string directory, string name)
         {
-            foreach (DirectoryInfo directory in BackupLocations())
-            {
-                FileInfo _fileCurrentFile = new FileInfo(CurrentFile);
-                FileInfo file = new FileInfo(Path.Combine(directory.FullName, _fileCurrentFile.Name));
+            FileInfo file = new FileInfo(Path.Combine(directory, name));
 
-                if (!file.Directory.Exists)
-                    continue;
+            if (!file.Directory.Exists)
+                return;
 
-                string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
+            string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
 
-                DateTime filterDate = DateTime.Now.AddDays(-2);
 
-                IEnumerable<FileInfo> files = file.Directory.GetFiles()
-                    .Where(p => Utils.MatchPattern(p.Name, pattern))
-                    .Where(p => p.LastAccessTime < filterDate);
+            IEnumerable<FileInfo> files = file.Directory.GetFiles()
+                .Where(p => Utils.MatchPattern(p.Name, pattern));
 
-                foreach (FileInfo fileInfo in files)
-                    fileInfo.Delete();
-            }
+            foreach (FileInfo fileInfo in files)
+                fileInfo.Delete();
         }
 
-        private void DeleteOlderbackupFilesKeepOnePerDay(int days)
+
+        private void backupFiles(string directory, string name)
         {
-            foreach (DirectoryInfo directory in BackupLocations())
+            FileInfo file = new FileInfo(Path.Combine(directory, name));
+
+            if (!file.Directory.Exists)
+                return;
+
+            string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
+
+
+            IEnumerable<FileInfo> files = file.Directory.GetFiles()
+                .Where(p => Utils.MatchPattern(p.Name, pattern));
+
+            foreach (FileInfo fileInfo in files)
             {
-                FileInfo _fileCurrentFile = new FileInfo(CurrentFile);
-                FileInfo file = new FileInfo(Path.Combine(directory.FullName, _fileCurrentFile.Name));
+                string _target = Path.Combine(GetBackupLocation(), fileInfo.Name);
+                File.Copy(fileInfo.FullName, _target);
+            }       
+        }
 
-                if (!file.Directory.Exists)
-                    continue;
+        private void DeleteOlderbackupFilesKeepOnePerDay(string directory, string name, int days)
+        {
 
-                string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
+            FileInfo file = new FileInfo(Path.Combine(directory, name));
 
-                DateTime filterDate = DateTime.Now.AddDays(-2);
+            if (!file.Directory.Exists)
+                return;
 
-                IEnumerable<FileInfo> files = file.Directory.GetFiles()
-                    .Where(p => Utils.MatchPattern(p.Name, pattern))
-                    .Where(p => p.LastAccessTime < filterDate)
-                    .GroupBy(d => d.LastAccessTime.Date)
-                    .Select(g => g.OrderBy(o => o.LastAccessTime).Last());
+            string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
 
-                foreach (FileInfo fileInfo in files)
-                    fileInfo.Delete();
-            }
+            DateTime filterDate = DateTime.Now.AddDays(-2);
+
+            IEnumerable<FileInfo> files = file.Directory.GetFiles()
+                .Where(p => Utils.MatchPattern(p.Name, pattern))
+                .Where(p => p.LastAccessTime < filterDate)
+                .GroupBy(d => d.LastAccessTime.Date)
+                .Select(g => g.OrderBy(o => o.LastAccessTime).Last());
+
+            foreach (FileInfo fileInfo in files)
+                fileInfo.Delete();
         }
 
         private DateTime GeDateFromFileName(string filename)
@@ -176,6 +194,44 @@ namespace CodeLibrary
             int _sc = Convert.ToInt32(_date.Substring(13, 2));
 
             return new DateTime(_y, _m, _d, _hr, _mn, _sc);
+        }
+
+        private bool _started = false;
+
+        public async void StartBackup()
+        {
+            if (_started)
+                return;
+
+            _started = true;
+            // Config.BackupLocation
+
+            _mainForm._stateIconHelper.SetBackupOn();
+
+            await Task.Run(() => {
+                try
+                {
+                    // Copy backups to target location
+                    backupFiles(CurrentFile.Directory.FullName, CurrentFile.Name);
+                    // Delete local files.
+                    DeletebackupFiles(CurrentFile.Directory.FullName, CurrentFile.Name);
+                    if (!CurrentFile.Directory.FullName.Equals(GetBackupLocation(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Cleanup target location.
+                        DeleteOlderbackupFiles(GetBackupLocation(), CurrentFile.Name, -21); // Delete everything.
+                        DeleteOlderbackupFilesKeepOnePerDay(GetBackupLocation(), CurrentFile.Name, -2); // keep latest per day.
+                    }
+                }
+                catch
+                {
+
+                }
+            });
+
+            _mainForm._stateIconHelper.SetBackupOff();
+
+
+            _started = false;
         }
     }
 }

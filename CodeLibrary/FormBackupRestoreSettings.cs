@@ -13,18 +13,13 @@ namespace CodeLibrary
 {
     public partial class FormBackupRestoreSettings : Form
     {
-        private EnumComboBoxModeHelper<EBackupMode> _ComboBoxHelper;
-
         public FormBackupRestoreSettings()
         {
             InitializeComponent();         
-            _ComboBoxHelper = new EnumComboBoxModeHelper<EBackupMode>(comboBoxMode, EBackupMode.FileLocation);
-            _ComboBoxHelper.Fill();
         }
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            _ComboBoxHelper.SetSelectedIndex(Config.BackupMode);
             textBoxLocation.Text = Config.BackupLocation;
 
         }
@@ -34,7 +29,6 @@ namespace CodeLibrary
             DialogResult = e.Result;
             if (e.Result == DialogResult.OK)
             {
-                Config.BackupMode = (EBackupMode)_ComboBoxHelper.GetValue();
                 Config.BackupLocation = textBoxLocation.Text;
 
             }

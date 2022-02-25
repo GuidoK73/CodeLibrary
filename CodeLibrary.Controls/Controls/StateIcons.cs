@@ -12,6 +12,7 @@ namespace CodeLibrary.Controls.Controls
         private Dictionary<string, ImageHolder> _Icons = new Dictionary<string, ImageHolder>();
         private Timer _Timer = new Timer();
         private bool _Blink = false;
+        private const string _BACKUPCREATING = "backup";
 
         public StateIcons()
         {
@@ -47,6 +48,31 @@ namespace CodeLibrary.Controls.Controls
                 Refresh();
             }
         }
+
+        //public delegate void SetBackupDelegate() = new delegate;
+
+        public void SetBackupOn()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate { SetBackupOn(); }));
+                return;
+            }
+            this[_BACKUPCREATING] = true;
+        }
+
+        public void SetBackupOff()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate { SetBackupOff(); }));
+                return;
+            }
+            this[_BACKUPCREATING] = false;
+        }
+
+
+
 
         public void AddIcon(Image image, string key, bool blink = false)
         {

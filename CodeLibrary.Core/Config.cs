@@ -12,8 +12,6 @@ namespace CodeLibrary.Core
 
         public static string BackupLocation { get; set; }
 
-        public static EBackupMode BackupMode { get; set; }
-
         public static ETheme Theme { get; set; } = ETheme.Dark;
 
         public static ESortMode SortMode { get; set; } = ESortMode.Alphabetic;
@@ -85,11 +83,6 @@ namespace CodeLibrary.Core
             }
             catch { }
 
-            try
-            {
-                BackupMode = (EBackupMode)Enum.Parse(typeof(EBackupMode), Utils.GetCurrentUserRegisterKey(regpath, Constants.BACKUPMODE));
-            }
-            catch { }
 
             DefaultNoteType = Utils.GetCurrentUserRegisterKey(regpath, Constants.DEFAULT_NOTE_TYPE);
 
@@ -119,7 +112,6 @@ namespace CodeLibrary.Core
 
             Utils.SetCurrentUserRegisterKey(regpath, Constants.THEME, Theme.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.SORTMODE, SortMode.ToString());
-            Utils.SetCurrentUserRegisterKey(regpath, Constants.BACKUPMODE, BackupMode.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.MARKDOWNCSS, MarkdownCssStyle.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.MARKDOWNPREVIEWCSS, MarkdownCssPreviewStyle.ToString());
             Utils.SetCurrentUserRegisterKey(regpath, Constants.LASTOPENEDDIR, LastOpenedDir);

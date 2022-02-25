@@ -87,6 +87,20 @@
   <ItemGroup>
     <Compile Include="CodeInsight\BaseInsightHandler.cs" />
     <Compile Include="CodeInsight\CodeInsight.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\EditorClipboardHelperBase.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\EditorHelperFactory.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\CSharpEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\JSEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\TemplateEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\LuaEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\PhpEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\RtfEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\SqlEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\XmlEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\VbEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\TextEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\HtmlEditorClipboardHelper.cs" />
+    <Compile Include="Editor\EditorLanguageHelpers\MarkdownEditorLClipboardHelper.cs" />
     <Compile Include="FormAddReference.cs">
       <SubType>Form</SubType>
     </Compile>

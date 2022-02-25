@@ -1,8 +1,10 @@
-﻿using Microsoft.Win32;
+﻿using CodeLibrary.Core.DevToys;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Security.AccessControl;
@@ -13,128 +15,43 @@ namespace CodeLibrary.Core
 {
     public static class Utils
     {
-        private static Regex _regexWildCards = new Regex("(?<=#\\[)(.*?)(?=\\]#)");
+        public const char _DOUBLEQUOTE = '"';
+        public const char _SINGLEQUOTE = '\'';
 
         public const string REG_USRSETTING = @"Software\{0}\Settings";
+        private static Regex _regexWildCards = new Regex("(?<=#\\[)(.*?)(?=\\]#)");
 
-        public static string Merge(string text, CodeType targetType)
+        public enum FileOrDirectory
         {
-            string _newText = text;
-            var _matches = _regexWildCards.Matches(text);
-            if (_matches == null)
-            {
-                return text;
-            }
-
-            int _counter = 0;
-
-            while (_matches.Count > 0)
-            {
-                _counter++;
-                if (_counter > 300)
-                {
-                    return "CIRCULAR REFERENCE ERROR!";
-                }
-                string _text = string.Empty;
-
-                foreach (Match match in _matches)
-                {
-                    // Get by path
-                    CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.GetByPath(match.Value);
-                    if (_snippet == null)
-                    {
-                        // Get by id
-                        _snippet = CodeLib.Instance.CodeSnippets.Get(match.Value);
-                        _text = Core.Utils.SnippetToText(_snippet, targetType);
-                    }
-                    else if (_snippet == null)
-                    {
-                        // try get by pattern.
-                        var _snippets = CodeLib.Instance.CodeSnippets.GetChildsByPathAndPattern(match.Value);
-                        StringBuilder _sb = new StringBuilder();
-                        foreach (CodeSnippet snippet in _snippets)
-                        {
-                            _sb.Append(Core.Utils.SnippetToText(snippet, targetType));
-                        }
-                        _text = _sb.ToString();
-                    }
-                    else
-                    {
-                        _text = Core.Utils.SnippetToText(_snippet, targetType);
-                    }
-
-                    _newText = _newText.Replace($"#[{match.Value}]#", _text);
-                }
-
-                _matches = _regexWildCards.Matches(_newText);
-            }
-
-            return _newText;
+            File = 0,
+            Directory = 1,
+            DoesNotExist = 2
         }
 
-        public static string SnippetToText(CodeSnippet snippet, CodeType targetType)
+        public enum TextEncoding
         {
-            string _result = string.Empty;
-            if (snippet == null)
-            {
-                return String.Empty;
-            }
-
-            if (snippet.CodeType == CodeType.ReferenceLink)
-            {
-                snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);
-            }
-            switch (snippet.CodeType)
-            {
-                case CodeType.Image:
-                    string _base64 = Convert.ToBase64String(snippet.Blob);
-                    switch (targetType)
-                    {
-                        case CodeType.MarkDown:
-                            _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
-                            break;
-
-                        case CodeType.HTML:
-                            _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
-                            break;
-                        default:
-                            _result = _base64;
-                            break;
-                    }
-                    break;
-
-                case CodeType.CSharp:
-                case CodeType.HTML:
-                case CodeType.JS:
-                case CodeType.Lua:
-                case CodeType.PHP:
-                case CodeType.SQL:
-                case CodeType.VB:
-                case CodeType.XML:
-                case CodeType.MarkDown:
-                    if (snippet.CodeType == CodeType.MarkDown && targetType == CodeType.HTML)
-                    {
-                        MarkDigWrapper _markDig = new MarkDigWrapper();
-                        _result = _markDig.Transform(snippet.GetCode());
-                    }
-                    else if (targetType == CodeType.MarkDown)
-                    {
-                        _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
-                    }
-                    else
-                    {
-                        _result = snippet.GetCode();
-                    }
-                    break;
-
-                default:
-                    _result = snippet.GetCode();
-                    break;
-            }
-
-            return _result;
+            Default = 0,
+            ASCII = 1,
+            BigEndianUnicode = 2,
+            Unicode = 3,
+            UTF32 = 4,
+            UTF7 = 5,
+            UTF8 = 6
         }
 
+        public static decimal Bound(decimal value, decimal lowbound, decimal highbound) => (value > highbound) ? highbound : (value < lowbound) ? lowbound : value;
+
+        public static Int16 Bound(Int16 value, Int16 lowbound, Int16 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
+
+        public static Int32 Bound(Int32 value, Int32 lowbound, Int32 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
+
+        public static Int64 Bound(Int64 value, Int64 lowbound, Int64 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
+
+        public static double Bound(double value, double lowbound, double highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
+
+        public static string ByteArrayToString(byte[] bytes) => ByteArrayToString(bytes, TextEncoding.UTF8);
+
+        public static string ByteArrayToString(byte[] bytes, TextEncoding encoding) => GetEncoder(encoding).GetString(bytes);
 
         public static string CodeTypeToString(CodeType codeType)
         {
@@ -170,38 +87,6 @@ namespace CodeLibrary.Core
             return String.Empty;
         }
 
-        public enum FileOrDirectory
-        {
-            File = 0,
-            Directory = 1,
-            DoesNotExist = 2
-        }
-
-        public enum TextEncoding
-        {
-            Default = 0,
-            ASCII = 1,
-            BigEndianUnicode = 2,
-            Unicode = 3,
-            UTF32 = 4,
-            UTF7 = 5,
-            UTF8 = 6
-        }
-
-        public static decimal Bound(decimal value, decimal lowbound, decimal highbound) => (value > highbound) ? highbound : (value < lowbound) ? lowbound : value;
-
-        public static Int16 Bound(Int16 value, Int16 lowbound, Int16 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
-
-        public static Int32 Bound(Int32 value, Int32 lowbound, Int32 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
-
-        public static Int64 Bound(Int64 value, Int64 lowbound, Int64 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
-
-        public static double Bound(double value, double lowbound, double highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
-
-        public static string ByteArrayToString(byte[] bytes) => ByteArrayToString(bytes, TextEncoding.UTF8);
-
-        public static string ByteArrayToString(byte[] bytes, TextEncoding encoding) => GetEncoder(encoding).GetString(bytes);
-
         public static string CombinePath(string path1, string path2)
         {
             path1 = path1.Trim(new char[] { '\\' });
@@ -230,6 +115,95 @@ namespace CodeLibrary.Core
                 Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
                 return Convert.ToBase64String(gZipBuffer);
             }
+        }
+
+        public static string CsvChange(string text, char separator, char newSeparator)
+        {
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            using (MemoryStream _inputStream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_inputStream))
+                {
+                    using (MemoryStream _outputStream = new MemoryStream())
+                    {
+                        using (StreamWriter _streamWriter = new StreamWriter(_outputStream))
+                        {
+                            _reader.Separator = separator;
+                            using (CsvStreamWriter _writer = new CsvStreamWriter(_outputStream))
+                            {
+                                _writer.Separator = newSeparator;
+                                while (!_reader.EndOfCsvStream)
+                                {
+                                    var _items = _reader.ReadCsvLine();
+                                    _writer.WriteCsvLine(_items);
+                                }
+                                return StreamToString(_outputStream);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static string[] CsvHeader(string text, char separator)
+        {
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            using (MemoryStream _stream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
+                {
+                    _reader.Separator = separator;
+                    return _reader.ReadCsvLine().ToArray();
+                }
+            }
+        }
+
+        public static string CsvToMdTable(string text, char separator)
+        {
+            StringBuilder _sb = new StringBuilder();
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            int _columnCount = 0;
+            bool _first = true;
+            using (MemoryStream _stream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
+                {
+                    _reader.Separator = separator;
+                    while (!_reader.EndOfCsvStream)
+                    {
+                        string[] _items = _reader.ReadCsvLine().ToArray();
+                        if (_items.Length > 1)
+                        {
+                            if (!_first)
+                            {
+                                if (_items.Length != _columnCount)
+                                {
+                                    continue;
+                                }
+                                _sb.Append("|");
+                                _sb.Append(String.Join("|", _items));
+                                _sb.Append("|\r\n");
+                            }
+                            else
+                            {
+                                _columnCount = _items.Length;
+                                _first = false;
+                                _sb.Append("|");
+                                _sb.Append(String.Join("|", _items));
+                                _sb.Append("|\r\n");
+                                for (int ii = 0; ii < _items.Length; ii++)
+                                {
+                                    _items[ii] = ":-";
+                                }
+                                _sb.Append("|");
+                                _sb.Append(String.Join("|", _items));
+                                _sb.Append("|\r\n");
+                            }
+                        }
+                    }
+                }
+            }
+            return _sb.ToString();
         }
 
         public static string DecompressString(string s)
@@ -286,6 +260,21 @@ namespace CodeLibrary.Core
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<T>));
             using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
                 return (List<T>)serializer.ReadObject(memoryStream);
+        }
+
+        public static bool GetCsvSeparator(string text, out char separator)
+        {
+            char[] _tests = new char[] { ',', ';', '\t' };
+            foreach (char c in _tests)
+            {
+                if (IsCsv(text, c, 20))
+                {
+                    separator = c;
+                    return true;
+                }
+            }
+            separator = ' ';
+            return false;
         }
 
         public static string GetCurrentUserRegisterKey(string regpath, string key, string defaultvalue)
@@ -579,6 +568,61 @@ namespace CodeLibrary.Core
             return false;
         }
 
+        public static string Merge(string text, CodeType targetType)
+        {
+            string _newText = text;
+            var _matches = _regexWildCards.Matches(text);
+            if (_matches == null)
+            {
+                return text;
+            }
+
+            int _counter = 0;
+
+            while (_matches.Count > 0)
+            {
+                _counter++;
+                if (_counter > 300)
+                {
+                    return "CIRCULAR REFERENCE ERROR!";
+                }
+                string _text = string.Empty;
+
+                foreach (Match match in _matches)
+                {
+                    // Get by path
+                    CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.GetByPath(match.Value);
+                    if (_snippet == null)
+                    {
+                        // Get by id
+                        _snippet = CodeLib.Instance.CodeSnippets.Get(match.Value);
+                        _text = Core.Utils.SnippetToText(_snippet, targetType);
+                    }
+                    else if (_snippet == null)
+                    {
+                        // try get by pattern.
+                        var _snippets = CodeLib.Instance.CodeSnippets.GetChildsByPathAndPattern(match.Value);
+                        StringBuilder _sb = new StringBuilder();
+                        foreach (CodeSnippet snippet in _snippets)
+                        {
+                            _sb.Append(Core.Utils.SnippetToText(snippet, targetType));
+                        }
+                        _text = _sb.ToString();
+                    }
+                    else
+                    {
+                        _text = Core.Utils.SnippetToText(_snippet, targetType);
+                    }
+
+                    _newText = _newText.Replace($"#[{match.Value}]#", _text);
+                }
+
+                _matches = _regexWildCards.Matches(_newText);
+            }
+
+            return _newText;
+        }
+
         /// <summary>
         /// Fixes a full path, removes invalid chars like :\/?*|: from string.
         /// </summary>
@@ -627,6 +671,24 @@ namespace CodeLibrary.Core
                 }
             }
             return new string(chpath);
+        }
+
+        public static string NormalizeQuotes(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            char[] array = value.ToCharArray();
+            for (int ii = 0; ii < array.Length; ii++)
+            {
+                if (array[ii] == '‘' || array[ii] == '’' || array[ii] == '‚')
+                    array[ii] = _SINGLEQUOTE;
+
+                if (array[ii] == '“' || array[ii] == '”' || array[ii] == '„' || array[ii] == '¨')
+                    array[ii] = _DOUBLEQUOTE;
+            }
+            string s = new string(array);
+            return s.Replace("'", "''");
         }
 
         public static string ParentPath(string path)
@@ -697,6 +759,70 @@ namespace CodeLibrary.Core
             {
                 editKey.SetValue(key, value);
             }
+        }
+
+        public static string SnippetToText(CodeSnippet snippet, CodeType targetType)
+        {
+            string _result = string.Empty;
+            if (snippet == null)
+            {
+                return String.Empty;
+            }
+
+            if (snippet.CodeType == CodeType.ReferenceLink)
+            {
+                snippet = CodeLib.Instance.CodeSnippets.Get(snippet.ReferenceLinkId);
+            }
+            switch (snippet.CodeType)
+            {
+                case CodeType.Image:
+                    string _base64 = Convert.ToBase64String(snippet.Blob);
+                    switch (targetType)
+                    {
+                        case CodeType.MarkDown:
+                            _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
+                            break;
+
+                        case CodeType.HTML:
+                            _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
+                            break;
+
+                        default:
+                            _result = _base64;
+                            break;
+                    }
+                    break;
+
+                case CodeType.CSharp:
+                case CodeType.HTML:
+                case CodeType.JS:
+                case CodeType.Lua:
+                case CodeType.PHP:
+                case CodeType.SQL:
+                case CodeType.VB:
+                case CodeType.XML:
+                case CodeType.MarkDown:
+                    if (snippet.CodeType == CodeType.MarkDown && targetType == CodeType.HTML)
+                    {
+                        MarkDigWrapper _markDig = new MarkDigWrapper();
+                        _result = _markDig.Transform(snippet.GetCode());
+                    }
+                    else if (targetType == CodeType.MarkDown)
+                    {
+                        _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
+                    }
+                    else
+                    {
+                        _result = snippet.GetCode();
+                    }
+                    break;
+
+                default:
+                    _result = snippet.GetCode();
+                    break;
+            }
+
+            return _result;
         }
 
         public static List<string> Split(string text, string splitter, bool skipEmpty)
@@ -802,6 +928,15 @@ namespace CodeLibrary.Core
 
         public static string[] SplitPath(string path) => SplitPath(path, Path.DirectorySeparatorChar);
 
+        public static string StreamToString(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                stream.Position = 0;
+                return reader.ReadToEnd();
+            }
+        }
+
         public static byte[] StringToByteArray(string s) => StringToByteArray(s, TextEncoding.UTF8);
 
         public static byte[] StringToByteArray(string s, TextEncoding encoding) => GetEncoder(encoding).GetBytes(s);
@@ -830,6 +965,101 @@ namespace CodeLibrary.Core
                 using (StreamReader streamReader = new StreamReader(stream))
                     return streamReader.ReadToEnd();
             }
+        }
+
+        public static string ToSqlAscii(string value)
+        {
+            string s = NormalizeQuotes(value); // do not accept strange quotes.
+            return s.Replace("'", "''");
+        }
+
+        public static string TrimText(string text, string trim)
+        {
+            try
+            {
+                char[] _trims = trim.ToCharArray();
+                char[] _text = text.ToCharArray();
+                bool _exit = false;
+                int _start = 0;
+                int _end = 0;
+
+                for (int ii = 0; ii < _text.Length; ii += _trims.Length)
+                {
+                    for (int jj = 0; jj < _trims.Length; jj++)
+                    {
+                        if (_text[ii + jj] != _trims[jj])
+                        {
+                            _exit = true;
+                            break;
+                        }
+                    }
+                    _start = ii;
+                    if (_exit)
+                        break;
+                }
+
+                _end = _text.Length;
+                _exit = false;
+
+                for (int ii = _text.Length - _trims.Length, xx = 0; ii > 0; ii -= _trims.Length, xx++)
+                {
+                    for (int jj = 0; jj < _trims.Length; jj++)
+                    {
+                        if (_text[ii + jj] != _trims[jj])
+                        {
+                            _exit = true;
+                            break;
+                        }
+                    }
+                    if (!_exit)
+                    {
+                        _end -= _trims.Length;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                return text.Substring(_start, _end - _start);
+            }
+            catch
+            {
+            }
+
+            return text;
+        }
+
+        private static bool IsCsv(string text, char separator, int sample)
+        {
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            List<int> _columnCount = new List<int>();
+
+            using (MemoryStream _stream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
+                {
+                    _reader.Separator = separator;
+                    while (!_reader.EndOfCsvStream)
+                    {
+                        string[] _items = _reader.ReadCsvLine().ToArray();
+                        int _length = _items.Length == 1 && string.IsNullOrWhiteSpace(_items[0]) ? 0 : _items.Length;
+                        if (_length > 0)
+                        {
+                            _columnCount.Add(_length);
+                        }
+                    }
+                    int prevcount = _columnCount.First();
+                    foreach (int count in _columnCount)
+                    {
+                        if (count == 1)
+                            return false;
+                        if (count != prevcount)
+                            return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

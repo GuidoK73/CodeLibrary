@@ -74,6 +74,10 @@
   <ItemGroup>
     <Compile Include="BackupInfo.cs" />
     <Compile Include="CssStyles.cs" />
+    <Compile Include="DevToys\CsvStreamWriter.cs" />
+    <Compile Include="DevToys\CsvStreamReader.cs" />
+    <Compile Include="DevToys\DirectoryCopier.cs" />
+    <Compile Include="DevToys\ReadOnceVar.cs" />
     <Compile Include="DevToys\PocoMapper.cs" />
     <Compile Include="DevToys\StopWatch.cs" />
     <Compile Include="EncryptedBinaryFile.cs" />
@@ -107,6 +111,7 @@
     <Compile Include="StringCypher.cs" />
     <Compile Include="StyleCollection.cs" />
     <Compile Include="Library\TreeNodeDictionaryList.cs" />
+    <Compile Include="TypeFactory.cs" />
     <Compile Include="UsbKeyDrive\UsbDriveInfo.cs" />
     <Compile Include="UsbKeyDrive\UsbKey.cs" />
     <Compile Include="UsbKeyDrive\UsbKeyDriveErrorEnum.cs" />

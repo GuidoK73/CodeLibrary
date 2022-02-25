@@ -408,6 +408,7 @@ namespace GK.Template
             return false;
         }
 
+
         public static double EvaluateExpression(string s)
         {
             if (string.IsNullOrEmpty(s))

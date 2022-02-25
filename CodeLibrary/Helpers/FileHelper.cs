@@ -546,7 +546,7 @@ namespace CodeLibrary
             _mainform.SaveEditor();
             CodeLib.Instance.Save(_collection);
 
-            BackupHelper backupHelper = new BackupHelper(CurrentFile);
+            BackupHelper backupHelper = new BackupHelper(CurrentFile, _mainform);
             backupHelper.Backup();
 
             Save(_collection, _selectedfile);

@@ -9,8 +9,22 @@ namespace CodeLibrary
     public partial class FormAbout : Form
     {
         private readonly string _Content = @"
+# Version 3.3.3
+- Changed backup
+    -   Removed 2 locations, if backup target location is set, all backup's will be moved to this location.
+    -   If target not set or backup is busy, backup's remain at file location.
+- Paste Advanced (Ctrl-Shift-V)
+    - Depending on the note type, tabular, csv data will be converted.\
+        this means you can copy a table from a webpage or excel sheet and paste it into the editor converted for the note type.
+        -   Markdown: Converts tabular / csv data to Markdown table.
+        -   Html: Converts tabular / csv data to html table.
+        -   Text: Converts tabular / csv data to , separated data.
+        -   Template: Converts tabular / csv data to ; separated data.
+        -   Sql: Converts tabular / csv data to an insert sql script.
+        -   Xml: Converts tabular / csv data to a Xml document.
+
 # Version 3.3.2
-- Markdown, using CodeLibrary references in text will auto create codeblocks for specific language on Preview and Copy Contents and Merge.
+- Markdown, using CodeLibrary references in text will auto create codeblocks for specific language on Preview and [Copy Contents and Merge].
     - When Markdown is merged in to HTML document then it's converted to HTML.
 - Export to PDF.
 - Export to File.(Both merge Content)

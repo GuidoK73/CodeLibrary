@@ -18,7 +18,6 @@
         public const string MARKDOWNPREVIEWCSS = "MarkDownPreviewCss";
         public const string SPLITTERDISTANCE = "SplitterDistance";
         public const string THEME = "Theme";
-        public const string BACKUPMODE = "BackupMode";
         public const string TRASHCAN = "TRASHCAN";
         public const string TRASHCAN_TITLE = "Trashcan";
         public const string UNNAMED = "Unnamed";

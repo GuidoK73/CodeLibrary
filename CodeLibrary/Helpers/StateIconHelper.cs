@@ -9,6 +9,7 @@
         private const string _CLIPBOARDMONITOR = "clipboardmonitor";
         private const string _DEBUG = "debug";
         private const string _SELECTISCOPY = "selectiscopy";
+        private const string _BACKUPCREATING = "backup";
 
         public StateIconHelper(FormCodeLibrary mainform)
         {
@@ -19,6 +20,7 @@
             _mainform.stateIcons.AddIcon(global::CodeLibrary.Properties.Resources.paste_16x16, _CLIPBOARDMONITOR, true);
             _mainform.stateIcons.AddIcon(global::CodeLibrary.Properties.Resources.computer_edit_16x16, _DEBUG);
             _mainform.stateIcons.AddIcon(global::CodeLibrary.Properties.Resources.copy_16x16, _SELECTISCOPY, true);
+            _mainform.stateIcons.AddIcon(global::CodeLibrary.Properties.Resources.save_16x16, _BACKUPCREATING, true);
         }
 
         public bool Changed
@@ -43,6 +45,16 @@
             {
                 _mainform.stateIcons[_CLIPBOARDMONITOR] = value;
             }
+        }
+
+        public void SetBackupOn()
+        {
+            _mainform.stateIcons.SetBackupOn();
+        }
+
+        public void SetBackupOff()
+        {
+            _mainform.stateIcons.SetBackupOff();
         }
 
         public bool SelectIsCopy
