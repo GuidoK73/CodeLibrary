@@ -156,7 +156,8 @@ namespace CodeLibrary
             foreach (FileInfo fileInfo in files)
             {
                 string _target = Path.Combine(GetBackupLocation(), fileInfo.Name);
-                File.Copy(fileInfo.FullName, _target);
+                if (!File.Exists(_target))
+                    File.Copy(fileInfo.FullName, _target);
             }       
         }
 
@@ -179,7 +180,10 @@ namespace CodeLibrary
                 .Select(g => g.OrderBy(o => o.LastAccessTime).Last());
 
             foreach (FileInfo fileInfo in files)
-                fileInfo.Delete();
+            {
+                if (fileInfo.Exists)
+                    fileInfo.Delete();
+            }
         }
 
         private DateTime GeDateFromFileName(string filename)

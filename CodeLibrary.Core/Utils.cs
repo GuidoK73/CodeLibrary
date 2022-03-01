@@ -145,6 +145,7 @@ namespace CodeLibrary.Core
             }
         }
 
+
         public static string[] CsvHeader(string text, char separator)
         {
             byte[] byteArray = Encoding.Default.GetBytes(text);
@@ -809,7 +810,15 @@ namespace CodeLibrary.Core
                     }
                     else if (targetType == CodeType.MarkDown)
                     {
-                        _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
+                        if (snippet.CodeType == CodeType.MarkDown)
+                        {
+                            _result = snippet.GetCode();
+                        }
+                        else
+                        {
+                            _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
+                        }
+                        
                     }
                     else
                     {

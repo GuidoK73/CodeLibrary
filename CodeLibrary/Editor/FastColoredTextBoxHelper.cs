@@ -1,12 +1,9 @@
 ﻿using CodeLibrary.Core;
 using CodeLibrary.Editor.EditorLanguageHelpers;
-using CodeLibrary.Extensions;
 using CodeLibrary.Helpers;
 using FastColoredTextBoxNS;
 using GK.Template;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -58,9 +55,6 @@ namespace CodeLibrary.Editor
             EditorHelperFactory.Instance.Register(CodeType.VB, new VbEditorClipboardHelper(mainform, textboxHelper, themeHelper));
             EditorHelperFactory.Instance.Register(CodeType.XML, new XmlEditorClipboardHelper(mainform, textboxHelper, themeHelper));
             EditorHelperFactory.Instance.Register(CodeType.HTML, new HtmlEditorClipboardHelper(mainform, textboxHelper, themeHelper));
-
-
-
         }
 
         public ITextEditor Editor
@@ -171,7 +165,6 @@ namespace CodeLibrary.Editor
             var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
             _helper.PasteAdvanced();
         }
-
 
         public void Paste()
         {
@@ -322,8 +315,8 @@ namespace CodeLibrary.Editor
                                 _sb.Append(_text);
                                 _text = _sb.ToString();
                             }
-                        } 
-                        else 
+                        }
+                        else
                         {
                             StringBuilder _sb = new StringBuilder();
                             _sb.Append("<style>\r\n");
@@ -407,7 +400,14 @@ namespace CodeLibrary.Editor
             if (!skipDialog)
             {
                 SaveFileDialog _dialog = new SaveFileDialog();
-                _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+                if (exportType == ExportType.Pdf)
+                {
+                    _dialog.Filter = $"*.pdf|*.pdf";
+                }
+                else
+                {
+                    _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}";
+                }
                 if (_StateSnippet.CodeType == CodeType.MarkDown)
                 {
                     _dialog.Filter = $"*.{_exportExtension}|*.{_exportExtension}|*.html|*.html";
