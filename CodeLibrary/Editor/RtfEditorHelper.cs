@@ -159,6 +159,12 @@ namespace CodeLibrary.Editor
             return false;
         }
 
+        public bool ImportKnownFile()
+        {
+            return true;
+        }
+
+
         public bool ExportToFile(bool saveAs)
         {
             string _exportExtension = "rtf";

@@ -17,7 +17,6 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         protected readonly FastColoredTextBox _tb;
         protected readonly TextBoxHelper _TextBoxHelper;
         protected readonly ThemeHelper _ThemeHelper;
-        protected CodeSnippet _StateSnippet;
 
         public EditorClipboardHelperBase(FormCodeLibrary mainform, TextBoxHelper textboxHelper, ThemeHelper themeHelper)
         {
@@ -25,6 +24,14 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             _tb = _mainform.fastColoredTextBox;
             _TextBoxHelper = textboxHelper;
             _ThemeHelper = themeHelper;
+        }
+
+        public CodeSnippet StateSnippet
+        {
+            get
+            {
+                return _TextBoxHelper.StateSnippet;
+            }
         }
 
         protected string SelectedText
@@ -39,54 +46,49 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             }
         }
 
-        public void SetState(CodeSnippet snippet)
-        {
-            _StateSnippet = snippet;
-        }
-
         public void Paste()
         {
             try
             {
                 if (Clipboard.ContainsText() && Clipboard.ContainsImage())
                 {
-                    PasteTextImage();
+                    Paste_TextImage();
                     return;
                 }
                 if (Clipboard.ContainsImage())
                 {
-                    PasteImage();
+                    Paste_Image();
                     return;
                 }
                 if (Clipboard.ContainsFileDropList())
                 {
-                    PasteFileDropList();
+                    Paste_FileDropList();
                     return;
                 }
                 if (Clipboard.ContainsText())
                 {
-                    PasteText();
+                    Paste_Text();
                     return;
                 }
             }
-            catch 
+            catch
             { }
         }
 
-        protected virtual void PasteTextImage()
+        protected virtual void Paste_TextImage()
         {
             string _text = Clipboard.GetText();
             this.SelectedText = _text;
         }
 
-        protected virtual void PasteImage()
+        protected virtual void Paste_Image()
         {
             Image _image = Clipboard.GetImage();
             string _id = _mainform._treeHelper.AddImageNode(_mainform._treeHelper.SelectedNode, _image);
             SelectedText = $"#[{_id}]#";
         }
 
-        protected virtual void PasteFileDropList()
+        protected virtual void Paste_FileDropList()
         {
             List<string> items = new List<string>();
             foreach (string s in Clipboard.GetFileDropList())
@@ -95,7 +97,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             }
             if (items.Count > 0)
             {
-                TreeNode _parentNode = CodeLib.Instance.TreeNodes.Get(_StateSnippet.Id);
+                TreeNode _parentNode = CodeLib.Instance.TreeNodes.Get(StateSnippet.Id);
                 List<string> _ids = _mainform._treeHelper.AddFiles(_parentNode, items.ToArray(), false);
                 StringBuilder _sb = new StringBuilder();
 
@@ -107,56 +109,55 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             }
         }
 
-        protected virtual void PasteText()
+        protected virtual void Paste_Text()
         {
             _tb.Paste();
         }
 
-        public void PasteAdvanced()
+        public void Paste_CtrlShift()
         {
             try
             {
                 if (Clipboard.ContainsText() && Clipboard.ContainsImage())
                 {
-                    PasteAdvancedTextImage();
+                    Paste_CtrlShift_TextImage();
                     return;
                 }
                 if (Clipboard.ContainsImage())
                 {
-                    PasteAdvancedImage();
+                    Paste_CtrlShift_Image();
                     return;
                 }
                 if (Clipboard.ContainsFileDropList())
                 {
-                    PasteAdvancedFileDropList();
+                    Paste_CtrlShift_FileDropList();
                     return;
                 }
                 if (Clipboard.ContainsText())
                 {
-                    PasteAdvancedText();
+                    Paste_CtrlShift_Text();
                     return;
                 }
             }
             catch
             {
-
             }
         }
 
-        protected virtual void PasteAdvancedTextImage()
+        protected virtual void Paste_CtrlShift_TextImage()
         {
             string _text = Clipboard.GetText();
             this.SelectedText = _text;
         }
 
-        protected virtual void PasteAdvancedImage()
+        protected virtual void Paste_CtrlShift_Image()
         {
             Image _image = Clipboard.GetImage();
             string _base64 = Convert.ToBase64String(_image.ConvertImageToByteArray());
             SelectedText = _base64;
         }
 
-        protected virtual void PasteAdvancedFileDropList()
+        protected virtual void Paste_CtrlShift_FileDropList()
         {
             List<string> _filenames = new List<string>();
             foreach (string s in Clipboard.GetFileDropList())
@@ -205,9 +206,109 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             SelectedText = _sb.ToString();
         }
 
-        protected virtual void PasteAdvancedText()
+        protected virtual void Paste_CtrlShift_Text()
         {
             _tb.Paste();
         }
+
+        public void Paste_CtrlAltShift()
+        {
+            try
+            {
+                if (Clipboard.ContainsText() && Clipboard.ContainsImage())
+                {
+                    Paste_CtrlAltShift_TextImage();
+                    return;
+                }
+                if (Clipboard.ContainsImage())
+                {
+                    Paste_CtrlAltShift_Image();
+                    return;
+                }
+                if (Clipboard.ContainsFileDropList())
+                {
+                    Paste_CtrlAltShift_FileDropList();
+                    return;
+                }
+                if (Clipboard.ContainsText())
+                {
+                    Paste_CtrlAltShift_Text();
+                    return;
+                }
+            }
+            catch
+            {
+            }
+        }
+
+
+        protected virtual void Paste_CtrlAltShift_TextImage()
+        {
+            string _text = Clipboard.GetText();
+            this.SelectedText = _text;
+        }
+
+        protected virtual void Paste_CtrlAltShift_Image()
+        {
+            Image _image = Clipboard.GetImage();
+            string _base64 = Convert.ToBase64String(_image.ConvertImageToByteArray());
+            SelectedText = _base64;
+        }
+
+        protected virtual void Paste_CtrlAltShift_FileDropList()
+        {
+            List<string> _filenames = new List<string>();
+            foreach (string s in Clipboard.GetFileDropList())
+            {
+                _filenames.Add(s);
+            }
+
+            StringBuilder _sb = new StringBuilder();
+
+            foreach (string _filename in _filenames)
+            {
+                FileInfo _file = new FileInfo(_filename);
+                var _type = LocalUtils.CodeTypeByExtension(_file);
+
+                switch (_type)
+                {
+                    case CodeType.Image:
+                        byte[] _imageData = File.ReadAllBytes(_filename);
+                        string _base64 = Convert.ToBase64String(_imageData);
+                        SelectedText = _base64;
+                        break;
+
+                    case CodeType.CSharp:
+                    case CodeType.HTML:
+                    case CodeType.MarkDown:
+                    case CodeType.JS:
+                    case CodeType.Lua:
+                    case CodeType.PHP:
+                    case CodeType.VB:
+                    case CodeType.None:
+                    case CodeType.SQL:
+                    case CodeType.XML:
+                    case CodeType.Template:
+                    case CodeType.RTF:
+                        string _text = File.ReadAllText(_filename);
+                        CodeType _codeType = LocalUtils.CodeTypeByExtension(new FileInfo(_filename));
+                        _sb.AppendLine(string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", Core.Utils.CodeTypeToString(_codeType), _text));
+                        _sb.AppendLine();
+                        break;
+
+                    case CodeType.System:
+                    case CodeType.UnSuported:
+                        break;
+                }
+            }
+            SelectedText = _sb.ToString();
+        }
+
+        protected virtual void Paste_CtrlAltShift_Text()
+        {
+            _tb.Paste();
+        }
+
+
     }
 }

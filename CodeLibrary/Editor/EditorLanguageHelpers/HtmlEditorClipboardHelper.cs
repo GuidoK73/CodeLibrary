@@ -16,7 +16,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
         }
 
-        protected override void PasteAdvancedFileDropList()
+        protected override void Paste_CtrlShift_FileDropList()
         {
             List<string> _filenames = new List<string>();
             foreach (string s in Clipboard.GetFileDropList())
@@ -30,12 +30,14 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             {
                 FileInfo _file = new FileInfo(_filename);
                 var _type = LocalUtils.CodeTypeByExtension(_file);
+                byte[] _fileData;
+                string _base64;
 
                 switch (_type)
                 {
                     case CodeType.Image:
-                        byte[] _imageData = File.ReadAllBytes(_filename);
-                        string _base64 = Convert.ToBase64String(_imageData);
+                        _fileData = File.ReadAllBytes(_filename);
+                        _base64 = Convert.ToBase64String(_fileData);
                         _sb.AppendLine(string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64));
                         _sb.AppendLine();
                         break;
@@ -50,48 +52,81 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                     case CodeType.None:
                     case CodeType.SQL:
                     case CodeType.XML:
-                    case CodeType.Template:
-                    case CodeType.RTF:
                         string _text = File.ReadAllText(_filename);
                         CodeType _codeType = LocalUtils.CodeTypeByExtension(new FileInfo(_filename));
                         _sb.AppendLine(string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", Core.Utils.CodeTypeToString(_codeType), _text));
                         _sb.AppendLine();
                         break;
 
+                    case CodeType.Template:
+                        string _csv = File.ReadAllText(_filename);
+
+                        bool _isCsv = Core.Utils.GetCsvSeparator(_csv, out char _separator);
+                        if (_isCsv)
+                        {
+                            if (Core.Utils.isReorderString(SelectedText))
+                            {
+                                string _reorderString = SelectedText;
+                                _csv = Core.Utils.CsvChange(_csv, _separator, _separator, _reorderString);
+                            }
+
+                            _csv = Core.Utils.CsvToMdTable(_csv, _separator);
+
+                            MarkDigWrapper _wrapper = new MarkDigWrapper();
+
+                            _sb.AppendLine();
+                            _sb.AppendLine(_wrapper.Transform(_csv));
+                            _sb.AppendLine();
+                            return;
+                        }
+
+                        break;
+
                     case CodeType.System:
+                        break;
+
+                    case CodeType.RTF:
                     case CodeType.UnSuported:
+                        _fileData = File.ReadAllBytes(_filename);
+                        _base64 = Convert.ToBase64String(_fileData);
+                        FileInfo _fileInfo = new FileInfo(_filename);
+                        _sb.AppendLine(string.Format(@"Download: <a href=""data:application/{2};base64,{0}"">{1}</a>", _base64, _fileInfo.Name, _fileInfo.Extension.TrimStart(new char[] { '.' })));
+                        _sb.AppendLine();
                         break;
                 }
             }
             SelectedText = _sb.ToString();
-
         }
 
-        protected override void PasteAdvancedImage()
+        protected override void Paste_CtrlShift_Image()
         {
             Image _image = Clipboard.GetImage();
             string _base64 = Convert.ToBase64String(_image.ConvertImageToByteArray());
             SelectedText = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
         }
 
-        protected override void PasteAdvancedText()
+        protected override void Paste_CtrlShift_Text()
         {
             MarkDigWrapper _wrapper = new MarkDigWrapper();
             string _text = Clipboard.GetText();
-            char _separator = ' ';
-            string _data = string.Empty;
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out _separator);
+            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
             if (_isCsv)
             {
-                _text = Core.Utils.CsvToMdTable(_text , _separator);
+                if (Core.Utils.isReorderString(SelectedText))
+                {
+                    string _reorderString = SelectedText;
+                    _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+                }
+
+                _text = Core.Utils.CsvToMdTable(_text, _separator);
                 SelectedText = _wrapper.Transform(_text);
                 return;
             }
-            base.PasteText();
+            base.Paste_Text();
         }
 
-        protected override void PasteAdvancedTextImage()
+        protected override void Paste_CtrlShift_TextImage()
         {
             MarkDigWrapper _wrapper = new MarkDigWrapper();
             string _text = Clipboard.GetText();
@@ -106,5 +141,32 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                 return;
             }
         }
+
+        protected override void Paste_CtrlAltShift_TextImage() => Paste_CtrlShift_TextImage();
+
+        protected override void Paste_CtrlAltShift_Image() => Paste_CtrlShift_Image();
+
+        protected override void Paste_CtrlAltShift_FileDropList() => Paste_CtrlShift_FileDropList();
+
+        protected override void Paste_CtrlAltShift_Text()
+        {
+            MarkDigWrapper _wrapper = new MarkDigWrapper();
+            string _text = Clipboard.GetText();
+            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
+            if (_isCsv)
+            {
+                if (Core.Utils.isReorderString(SelectedText))
+                {
+                    string _reorderString = SelectedText;
+                    _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+                }
+
+                _text = Core.Utils.CsvToMdTableNoHeader(_text, _separator);
+                SelectedText = _wrapper.Transform(_text);
+                return;
+            }
+            base.Paste_Text();
+        }
+
     }
 }

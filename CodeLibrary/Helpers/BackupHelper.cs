@@ -1,5 +1,4 @@
 ﻿using CodeLibrary.Core;
-using CodeLibrary.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +13,6 @@ namespace CodeLibrary
         private string _patternDate = $"[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9]";
         private Regex _regExDate;
         private FormCodeLibrary _mainForm;
-
 
         public BackupHelper(string currentFile) : this(currentFile, null)
         {
@@ -35,7 +33,6 @@ namespace CodeLibrary
 
         public void Backup()
         {
-            
             if (!CurrentFile.Exists)
                 return;
 
@@ -82,7 +79,7 @@ namespace CodeLibrary
             Regex _regEx = new Regex(_pattern);
 
             DirectoryInfo _directory = new DirectoryInfo(GetBackupLocation());
-            
+
             foreach (FileInfo file in _directory.GetFiles())
             {
                 if (_regEx.Match(file.Name).Success)
@@ -101,7 +98,6 @@ namespace CodeLibrary
                 }
             }
         }
-
 
         private void DeleteOlderbackupFiles(string directory, string name, int days)
         {
@@ -131,14 +127,12 @@ namespace CodeLibrary
 
             string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
 
-
             IEnumerable<FileInfo> files = file.Directory.GetFiles()
                 .Where(p => Utils.MatchPattern(p.Name, pattern));
 
             foreach (FileInfo fileInfo in files)
                 fileInfo.Delete();
         }
-
 
         private void backupFiles(string directory, string name)
         {
@@ -149,7 +143,6 @@ namespace CodeLibrary
 
             string pattern = $"{file.Name.Replace($".{file.Extension}", string.Empty)}_*.bak";
 
-
             IEnumerable<FileInfo> files = file.Directory.GetFiles()
                 .Where(p => Utils.MatchPattern(p.Name, pattern));
 
@@ -158,12 +151,11 @@ namespace CodeLibrary
                 string _target = Path.Combine(GetBackupLocation(), fileInfo.Name);
                 if (!File.Exists(_target))
                     File.Copy(fileInfo.FullName, _target);
-            }       
+            }
         }
 
         private void DeleteOlderbackupFilesKeepOnePerDay(string directory, string name, int days)
         {
-
             FileInfo file = new FileInfo(Path.Combine(directory, name));
 
             if (!file.Directory.Exists)
@@ -212,7 +204,8 @@ namespace CodeLibrary
 
             _mainForm._stateIconHelper.SetBackupOn();
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 try
                 {
                     // Copy backups to target location
@@ -228,12 +221,10 @@ namespace CodeLibrary
                 }
                 catch
                 {
-
                 }
             });
 
             _mainForm._stateIconHelper.SetBackupOff();
-
 
             _started = false;
         }

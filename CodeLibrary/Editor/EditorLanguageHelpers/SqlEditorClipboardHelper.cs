@@ -14,13 +14,13 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
         }
 
-        protected override void PasteAdvancedText()
+        protected override void Paste_CtrlShift_Text()
         {
             bool b = Do();
             if (b)
                 return;
 
-            base.PasteAdvancedText();
+            base.Paste_CtrlShift_Text();
         }
 
         private bool Do()
@@ -28,7 +28,6 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             string _text = Clipboard.GetText();
             _text = Core.Utils.TrimText(_text, "\r\n");
 
-            string _data = string.Empty;
             bool _first = true;
             string[] _header = new string[0];
 
@@ -38,6 +37,12 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
             if (!_isCsv)
                 return false;
+
+            if (Core.Utils.isReorderString(SelectedText))
+            {
+                string _reorderString = SelectedText;
+                _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+            }
 
             byte[] byteArray = Encoding.Default.GetBytes(_text);
             using (MemoryStream _stream = new MemoryStream(byteArray))
@@ -81,14 +86,24 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             return true;
         }
 
-        protected override void PasteAdvancedTextImage()
+        protected override void Paste_CtrlShift_TextImage()
         {
             bool b = Do();
             if (b)
                 return;
 
 
-            base.PasteAdvancedTextImage();
+            base.Paste_CtrlShift_TextImage();
+        }
+
+        protected override void Paste_CtrlAltShift_TextImage()
+        {
+            bool b = Do();
+            if (b)
+                return;
+
+
+            base.Paste_CtrlAltShift_TextImage();
         }
 
 

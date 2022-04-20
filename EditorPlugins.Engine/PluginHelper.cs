@@ -76,6 +76,13 @@ namespace EditorPlugins.Engine
                 return;
 
             var _json = Utils.ToJson(_keyValuePairs);
+
+            FileInfo _filename = new FileInfo(Filename());
+            if (!_filename.Directory.Exists)
+            {
+                Directory.CreateDirectory(_filename.Directory.FullName);
+            }
+                
             File.WriteAllText(Filename(), _json);
         }
 

@@ -117,7 +117,53 @@ namespace CodeLibrary.Core
             }
         }
 
-        public static string CsvChange(string text, char separator, char newSeparator)
+
+        public static bool isReorderString(string text)
+        {
+            string[] _reorderString = text.Split(new char[] { ',' });
+
+            if (_reorderString.Length == 0)
+                return false;
+
+            foreach (string item in _reorderString)
+            {
+                if (!IsNumeric(item))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool IsNumeric(this string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            Char[] chars = s.ToCharArray();
+            for (int ii = 0; ii < chars.Length; ii++)
+            {
+                if (!Char.IsDigit(chars[ii]))
+                    return false;
+            }
+            return true;
+        }
+
+        public static string CsvChange(string text, char separator, char newSeparator, string reorder)
+        {
+            if (!string.IsNullOrEmpty(reorder))
+            {
+                string[] _reorderString = reorder.Split(new char[] { ',' });
+                int[] _reorder = new int[_reorderString.Length];
+                for (int ii = 0; ii < _reorder.Length; ii++)
+                {
+                    _reorder[ii] = Convert.ToInt32(_reorderString[ii]);
+                }
+                return CsvChange(text, separator, newSeparator, _reorder);
+            }
+            return CsvChange(text, separator, newSeparator);
+        }
+
+
+        public static string CsvChange(string text, char separator, char newSeparator, params int[] reorder)
         {
             byte[] byteArray = Encoding.Default.GetBytes(text);
             using (MemoryStream _inputStream = new MemoryStream(byteArray))
@@ -134,8 +180,21 @@ namespace CodeLibrary.Core
                                 _writer.Separator = newSeparator;
                                 while (!_reader.EndOfCsvStream)
                                 {
-                                    var _items = _reader.ReadCsvLine();
-                                    _writer.WriteCsvLine(_items);
+                                    var _items = _reader.ReadCsvLine().ToArray();
+                                    
+                                    if (reorder != null && reorder.Length <= _items.Length && reorder.Max(p => p) <= _items.Length)
+                                    {
+                                        var _newItems = new string[reorder.Count()];
+                                        for (int ii = 0; ii < reorder.Length;ii++)
+                                        {
+                                            _newItems[ii] = _items[reorder[ii]];
+                                        }
+                                        _writer.WriteCsvLine(_newItems);
+                                    }
+                                    else
+                                    {
+                                        _writer.WriteCsvLine(_items);
+                                    }                                   
                                 }
                                 return StreamToString(_outputStream);
                             }
@@ -144,6 +203,8 @@ namespace CodeLibrary.Core
                 }
             }
         }
+
+
 
 
         public static string[] CsvHeader(string text, char separator)
@@ -158,6 +219,102 @@ namespace CodeLibrary.Core
                 }
             }
         }
+
+        public static string CsvToJSon(string text, char separator)
+        {
+            string[] _header = CsvHeader(text, separator);
+
+
+            StringBuilder _sb = new StringBuilder();
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            int _columnCount = 0;
+            bool _first = true;
+            using (MemoryStream _stream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
+                {
+                    _reader.Separator = separator;
+                    _sb.Append("[\r\n");
+                    while (!_reader.EndOfCsvStream)
+                    {
+                        string[] _items = _reader.ReadCsvLine().ToArray();
+                        if (_items.Length > 1)
+                        {
+                            if (!_first)
+                            {
+                                if (_items.Length != _columnCount)
+                                {
+                                    continue;
+                                }
+                                _sb.Append("\t{\r\n");
+                                for (int ii = 0; ii < _items.Length; ii++)
+                                {
+                                    _sb.Append($"\t\t\"{_header[ii].Replace("\"", "\\\"")}\": \"{_items[ii].Replace("\"", "\\\"")}\",\r\n");
+                                }
+                                _sb.Length = _sb.Length -3;
+                                _sb.Append("\r\n\t},\r\n");
+                            }
+                            else
+                            {
+                                _columnCount = _items.Length;
+                                _first = false;
+                            }
+                        }
+                    }
+                    _sb.Length = _sb.Length - 3;
+                    _sb.Append("\r\n]\r\n");
+                }
+            }
+            return _sb.ToString();
+        }
+
+
+        public static string CsvToJSonNoHeader(string text, char separator)
+        {
+            StringBuilder _sb = new StringBuilder();
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            int _columnCount = 0;
+            bool _first = true;
+            using (MemoryStream _stream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
+                {
+                    _reader.Separator = separator;
+                    _sb.Append("[\r\n");
+                    while (!_reader.EndOfCsvStream)
+                    {
+                        string[] _items = _reader.ReadCsvLine().ToArray();
+                        if (_items.Length > 1)
+                        {
+                            if (!_first)
+                            {
+                                if (_items.Length != _columnCount)
+                                {
+                                    continue;
+                                }
+                                _sb.Append("\t[");
+                                for (int ii = 0; ii < _items.Length; ii++)
+                                {
+                                    _sb.Append($"\"{_items[ii].Replace("\"", "\\\"")}\",");
+                                }
+                                _sb.Length = _sb.Length - 1;
+                                _sb.Append("],\r\n");
+                            }
+                            else
+                            {
+                                _columnCount = _items.Length;
+                                _first = false;
+                            }
+                        }
+                    }
+                    _sb.Length = _sb.Length - 3;
+                    _sb.Append("\r\n]\r\n");
+                }
+            }
+            return _sb.ToString();
+        }
+
+
 
         public static string CsvToMdTable(string text, char separator)
         {
@@ -206,6 +363,64 @@ namespace CodeLibrary.Core
             }
             return _sb.ToString();
         }
+
+        public static string CsvToMdTableNoHeader(string text, char separator)
+        {
+            StringBuilder _sb = new StringBuilder();
+            byte[] byteArray = Encoding.Default.GetBytes(text);
+            int _columnCount = 0;
+            bool _first = true;
+            using (MemoryStream _stream = new MemoryStream(byteArray))
+            {
+                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
+                {
+                    _reader.Separator = separator;
+                    while (!_reader.EndOfCsvStream)
+                    {
+                        string[] _items = _reader.ReadCsvLine().ToArray();
+
+                        if (_first)
+                        {
+                            _columnCount = _items.Length;
+                            _first = false;
+
+                            string[] _header = new string[_items.Length];
+                            for (int ii = 0; ii < _header.Length; ii++)
+                            {
+                                _header[ii] = $" ";
+                            }                            
+                            _sb.Append("|");
+                            _sb.Append(String.Join("|", _header));
+                            _sb.Append("|\r\n");
+                            for (int ii = 0; ii < _header.Length; ii++)
+                            {
+                                _header[ii] = ":-";
+                            }
+                            _sb.Append("|");
+                            _sb.Append(String.Join("|", _header));
+                            _sb.Append("|\r\n");
+                        }
+
+
+                        if (_items.Length > 1)
+                        {
+  
+                            if (_items.Length != _columnCount)
+                            {
+                                continue;
+                            }
+                            _sb.Append("|");
+                            _sb.Append(String.Join("|", _items));
+                            _sb.Append("|\r\n");
+                             
+                        }
+                        _columnCount = _items.Length;
+                    }
+                }
+            }
+            return _sb.ToString();
+        }
+
 
         public static string DecompressString(string s)
         {
@@ -1069,6 +1284,64 @@ namespace CodeLibrary.Core
                 }
             }
             return true;
+        }
+
+
+        public static string CamelCaseLower(string name)
+        {
+            StringBuilder result = new StringBuilder();
+            char[] chars = name.ToCharArray();
+            bool nextCap = false;
+            bool isFirst = true;
+            foreach (char c in chars)
+            {
+                if (char.IsLetter(c))
+                {
+                    if (isFirst)
+                    {
+                        result.Append(char.ToLower(c));
+                        isFirst = false;
+                        continue;
+                    }
+                    if (nextCap)
+                    {
+                        result.Append(char.ToUpper(c));
+                        nextCap = false;
+                    }
+                    else
+                        result.Append(c);
+                }
+                else
+                    nextCap = true;
+                if (nextCap)
+                    continue;
+            }
+            return result.ToString();
+        }
+
+        public static string CamelCaseUpper(string name)
+        {
+            StringBuilder result = new StringBuilder();
+            char[] chars = name.ToCharArray();
+            bool nextCap = true;
+            foreach (char c in chars)
+            {
+                if (char.IsLetter(c))
+                {
+                    if (nextCap)
+                    {
+                        result.Append(char.ToUpper(c));
+                        nextCap = false;
+                    }
+                    else
+                        result.Append(c);
+                }
+                else
+                    nextCap = true;
+                if (nextCap)
+                    continue;
+            }
+            return result.ToString();
         }
     }
 }

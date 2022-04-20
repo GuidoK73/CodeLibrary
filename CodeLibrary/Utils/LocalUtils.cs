@@ -89,6 +89,10 @@ namespace CodeLibrary
                 case "png":
                 case "bmp":
                     return CodeType.Image;
+
+                case "csv":
+                    return CodeType.Template;
+
             }
             return CodeType.UnSuported;
         }

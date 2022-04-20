@@ -13,29 +13,54 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
         }
 
-        protected override void PasteAdvancedText()
+        protected override void Paste_CtrlShift_Text()
         {
-            bool b = Do();
+            bool b = Do(false);
             if (b)
                 return;
 
-            base.PasteAdvancedText();
+            base.Paste_CtrlShift_Text();
         }
 
-        private bool Do()
+        protected override void Paste_CtrlAltShift_Text()
+        {
+            bool b = Do(true);
+            if (b)
+                return;
+
+            base.Paste_CtrlShift_Text();
+        }
+
+        private bool Do(bool noHeader)
         {
             string _text = Clipboard.GetText();
             _text = Core.Utils.TrimText(_text, "\r\n");
 
             string _data = string.Empty;
             bool _first = true;
-            string[] _header = new string[0];
+            
 
             StringBuilder _sb = new StringBuilder();
 
             bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
             if (!_isCsv)
                 return false;
+
+
+            if (Core.Utils.isReorderString(SelectedText))
+            {
+                string _reorderString = SelectedText;
+                _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+            }
+
+            string[] _header = Core.Utils.CsvHeader(_text, _separator);
+            if (noHeader)
+            {
+                for (int ii = 0; ii < _header.Length; ii++)
+                {
+                    _header[ii] = $"Field_{ii}";
+                }
+            }
 
             byte[] byteArray = Encoding.Default.GetBytes(_text);
             using (MemoryStream _stream = new MemoryStream(byteArray))
@@ -45,12 +70,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                     _reader.Separator = _separator;
                     while (!_reader.EndOfCsvStream)
                     {
-                        if (_first)
-                        {
-                            _header = _reader.ReadCsvLine().ToArray();
-                            _first = false;
-                        }
-                        else
+                        if (_first == false || noHeader)
                         {
                             _sb.Append("<item>\r\n");
                             string[] _items = _reader.ReadCsvLine().ToArray();
@@ -59,6 +79,10 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                                 _sb.Append($"\t<{_header[ii]}>{_items[ii]}</{_header[ii]}>\r\n");
                             }
                             _sb.Append("</item>\r\n");
+                        }
+                        if (_first == true)
+                        {
+                            _first = false;
                         }
                     }
                 }
@@ -69,13 +93,22 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             return true;
         }
 
-        protected override void PasteAdvancedTextImage()
+        protected override void Paste_CtrlShift_TextImage()
         {
-            bool b = Do();
+            bool b = Do(false);
             if (b)
                 return;
 
-            base.PasteAdvancedTextImage();
+            base.Paste_CtrlShift_TextImage();
+        }
+
+        protected override void Paste_CtrlAltShift_TextImage()
+        {
+            bool b = Do(true);
+            if (b)
+                return;
+
+            base.Paste_CtrlShift_TextImage();
         }
     }
 }

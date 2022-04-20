@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -21,7 +22,7 @@ namespace CodeLibrary.PluginPack
 
         public void Apply(ISelInfo sel)
         {
-            sel.SelectedText = evaluateExpression(sel.SelectedText).ToString();
+            sel.SelectedText = evaluateExpression(sel.SelectedText).ToString(CultureInfo.InvariantCulture);
         }
 
         public bool Configure()

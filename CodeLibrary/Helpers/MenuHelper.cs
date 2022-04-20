@@ -48,6 +48,7 @@ namespace CodeLibrary.Helpers
             _mainform.mnuExportNoteToPdf.Click += MnuExportNoteToPdf_Click;
             _mainform.mnuExportNoteToFileAs.Click += MnuExportNoteToFileAs_Click;
             _mainform.mnuExportNoteToFile.Click += MnuExportNoteToFile_Click;
+            _mainform.mnuImportKnownFile.Click += MnuImportKnownFile_Click;
 
             _mainform.mncCopyAsHtml.Click += MncCopyAsHtml_Click;
             _mainform.mnuCopyAsHtml.Click += MncCopyAsHtml_Click;
@@ -70,6 +71,10 @@ namespace CodeLibrary.Helpers
             _treeviewHelper.TextBoxHelper.ExportToFile(false);
         }
 
+        private void MnuImportKnownFile_Click(object sender, EventArgs e)
+        {
+            _treeviewHelper.TextBoxHelper.ExportToFile(false);
+        }
 
         private void MnuExportNoteToPdf_Click(object sender, EventArgs e)
         {

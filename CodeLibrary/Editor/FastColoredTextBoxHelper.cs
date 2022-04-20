@@ -43,7 +43,7 @@ namespace CodeLibrary.Editor
 
             EditorHelperFactory.Instance.Register(CodeType.CSharp, new CSharpEditorClipboardHelper(mainform, textboxHelper, themeHelper));
             EditorHelperFactory.Instance.Register(CodeType.Folder, new TextEditorClipboardHelper(mainform, textboxHelper, themeHelper));
-            EditorHelperFactory.Instance.Register(CodeType.JS, new TemplateEditorClipboardHelper(mainform, textboxHelper, themeHelper));
+            EditorHelperFactory.Instance.Register(CodeType.JS, new JSEditorClipboardHelper(mainform, textboxHelper, themeHelper));
             EditorHelperFactory.Instance.Register(CodeType.Lua, new LuaEditorClipboardHelper(mainform, textboxHelper, themeHelper));
             EditorHelperFactory.Instance.Register(CodeType.MarkDown, new MarkdownEditorLClipboardHelper(mainform, textboxHelper, themeHelper));
             EditorHelperFactory.Instance.Register(CodeType.None, new TextEditorClipboardHelper(mainform, textboxHelper, themeHelper));
@@ -160,10 +160,17 @@ namespace CodeLibrary.Editor
 
         public string Merge() => Core.Utils.Merge(Text, _StateSnippet.CodeType);
 
-        public void PasteAdvanced()
+
+        public void Paste_CtrlAltShift()
         {
             var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
-            _helper.PasteAdvanced();
+            _helper.Paste_CtrlAltShift();
+        }
+
+        public void Paste_CtrlShift()
+        {
+            var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
+            _helper.Paste_CtrlShift();
         }
 
         public void Paste()
@@ -286,39 +293,60 @@ namespace CodeLibrary.Editor
                         MarkDigWrapper _markdown = new MarkDigWrapper();
                         string _text = Merge(_tb.Text, CodeType.MarkDown);
                         _text = _markdown.Transform(_text);
+                        StringBuilder _sb = new StringBuilder();
 
                         if (Config.MarkdownCssPreviewStyle == CssStyle.None)
                         {
-                            if (Config.Theme != ETheme.Light)
+                            switch (Config.Theme)
                             {
-                                StringBuilder _sb = new StringBuilder();
-                                _sb.Append("<body style =\"background-color:#333333;color:#cccccc;font-family:Arial\"></body>\r\n");
-                                _sb.Append("<style>");
-                                _sb.Append("a:link { color: green; background-color: transparent; text-decoration: none; }");
-                                _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
-                                _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
-                                _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
-                                _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
-                                _sb.Append("</style>");
-                                _sb.Append(_text);
-                                _text = _sb.ToString();
-
-                                _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
-                            }
-                            else
-                            {
-                                StringBuilder _sb = new StringBuilder();
-                                _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
-                                _sb.Append("<style>");
-                                _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
-                                _sb.Append("</style>");
-                                _sb.Append(_text);
-                                _text = _sb.ToString();
+                                case ETheme.Dark:
+                                    _sb = new StringBuilder();
+                                    _sb.Append("<body style =\"background-color:#333333;color:#cccccc;font-family:Arial\"></body>\r\n");
+                                    _sb.Append("<style>");
+                                    _sb.Append("a:link { color: green; background-color: transparent; text-decoration: none; }");
+                                    _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
+                                    _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
+                                    _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
+                                    _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
+                                    _sb.Append(".container { position: relative;left: 20px; width:auto; margin: auto; }");
+                                    _sb.Append("</style>");
+                                    _sb.Append("<div class=\"container\">");
+                                    _sb.Append(_text);
+                                    _sb.Append("</div>");
+                                    _text = _sb.ToString();
+                                    _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+                                    break;
+                                case ETheme.HighContrast:
+                                    _sb = new StringBuilder();
+                                    _sb.Append("<body style =\"background-color:#000000;color:#cccccc;font-family:Arial\"></body>\r\n");
+                                    _sb.Append("<style>");
+                                    _sb.Append("a:link { color: green; background-color: transparent; text-decoration: none; }");
+                                    _sb.Append("a:visited { color: lightgreen; background-color: transparent; text-decoration: none; }");
+                                    _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
+                                    _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
+                                    _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
+                                    _sb.Append(".container { position: relative;left: 20px; width:auto; margin: auto; }");
+                                    _sb.Append("</style>");
+                                    _sb.Append("<div class=\"container\">");
+                                    _sb.Append(_text);
+                                    _sb.Append("</div>");
+                                    _text = _sb.ToString();
+                                    _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+                                    break;
+                                case ETheme.Light:
+                                    _sb = new StringBuilder();
+                                    _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
+                                    _sb.Append("<style>");
+                                    _sb.Append("table, th, td { border: 1px solid black; border-collapse: collapse; padding:4px; }");
+                                    _sb.Append("</style>");
+                                    _sb.Append(_text);
+                                    _text = _sb.ToString();
+                                    break;
                             }
                         }
                         else
                         {
-                            StringBuilder _sb = new StringBuilder();
+                            _sb = new StringBuilder();
                             _sb.Append("<style>\r\n");
                             _sb.Append(CssStyles.GetCSS(Config.MarkdownCssPreviewStyle));
                             _sb.Append("</style>\r\n");
@@ -374,6 +402,23 @@ namespace CodeLibrary.Editor
         {
             return Export(ExportType.File, saveAs);
         }
+
+        public bool ImportKnownFile()
+        {
+            if (string.IsNullOrWhiteSpace(_StateSnippet.ExportPath))
+            {
+                return false;
+            }
+            if (!File.Exists(_StateSnippet.ExportPath))
+            {
+                return false;
+            }
+
+            Text = File.ReadAllText(_StateSnippet.ExportPath);
+
+            return true;
+        }
+
 
         private bool Export(ExportType exportType, bool saveAs)
         {
@@ -537,10 +582,19 @@ namespace CodeLibrary.Editor
             if (DocShortCut(e))
                 return;
 
+            if (e.Control && e.Shift && e.Alt && e.KeyValue == 86)
+            {
+                Paste_CtrlAltShift();
+                return;
+            }
+
             if (e.Control && e.Shift && e.KeyValue == 86)
             {
-                PasteAdvanced();
+                Paste_CtrlShift();
+                return;
             }
+
+
 
             if (string.IsNullOrEmpty(tb.SelectedText))
                 return;

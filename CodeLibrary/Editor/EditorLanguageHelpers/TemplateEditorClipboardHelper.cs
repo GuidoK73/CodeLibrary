@@ -9,23 +9,31 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
         }
 
-        protected override void PasteAdvancedText()
+        protected override void Paste_CtrlShift_Text()
         {
             string _text = Clipboard.GetText();
             _text = Core.Utils.TrimText(_text, "\r\n");
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
+            char _separator = ' ';
+            string _data = string.Empty;
+
+            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out _separator);
             if (_isCsv)
             {
-                string _data = Core.Utils.CsvChange(_text, _separator, ';');
-                SelectedText = _data;
+                string _reorderString = null;
+                if (Core.Utils.isReorderString(SelectedText))
+                {
+                    _reorderString = SelectedText;
+                }
+
+                _data = Core.Utils.CsvChange(_text, _separator, ';', _reorderString);
+                this.SelectedText = _data;
                 return;
             }
-
-            base.PasteText();
+            base.Paste_CtrlShift_Text();
         }
 
-        protected override void PasteAdvancedTextImage()
+        protected override void Paste_CtrlShift_TextImage()
         {
             string _text = Clipboard.GetText();
             _text = Core.Utils.TrimText(_text, "\r\n");
@@ -39,7 +47,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                 return;
             }
 
-            base.PasteAdvancedTextImage();
+            base.Paste_CtrlShift_TextImage();
         }
     }
 }

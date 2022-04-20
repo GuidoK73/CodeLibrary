@@ -59,6 +59,7 @@
     <Compile Include="Commands\Lines\ShuffleLines.cs" />
     <Compile Include="Commands\Lines\StringFormatLines.cs" />
     <Compile Include="Commands\Lines\SurroundLines.cs" />
+    <Compile Include="Commands\Lines\XLinesToRow.cs" />
     <Compile Include="Commands\Lines\TrimLines.cs" />
     <Compile Include="Commands\MultiReplace.cs" />
     <Compile Include="Commands\Reverse.cs" />
@@ -98,6 +99,12 @@
     <Compile Include="Forms\FormRemoveLinesContaining.Designer.cs">
       <DependentUpon>FormRemoveLinesContaining.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormXLinesToRow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormXLinesToRow.Designer.cs">
+      <DependentUpon>FormXLinesToRow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormTrimLines.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormRemoveLinesContaining.resx">
       <DependentUpon>FormRemoveLinesContaining.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormXLinesToRow.resx">
+      <DependentUpon>FormXLinesToRow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTrimLines.resx">
       <DependentUpon>FormTrimLines.cs</DependentUpon>

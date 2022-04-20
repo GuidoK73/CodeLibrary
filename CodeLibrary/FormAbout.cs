@@ -9,6 +9,29 @@ namespace CodeLibrary
     public partial class FormAbout : Form
     {
         private readonly string _Content = @"
+# Version 3.4
+- Paste Advanced (Ctrl-Shift-V)
+    - HTML note / Markdown note: File types other then knowntypes pasted in editor will become a download link with embedded base64 data.
+    - Pasting Table data in JS document converts to JSON.
+    - Pasting Table data in CSharp document converts to C# class code + insert code.
+- Paste Advanced+ (Ctrl-Alt-Shift-V)
+    - TableData
+        -   HTML: table without header
+        -   MD: table without header
+        -   JS: JSON without field description.
+        -   XML: Xml with generated field names.
+- New Plugin: X Lines to Row
+-   Calculate cells in MarkDown Tables
+    -   Simple Calculations Like:
+        - Range: =(B2:B12)+C1
+        - Calc: =(C2+C10) / 2
+   
+
+Bug Fixes
+-   Error on saving plugin settings
+-   All Evaluate Expression uses invariant Culture
+
+
 # Version 3.3.3
 - Changed backup
     -   Removed 2 locations, if backup target location is set, all backup's will be moved to this location.

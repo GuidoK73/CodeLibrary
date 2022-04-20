@@ -1,5 +1,6 @@
 ﻿using GK.Template.Attributes;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace GK.Template.Methods
 {
@@ -11,7 +12,7 @@ namespace GK.Template.Methods
     {
         public override string Apply(string value)
         {
-            return Utils.EvaluateExpression(value).ToString();
+            return Utils.EvaluateExpression(value).ToString(CultureInfo.InvariantCulture);
         }
     }
 }

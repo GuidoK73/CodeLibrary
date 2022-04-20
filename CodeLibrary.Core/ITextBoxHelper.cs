@@ -50,6 +50,8 @@
 
         bool ExportToFile(bool saveAs);
 
+        bool ImportKnownFile();
+
         void CopyHtml();
     }
 }

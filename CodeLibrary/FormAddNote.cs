@@ -57,6 +57,10 @@ namespace CodeLibrary
                             SelectedType = CodeType.CSharp;
                             break;
 
+                        case "JS":
+                            SelectedType = CodeType.JS;
+                            break;
+
                         case "Sql":
                             SelectedType = CodeType.SQL;
                             break;
@@ -115,6 +119,7 @@ namespace CodeLibrary
             cbRoot.Checked = Root;
             listViewTypes.Items.Add(new ListViewItem() { Selected = SelectedType == CodeType.Folder, ImageKey = "folder", Name = "Folder", Text = "Folder" });
             listViewTypes.Items.Add(new ListViewItem() { Selected = SelectedType == CodeType.CSharp, ImageKey = "c#", Name = "C#", Text = "C#" });
+            listViewTypes.Items.Add(new ListViewItem() { Selected = SelectedType == CodeType.JS, ImageKey = "JS", Name = "JS", Text = "JS" });
             listViewTypes.Items.Add(new ListViewItem() { Selected = SelectedType == CodeType.None, ImageKey = "txt", Name = "Text", Text = "Text" });
             listViewTypes.Items.Add(new ListViewItem() { Selected = SelectedType == CodeType.SQL, ImageKey = "sql", Name = "Sql", Text = "Sql" });
             listViewTypes.Items.Add(new ListViewItem() { Selected = SelectedType == CodeType.VB, ImageKey = "vb", Name = "Visual Basic", Text = "Visual Basic" });

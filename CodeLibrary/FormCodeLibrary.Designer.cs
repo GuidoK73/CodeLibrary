@@ -152,6 +152,10 @@
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportNoteToPdf = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportNoteToFileAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuExportNoteToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuImportKnownFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFavoriteLibraries = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuManageFavorites = new System.Windows.Forms.ToolStripMenuItem();
@@ -270,8 +274,6 @@
             this.mncClearClipboardMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.stateIcons = new CodeLibrary.Controls.Controls.StateIcons();
             this.container1 = new CodeLibrary.Controls.Container();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuExportNoteToFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mncEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
@@ -1420,7 +1422,7 @@
             this.mnuNew.Image = global::CodeLibrary.Properties.Resources.page_white_text_32x32;
             this.mnuNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(196, 38);
+            this.mnuNew.Size = new System.Drawing.Size(190, 38);
             this.mnuNew.Text = "New";
             this.mnuNew.ToolTipText = "Create a new document without saving current";
             this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
@@ -1428,14 +1430,14 @@
             // mnuSep1
             // 
             this.mnuSep1.Name = "mnuSep1";
-            this.mnuSep1.Size = new System.Drawing.Size(193, 6);
+            this.mnuSep1.Size = new System.Drawing.Size(187, 6);
             // 
             // mnuLoad
             // 
             this.mnuLoad.Image = global::CodeLibrary.Properties.Resources.open_32x32;
             this.mnuLoad.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuLoad.Name = "mnuLoad";
-            this.mnuLoad.Size = new System.Drawing.Size(196, 38);
+            this.mnuLoad.Size = new System.Drawing.Size(190, 38);
             this.mnuLoad.Text = "Load";
             this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
             // 
@@ -1445,7 +1447,7 @@
             this.mnuSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mnuSave.Size = new System.Drawing.Size(196, 38);
+            this.mnuSave.Size = new System.Drawing.Size(190, 38);
             this.mnuSave.Text = "Save";
             this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
             // 
@@ -1454,7 +1456,7 @@
             this.mnuSaveAs.Image = global::CodeLibrary.Properties.Resources.save_as_32x32;
             this.mnuSaveAs.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(196, 38);
+            this.mnuSaveAs.Size = new System.Drawing.Size(190, 38);
             this.mnuSaveAs.Text = "Save as";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
@@ -1464,67 +1466,99 @@
             this.mnuExportNoteToPdf,
             this.mnuExportNoteToFileAs,
             this.toolStripMenuItem9,
-            this.mnuExportNoteToFile});
+            this.mnuExportNoteToFile,
+            this.toolStripMenuItem10,
+            this.mnuImportKnownFile});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(190, 38);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // mnuExportNoteToPdf
             // 
             this.mnuExportNoteToPdf.Name = "mnuExportNoteToPdf";
-            this.mnuExportNoteToPdf.Size = new System.Drawing.Size(186, 22);
+            this.mnuExportNoteToPdf.Size = new System.Drawing.Size(267, 22);
             this.mnuExportNoteToPdf.Text = "Export Note To PDF";
             // 
             // mnuExportNoteToFileAs
             // 
             this.mnuExportNoteToFileAs.Name = "mnuExportNoteToFileAs";
-            this.mnuExportNoteToFileAs.Size = new System.Drawing.Size(186, 22);
+            this.mnuExportNoteToFileAs.Size = new System.Drawing.Size(267, 22);
             this.mnuExportNoteToFileAs.Text = "Export Note to File as";
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(264, 6);
+            // 
+            // mnuExportNoteToFile
+            // 
+            this.mnuExportNoteToFile.Name = "mnuExportNoteToFile";
+            this.mnuExportNoteToFile.ShortcutKeys = ((System.Windows.Forms.Keys)((((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.mnuExportNoteToFile.Size = new System.Drawing.Size(267, 22);
+            this.mnuExportNoteToFile.Text = "Export Note to File";
+            // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(264, 6);
+            // 
+            // mnuImportKnownFile
+            // 
+            this.mnuImportKnownFile.Name = "mnuImportKnownFile";
+            this.mnuImportKnownFile.ShortcutKeys = ((System.Windows.Forms.Keys)((((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.mnuImportKnownFile.Size = new System.Drawing.Size(267, 22);
+            this.mnuImportKnownFile.Text = "Import known file";
+            this.mnuImportKnownFile.ToolTipText = "When exporting a the export file path is stored in the note. This function will r" +
+    "ead the known exported file back into the Note.";
             // 
             // mnuSep2
             // 
             this.mnuSep2.Name = "mnuSep2";
-            this.mnuSep2.Size = new System.Drawing.Size(193, 6);
+            this.mnuSep2.Size = new System.Drawing.Size(187, 6);
             // 
             // mnuFavoriteLibraries
             // 
             this.mnuFavoriteLibraries.Image = global::CodeLibrary.Properties.Resources.folder_star_32x32;
             this.mnuFavoriteLibraries.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuFavoriteLibraries.Name = "mnuFavoriteLibraries";
-            this.mnuFavoriteLibraries.Size = new System.Drawing.Size(196, 38);
+            this.mnuFavoriteLibraries.Size = new System.Drawing.Size(190, 38);
             this.mnuFavoriteLibraries.Text = "Favorite Libraries";
             // 
             // mnuManageFavorites
             // 
             this.mnuManageFavorites.Name = "mnuManageFavorites";
-            this.mnuManageFavorites.Size = new System.Drawing.Size(196, 38);
+            this.mnuManageFavorites.Size = new System.Drawing.Size(190, 38);
             this.mnuManageFavorites.Text = "Manage Favorites";
             // 
             // mnuSep3
             // 
             this.mnuSep3.Name = "mnuSep3";
-            this.mnuSep3.Size = new System.Drawing.Size(193, 6);
+            this.mnuSep3.Size = new System.Drawing.Size(187, 6);
             // 
             // mnuRestoreBackup
             // 
             this.mnuRestoreBackup.Image = global::CodeLibrary.Properties.Resources.backup_manager_32x32;
             this.mnuRestoreBackup.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuRestoreBackup.Name = "mnuRestoreBackup";
-            this.mnuRestoreBackup.Size = new System.Drawing.Size(196, 38);
+            this.mnuRestoreBackup.Size = new System.Drawing.Size(190, 38);
             this.mnuRestoreBackup.Text = "Restore Backup";
             this.mnuRestoreBackup.Click += new System.EventHandler(this.mnuRestoreBackup_Click);
             // 
             // mnuSep4
             // 
             this.mnuSep4.Name = "mnuSep4";
-            this.mnuSep4.Size = new System.Drawing.Size(193, 6);
+            this.mnuSep4.Size = new System.Drawing.Size(187, 6);
             // 
             // mnuSetPassword
             // 
             this.mnuSetPassword.Image = global::CodeLibrary.Properties.Resources.change_password_32x32;
             this.mnuSetPassword.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuSetPassword.Name = "mnuSetPassword";
-            this.mnuSetPassword.Size = new System.Drawing.Size(196, 38);
+            this.mnuSetPassword.Size = new System.Drawing.Size(190, 38);
             this.mnuSetPassword.Text = "Set Password";
             this.mnuSetPassword.ToolTipText = "Password remains persistant in memory, until application is closed. All documents" +
     " saved are encrypted with specified password.";
@@ -1535,7 +1569,7 @@
             this.mnuSetUsbKey.Image = global::CodeLibrary.Properties.Resources.usb_3_32x32;
             this.mnuSetUsbKey.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuSetUsbKey.Name = "mnuSetUsbKey";
-            this.mnuSetUsbKey.Size = new System.Drawing.Size(196, 38);
+            this.mnuSetUsbKey.Size = new System.Drawing.Size(190, 38);
             this.mnuSetUsbKey.Text = "Set USBKey";
             this.mnuSetUsbKey.Click += new System.EventHandler(this.mnuSetUsbKey_Click);
             // 
@@ -1543,21 +1577,21 @@
             // 
             this.mnuClearPassword.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuClearPassword.Name = "mnuClearPassword";
-            this.mnuClearPassword.Size = new System.Drawing.Size(196, 38);
+            this.mnuClearPassword.Size = new System.Drawing.Size(190, 38);
             this.mnuClearPassword.Text = "Clear Password";
             this.mnuClearPassword.Click += new System.EventHandler(this.mnuClearPassword_Click);
             // 
             // mnuSep5
             // 
             this.mnuSep5.Name = "mnuSep5";
-            this.mnuSep5.Size = new System.Drawing.Size(193, 6);
+            this.mnuSep5.Size = new System.Drawing.Size(187, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Image = global::CodeLibrary.Properties.Resources.close_32x32;
             this.mnuExit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(196, 38);
+            this.mnuExit.Size = new System.Drawing.Size(190, 38);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -1565,7 +1599,7 @@
             // 
             this.mnuExitWithoutSaving.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuExitWithoutSaving.Name = "mnuExitWithoutSaving";
-            this.mnuExitWithoutSaving.Size = new System.Drawing.Size(196, 38);
+            this.mnuExitWithoutSaving.Size = new System.Drawing.Size(190, 38);
             this.mnuExitWithoutSaving.Text = "Exit without saving";
             this.mnuExitWithoutSaving.Click += new System.EventHandler(this.mnuExitWithoutSaving_Click);
             // 
@@ -2263,6 +2297,7 @@
             this.mnuHTMLPreview.Image = global::CodeLibrary.Properties.Resources.html_32_Black;
             this.mnuHTMLPreview.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuHTMLPreview.Name = "mnuHTMLPreview";
+            this.mnuHTMLPreview.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.mnuHTMLPreview.Size = new System.Drawing.Size(246, 38);
             this.mnuHTMLPreview.Text = "HTML Preview";
             this.mnuHTMLPreview.Click += new System.EventHandler(this.mnuHTMLPreview_Click);
@@ -2464,20 +2499,6 @@
             this.container1.Size = new System.Drawing.Size(483, 99);
             this.container1.TabIndex = 19;
             this.container1.Text = "container2";
-            // 
-            // toolStripMenuItem9
-            // 
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(183, 6);
-            // 
-            // mnuExportNoteToFile
-            // 
-            this.mnuExportNoteToFile.Name = "mnuExportNoteToFile";
-            this.mnuExportNoteToFile.ShortcutKeys = ((System.Windows.Forms.Keys)((((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.E)));
-            this.mnuExportNoteToFile.Size = new System.Drawing.Size(267, 22);
-            this.mnuExportNoteToFile.Text = "Export Note to File";
             // 
             // FormCodeLibrary
             // 
@@ -2772,6 +2793,8 @@
         internal System.Windows.Forms.ToolStripMenuItem mnuRotateImageRight;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         internal System.Windows.Forms.ToolStripMenuItem mnuExportNoteToFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
+        internal System.Windows.Forms.ToolStripMenuItem mnuImportKnownFile;
     }
 }
 

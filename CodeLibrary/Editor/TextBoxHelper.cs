@@ -27,6 +27,14 @@ namespace CodeLibrary.Editor
             }
         }
 
+        public CodeSnippet StateSnippet
+        {
+            get
+            {
+                return _FastColoredTextBoxHelper.GetStateSnippet();
+            }
+        }
+
 
         public TextBoxHelper(FormCodeLibrary mainform, ThemeHelper themeHelper)
         {
@@ -127,6 +135,8 @@ namespace CodeLibrary.Editor
 
         public bool ExportToFile(bool saveAs) => _ActiveTextBoxHelper.ExportToFile(saveAs);
 
+        public bool ImportKnownFile() => _ActiveTextBoxHelper.ImportKnownFile();
+
         public void CopyHtml() => _ActiveTextBoxHelper.CopyHtml();
 
 
@@ -200,7 +210,7 @@ namespace CodeLibrary.Editor
 
                 case CodeType.MarkDown:
                     CodeInsight.Instance.SetInsightHandler(null);
-                    _mainform.fastColoredTextBox.Language = FastColoredTextBoxNS.Language.Custom;
+                    _mainform.fastColoredTextBox.Language = FastColoredTextBoxNS.Language.HTML;
                     _mainform.containerCode.Visible = true;
                     _mainform.containerRtfEditor.Visible = false;
                     break;
