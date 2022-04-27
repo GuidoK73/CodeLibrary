@@ -139,8 +139,9 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                     return;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+
             }
         }
 

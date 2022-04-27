@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -39,6 +40,9 @@ namespace CodeLibrary.Core
             UTF8 = 6
         }
 
+
+
+
         public static decimal Bound(decimal value, decimal lowbound, decimal highbound) => (value > highbound) ? highbound : (value < lowbound) ? lowbound : value;
 
         public static Int16 Bound(Int16 value, Int16 lowbound, Int16 highbound) => (value >= highbound) ? highbound : (value <= lowbound) ? lowbound : value;
@@ -52,6 +56,63 @@ namespace CodeLibrary.Core
         public static string ByteArrayToString(byte[] bytes) => ByteArrayToString(bytes, TextEncoding.UTF8);
 
         public static string ByteArrayToString(byte[] bytes, TextEncoding encoding) => GetEncoder(encoding).GetString(bytes);
+
+        public static string CamelCaseLower(string name)
+        {
+            StringBuilder result = new StringBuilder();
+            char[] chars = name.ToCharArray();
+            bool nextCap = false;
+            bool isFirst = true;
+            foreach (char c in chars)
+            {
+                if (char.IsLetter(c))
+                {
+                    if (isFirst)
+                    {
+                        result.Append(char.ToLower(c));
+                        isFirst = false;
+                        continue;
+                    }
+                    if (nextCap)
+                    {
+                        result.Append(char.ToUpper(c));
+                        nextCap = false;
+                    }
+                    else
+                        result.Append(c);
+                }
+                else
+                    nextCap = true;
+                if (nextCap)
+                    continue;
+            }
+            return result.ToString();
+        }
+
+        public static string CamelCaseUpper(string name)
+        {
+            StringBuilder result = new StringBuilder();
+            char[] chars = name.ToCharArray();
+            bool nextCap = true;
+            foreach (char c in chars)
+            {
+                if (char.IsLetter(c))
+                {
+                    if (nextCap)
+                    {
+                        result.Append(char.ToUpper(c));
+                        nextCap = false;
+                    }
+                    else
+                        result.Append(c);
+                }
+                else
+                    nextCap = true;
+                if (nextCap)
+                    continue;
+            }
+            return result.ToString();
+        }
 
         public static string CodeTypeToString(CodeType codeType)
         {
@@ -117,36 +178,6 @@ namespace CodeLibrary.Core
             }
         }
 
-
-        public static bool isReorderString(string text)
-        {
-            string[] _reorderString = text.Split(new char[] { ',' });
-
-            if (_reorderString.Length == 0)
-                return false;
-
-            foreach (string item in _reorderString)
-            {
-                if (!IsNumeric(item))
-                    return false;
-            }
-
-            return true;
-        }
-
-        public static bool IsNumeric(this string s)
-        {
-            if (string.IsNullOrEmpty(s)) return false;
-
-            Char[] chars = s.ToCharArray();
-            for (int ii = 0; ii < chars.Length; ii++)
-            {
-                if (!Char.IsDigit(chars[ii]))
-                    return false;
-            }
-            return true;
-        }
-
         public static string CsvChange(string text, char separator, char newSeparator, string reorder)
         {
             if (!string.IsNullOrEmpty(reorder))
@@ -161,7 +192,6 @@ namespace CodeLibrary.Core
             }
             return CsvChange(text, separator, newSeparator);
         }
-
 
         public static string CsvChange(string text, char separator, char newSeparator, params int[] reorder)
         {
@@ -181,11 +211,11 @@ namespace CodeLibrary.Core
                                 while (!_reader.EndOfCsvStream)
                                 {
                                     var _items = _reader.ReadCsvLine().ToArray();
-                                    
-                                    if (reorder != null && reorder.Length <= _items.Length && reorder.Max(p => p) <= _items.Length)
+
+                                    if (reorder != null && reorder.Length > 0 && reorder.Length <= _items.Length && reorder.Max(p => p) <= _items.Length)
                                     {
                                         var _newItems = new string[reorder.Count()];
-                                        for (int ii = 0; ii < reorder.Length;ii++)
+                                        for (int ii = 0; ii < reorder.Length; ii++)
                                         {
                                             _newItems[ii] = _items[reorder[ii]];
                                         }
@@ -194,7 +224,7 @@ namespace CodeLibrary.Core
                                     else
                                     {
                                         _writer.WriteCsvLine(_items);
-                                    }                                   
+                                    }
                                 }
                                 return StreamToString(_outputStream);
                             }
@@ -203,9 +233,6 @@ namespace CodeLibrary.Core
                 }
             }
         }
-
-
-
 
         public static string[] CsvHeader(string text, char separator)
         {
@@ -223,7 +250,6 @@ namespace CodeLibrary.Core
         public static string CsvToJSon(string text, char separator)
         {
             string[] _header = CsvHeader(text, separator);
-
 
             StringBuilder _sb = new StringBuilder();
             byte[] byteArray = Encoding.Default.GetBytes(text);
@@ -251,7 +277,7 @@ namespace CodeLibrary.Core
                                 {
                                     _sb.Append($"\t\t\"{_header[ii].Replace("\"", "\\\"")}\": \"{_items[ii].Replace("\"", "\\\"")}\",\r\n");
                                 }
-                                _sb.Length = _sb.Length -3;
+                                _sb.Length = _sb.Length - 3;
                                 _sb.Append("\r\n\t},\r\n");
                             }
                             else
@@ -267,7 +293,6 @@ namespace CodeLibrary.Core
             }
             return _sb.ToString();
         }
-
 
         public static string CsvToJSonNoHeader(string text, char separator)
         {
@@ -313,8 +338,6 @@ namespace CodeLibrary.Core
             }
             return _sb.ToString();
         }
-
-
 
         public static string CsvToMdTable(string text, char separator)
         {
@@ -388,7 +411,7 @@ namespace CodeLibrary.Core
                             for (int ii = 0; ii < _header.Length; ii++)
                             {
                                 _header[ii] = $" ";
-                            }                            
+                            }
                             _sb.Append("|");
                             _sb.Append(String.Join("|", _header));
                             _sb.Append("|\r\n");
@@ -401,10 +424,8 @@ namespace CodeLibrary.Core
                             _sb.Append("|\r\n");
                         }
 
-
                         if (_items.Length > 1)
                         {
-  
                             if (_items.Length != _columnCount)
                             {
                                 continue;
@@ -412,7 +433,6 @@ namespace CodeLibrary.Core
                             _sb.Append("|");
                             _sb.Append(String.Join("|", _items));
                             _sb.Append("|\r\n");
-                             
                         }
                         _columnCount = _items.Length;
                     }
@@ -420,7 +440,6 @@ namespace CodeLibrary.Core
             }
             return _sb.ToString();
         }
-
 
         public static string DecompressString(string s)
         {
@@ -769,6 +788,35 @@ namespace CodeLibrary.Core
             return FileOrDirectory.DoesNotExist;
         }
 
+        public static bool IsNumeric(this string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            Char[] chars = s.ToCharArray();
+            for (int ii = 0; ii < chars.Length; ii++)
+            {
+                if (!Char.IsDigit(chars[ii]))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool isReorderString(string text)
+        {
+            string[] _reorderString = text.Split(new char[] { ',' });
+
+            if (_reorderString.Length == 0)
+                return false;
+
+            foreach (string item in _reorderString)
+            {
+                if (!IsNumeric(item))
+                    return false;
+            }
+
+            return true;
+        }
+
         public static bool MatchPattern(string s, string pattern)
         {
             if (pattern == null || s == null) return false;
@@ -1033,7 +1081,6 @@ namespace CodeLibrary.Core
                         {
                             _result = string.Format("\r\n~~~{0}\r\n{1}\r\n~~~\r\n", CodeTypeToString(snippet.CodeType), snippet.GetCode());
                         }
-                        
                     }
                     else
                     {
@@ -1287,61 +1334,5 @@ namespace CodeLibrary.Core
         }
 
 
-        public static string CamelCaseLower(string name)
-        {
-            StringBuilder result = new StringBuilder();
-            char[] chars = name.ToCharArray();
-            bool nextCap = false;
-            bool isFirst = true;
-            foreach (char c in chars)
-            {
-                if (char.IsLetter(c))
-                {
-                    if (isFirst)
-                    {
-                        result.Append(char.ToLower(c));
-                        isFirst = false;
-                        continue;
-                    }
-                    if (nextCap)
-                    {
-                        result.Append(char.ToUpper(c));
-                        nextCap = false;
-                    }
-                    else
-                        result.Append(c);
-                }
-                else
-                    nextCap = true;
-                if (nextCap)
-                    continue;
-            }
-            return result.ToString();
-        }
-
-        public static string CamelCaseUpper(string name)
-        {
-            StringBuilder result = new StringBuilder();
-            char[] chars = name.ToCharArray();
-            bool nextCap = true;
-            foreach (char c in chars)
-            {
-                if (char.IsLetter(c))
-                {
-                    if (nextCap)
-                    {
-                        result.Append(char.ToUpper(c));
-                        nextCap = false;
-                    }
-                    else
-                        result.Append(c);
-                }
-                else
-                    nextCap = true;
-                if (nextCap)
-                    continue;
-            }
-            return result.ToString();
-        }
     }
 }

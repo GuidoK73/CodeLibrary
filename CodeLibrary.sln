@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29911.84
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeLibrary", "CodeLibrary\CodeLibrary.csproj", "{1D046DA3-67ED-4199-8DE8-8D33D436D0C5}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeLibrary.Core", "CodeLibrary.Core\CodeLibrary.Core.csproj", "{49F5B576-5E64-4861-B799-0944EE363A4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeLibrary.Extensions", "CodeLibrary.Extensions\CodeLibrary.Extensions.csproj", "{E8007401-28B2-4994-A802-FCC3C17F03A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{3BF1010B-006B-4483-8A5F-47C64DE23D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +157,18 @@ Global
 		{E8007401-28B2-4994-A802-FCC3C17F03A9}.Trial|Any CPU.Build.0 = Debug|Any CPU
 		{E8007401-28B2-4994-A802-FCC3C17F03A9}.Trial|x86.ActiveCfg = Debug|Any CPU
 		{E8007401-28B2-4994-A802-FCC3C17F03A9}.Trial|x86.Build.0 = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Debug|x86.Build.0 = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Release|x86.ActiveCfg = Release|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Release|x86.Build.0 = Release|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Trial|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Trial|Any CPU.Build.0 = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Trial|x86.ActiveCfg = Debug|Any CPU
+		{3BF1010B-006B-4483-8A5F-47C64DE23D23}.Trial|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
