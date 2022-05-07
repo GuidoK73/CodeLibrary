@@ -22,7 +22,7 @@ namespace CodeLibrary
         private static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false); 
+            Application.SetCompatibleTextRenderingDefault(false);
             var MainForm = new FormCodeLibrary();
             Application.Run(MainForm);
         }

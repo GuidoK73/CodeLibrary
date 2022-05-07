@@ -19,7 +19,7 @@ namespace CodeLibrary.Controls.Controls
             InitializeComponent();
             ResizeRedraw = true;
             DoubleBuffered = true;
-            _Timer.Interval = 750;            
+            _Timer.Interval = 750;
             _Timer.Tick += _Timer_Tick;
             Resize += StateIcons_Resize;
             Paint += StateIcons_Paint;

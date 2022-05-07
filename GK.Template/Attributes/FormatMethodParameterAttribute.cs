@@ -58,7 +58,7 @@ namespace GK.Template.Attributes
                         FormatMethodParameterAttribute att = (FormatMethodParameterAttribute)oAttrib;
                         att.PropertyReference = p;
 
-                        DescriptionAttribute _descriptionAttribute = type.GetCustomAttributes(typeof(DescriptionAttribute), true).FirstOrDefault() as DescriptionAttribute;
+                        DescriptionAttribute _descriptionAttribute = p.GetCustomAttributes(typeof(DescriptionAttribute), true).FirstOrDefault() as DescriptionAttribute;
                         if (_descriptionAttribute != null)
                             att.Description = _descriptionAttribute.Description;
 

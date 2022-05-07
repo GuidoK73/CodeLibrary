@@ -1,12 +1,9 @@
 ﻿using org.mariuszgromada.math.mxparser;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace CodeLibrary.Core.MarkDownTables
 {
@@ -28,7 +25,7 @@ namespace CodeLibrary.Core.MarkDownTables
         public Dictionary<string, MdCell> CellByKey = new Dictionary<string, MdCell>();
 
         public MdTable()
-        {            
+        {
         }
 
         public override string ToString()
@@ -47,7 +44,7 @@ namespace CodeLibrary.Core.MarkDownTables
             return _sb.ToString();
         }
 
-        
+
 
         public string EvalCell(MdCell cell)
         {
@@ -62,7 +59,7 @@ namespace CodeLibrary.Core.MarkDownTables
 
                 foreach (Match _match in _rangeMatched)
                 {
-                    string[] _items = _match.Value.ToLower().Split(new char[] { ':'});
+                    string[] _items = _match.Value.ToLower().Split(new char[] { ':' });
                     if (CellByKey.ContainsKey(_items[0]) && CellByKey.ContainsKey(_items[1]))
                     {
                         string _letterStart = _RegexLetter.Matches(_items[0])[0].Value.ToLower();
@@ -86,7 +83,7 @@ namespace CodeLibrary.Core.MarkDownTables
                     }
                 }
 
-                var _matches = _RegexNums.Matches(_cellTextTrimmed);              
+                var _matches = _RegexNums.Matches(_cellTextTrimmed);
                 foreach (Match _match in _matches)
                 {
                     string _cellKey = _match.Value.ToLower();
@@ -94,7 +91,7 @@ namespace CodeLibrary.Core.MarkDownTables
                     if (CellByKey.ContainsKey(_cellKey))
                     {
                         string _value = EvalCell(CellByKey[_cellKey]);
-                        if(string.IsNullOrWhiteSpace(_value))
+                        if (string.IsNullOrWhiteSpace(_value))
                         {
                             _value = "0";
                         }

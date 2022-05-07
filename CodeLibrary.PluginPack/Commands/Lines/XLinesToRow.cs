@@ -63,7 +63,7 @@ namespace CodeLibrary.PluginPack
             FormXLinesToRow f = new FormXLinesToRow();
             f.Separator = Separator;
             f.LineCount = NumberOfLines;
- 
+
 
             DialogResult dr = f.ShowDialog();
             if (dr == DialogResult.OK)

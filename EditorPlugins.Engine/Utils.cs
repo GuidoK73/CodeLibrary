@@ -50,7 +50,7 @@ namespace EditorPlugins.Engine
 
         public static string ToJson<T>(T items)
         {
-            using (MemoryStream stream = new MemoryStream()) 
+            using (MemoryStream stream = new MemoryStream())
             {
                 DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
                 serializer.WriteObject(stream, items);

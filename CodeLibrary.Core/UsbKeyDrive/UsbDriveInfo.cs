@@ -60,7 +60,7 @@ namespace CodeLibrary.Core
             {
                 error = UsbKeyDriveErrorEnum.Ok;
                 return true;
-            } 
+            }
             try
             {
                 string _path = UsbKeyPath(driveInfo);

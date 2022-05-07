@@ -1,5 +1,4 @@
 ﻿using GK.Template.Attributes;
-using System;
 using System.ComponentModel;
 using System.Text;
 
@@ -18,7 +17,7 @@ namespace GK.Template.Methods
             for (int ii = 0; ii < _chars.Length; ii++)
             {
                 if (char.IsUpper(_chars[ii]))
-                {                    
+                {
                     if (_prevUpper == false)
                     {
                         _sb.Append(' ');

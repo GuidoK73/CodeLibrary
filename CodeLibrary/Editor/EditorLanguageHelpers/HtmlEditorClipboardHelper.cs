@@ -61,16 +61,16 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                     case CodeType.Template:
                         string _csv = File.ReadAllText(_filename);
 
-                        bool _isCsv = Core.Utils.GetCsvSeparator(_csv, out char _separator);
+                        bool _isCsv = CsvUtils.GetCsvSeparator(_csv, out char _separator);
                         if (_isCsv)
                         {
                             if (Core.Utils.isReorderString(SelectedText))
                             {
                                 string _reorderString = SelectedText;
-                                _csv = Core.Utils.CsvChange(_csv, _separator, _separator, _reorderString);
+                                _csv = CsvUtils.CsvChange(_csv, _separator, _separator, _reorderString);
                             }
 
-                            _csv = Core.Utils.CsvToMdTable(_csv, _separator);
+                            _csv = CsvUtils.CsvToMdTable(_csv, _separator);
 
                             MarkDigWrapper _wrapper = new MarkDigWrapper();
 
@@ -110,16 +110,16 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             MarkDigWrapper _wrapper = new MarkDigWrapper();
             string _text = Clipboard.GetText();
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
+            bool _isCsv = CsvUtils.GetCsvSeparator(_text, out char _separator);
             if (_isCsv)
             {
                 if (Core.Utils.isReorderString(SelectedText))
                 {
                     string _reorderString = SelectedText;
-                    _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+                    _text = CsvUtils.CsvChange(_text, _separator, _separator, _reorderString);
                 }
 
-                _text = Core.Utils.CsvToMdTable(_text, _separator);
+                _text = CsvUtils.CsvToMdTable(_text, _separator);
                 SelectedText = _wrapper.Transform(_text);
                 return;
             }
@@ -130,43 +130,25 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
             MarkDigWrapper _wrapper = new MarkDigWrapper();
             string _text = Clipboard.GetText();
-            char _separator = ' ';
-            string _data = string.Empty;
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out _separator);
-            if (_isCsv)
-            {
-                _text = Core.Utils.CsvToMdTable(_text, _separator);
-                SelectedText = _wrapper.Transform(_text);
-                return;
-            }
-        }
-
-        protected override void Paste_CtrlAltShift_TextImage() => Paste_CtrlShift_TextImage();
-
-        protected override void Paste_CtrlAltShift_Image() => Paste_CtrlShift_Image();
-
-        protected override void Paste_CtrlAltShift_FileDropList() => Paste_CtrlShift_FileDropList();
-
-        protected override void Paste_CtrlAltShift_Text()
-        {
-            MarkDigWrapper _wrapper = new MarkDigWrapper();
-            string _text = Clipboard.GetText();
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
+            bool _isCsv = CsvUtils.GetCsvSeparator(_text, out char _separator);
             if (_isCsv)
             {
                 if (Core.Utils.isReorderString(SelectedText))
                 {
                     string _reorderString = SelectedText;
-                    _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+                    _text = CsvUtils.CsvChange(_text, _separator, _separator, _reorderString);
                 }
 
-                _text = Core.Utils.CsvToMdTableNoHeader(_text, _separator);
+                _text = CsvUtils.CsvToMdTable(_text, _separator);
                 SelectedText = _wrapper.Transform(_text);
                 return;
             }
-            base.Paste_Text();
+
+            base.Paste_CtrlShift_TextImage();
         }
+
+
 
     }
 }

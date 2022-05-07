@@ -1,11 +1,8 @@
 ﻿using CodeLibrary.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodeLibrary.Helpers
@@ -14,8 +11,8 @@ namespace CodeLibrary.Helpers
     {
         public static void OpenFileLegacy(FileHelper fileHelper, string filename, PasswordHelper passwordHelper, FormCodeLibrary mainform, TreeviewHelper TreeHelper, out bool _succes)
         {
-             // Legacy
-            CodeSnippetCollectionOld _collectionOld = ReadCollectionLegacy2(filename, passwordHelper.Password, passwordHelper, mainform, out  _succes);
+            // Legacy
+            CodeSnippetCollectionOld _collectionOld = ReadCollectionLegacy2(filename, passwordHelper.Password, passwordHelper, mainform, out _succes);
             if (_succes == false)
             {
                 // Double Legacy

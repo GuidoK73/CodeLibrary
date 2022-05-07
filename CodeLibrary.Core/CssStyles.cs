@@ -22,13 +22,13 @@ namespace CodeLibrary.Core
             {
                 found = false;
                 return string.Empty;
-            }    
+            }
             if (_items[0].Equals("CSS"))
             {
                 foreach (int value in Enum.GetValues(typeof(CssStyle)))
                 {
                     string _name = Enum.GetName(typeof(CssStyle), value);
-                    if(_items[1].Equals(_name))
+                    if (_items[1].Equals(_name))
                     {
                         found = true;
                         return GetCSSDefault((CssStyle)value);

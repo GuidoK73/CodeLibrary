@@ -1,4 +1,5 @@
-﻿using CodeLibrary.Helpers;
+﻿using CodeLibrary.Core;
+using CodeLibrary.Helpers;
 using System.Windows.Forms;
 
 namespace CodeLibrary.Editor.EditorLanguageHelpers
@@ -9,7 +10,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
         }
 
-        protected override void Paste_CtrlShift_Text()
+        private bool Execute()
         {
             string _text = Clipboard.GetText();
             _text = Core.Utils.TrimText(_text, "\r\n");
@@ -17,7 +18,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             char _separator = ' ';
             string _data = string.Empty;
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out _separator);
+            bool _isCsv = CsvUtils.GetCsvSeparator(_text, out _separator);
             if (_isCsv)
             {
                 string _reorderString = null;
@@ -26,26 +27,28 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                     _reorderString = SelectedText;
                 }
 
-                _data = Core.Utils.CsvChange(_text, _separator, ';', _reorderString);
+                _data = CsvUtils.CsvChange(_text, _separator, ';', _reorderString);
                 this.SelectedText = _data;
-                return;
+                return true;
             }
+
+            return false;
+        }
+
+        protected override void Paste_CtrlShift_Text()
+        {
+            bool _succes = Execute();
+            if (!_succes)
+                return;
+
             base.Paste_CtrlShift_Text();
         }
 
         protected override void Paste_CtrlShift_TextImage()
         {
-            string _text = Clipboard.GetText();
-            _text = Core.Utils.TrimText(_text, "\r\n");
-
-
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
-            if (_isCsv)
-            {
-                string _data = Core.Utils.CsvChange(_text, _separator, ';');
-                SelectedText = _data;
+            bool _succes = Execute();
+            if (!_succes)
                 return;
-            }
 
             base.Paste_CtrlShift_TextImage();
         }

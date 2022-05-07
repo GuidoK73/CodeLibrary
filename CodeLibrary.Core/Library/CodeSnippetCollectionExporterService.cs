@@ -18,7 +18,7 @@ namespace CodeLibrary.Core.Library
             char[] _invalid = Path.GetInvalidPathChars();
             foreach (char c in _invalid)
             {
-                path = path.Replace(c.ToString(), "");    
+                path = path.Replace(c.ToString(), "");
             }
             return path;
         }
@@ -30,12 +30,12 @@ namespace CodeLibrary.Core.Library
                 string _extension = GetExtension(snippet.CodeType);
                 string _code = null;
                 string _path = CleanPath(snippet.GetPath());
-               
+
 
                 FileInfo _file = new FileInfo(Path.Combine(_TargetDirectory.FullName, $"{_path}.{_extension}"));
                 int counter = 0;
-                
-                while (_file.Exists)                
+
+                while (_file.Exists)
                 {
                     counter++;
                     _file = new FileInfo(Path.Combine(_TargetDirectory.FullName, $"{_path} ({counter}).{_extension}"));

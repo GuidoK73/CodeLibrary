@@ -11,6 +11,8 @@ namespace CodeLibrary
         private readonly string _Content = @"
 # Version 3.4
 - Paste Advanced (Ctrl-Shift-V)
+    - Markdown: Ctrl-Shift-C copies markdown as Html.
+    - C#: Ctrl-Shift-V converts Json / Xml to C# Code.
     - HTML note / Markdown note: File types other then knowntypes pasted in editor will become a download link with embedded base64 data.
     - Pasting Table data in JS document converts to JSON.
     - Pasting Table data in CSharp document converts to C# class code + insert code.
@@ -25,7 +27,8 @@ namespace CodeLibrary
     -   Simple Calculations Like:
         - Range: =(B2:B12)+C1
         - Calc: =(C2+C10) / 2
-   
+ 
+Full List of Advanced paste: https://github.com/GuidoK73/CodeLibrary/wiki/Clipboard
 
 Bug Fixes
 -   Error on saving plugin settings

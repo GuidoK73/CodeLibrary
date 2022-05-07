@@ -13,7 +13,7 @@ namespace CodeLibrary.Controls.Controls
         private ComboBoxHelper<string> _FontComboBoxHelper;
         private ComboBoxHelper<int> _FontSizeComboBoxHelper;
         private ComboBoxHelper<RtfControlStyle> _FontStyleComboBoxHelper;
-        private bool both = false; 
+        private bool both = false;
 
         private int maxwid = 0;
 
@@ -89,7 +89,7 @@ namespace CodeLibrary.Controls.Controls
             _FontStyleComboBoxHelper.Fill(StyleCollection.Instance.Styles);
         }
 
-        public RichTextBox RichTextConrol => rtf; 
+        public RichTextBox RichTextConrol => rtf;
 
         private ETheme _theme;
 

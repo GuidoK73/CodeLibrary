@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace CodeLibrary.Core
 {
     public class RtfControlStyle
-    { 
+    {
         public Color? Color { get; set; }
         public string FontFamily { get; set; } = "Arial";
         public float FontSize { get; set; } = 11;

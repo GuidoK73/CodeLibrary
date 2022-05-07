@@ -1482,7 +1482,7 @@ namespace FastColoredTextBoxNS
             set
             {
                 Range _currentRange = Selection.Clone();
-               // InsertTextAndRestoreSelection(_currentRange, value, null);
+                // InsertTextAndRestoreSelection(_currentRange, value, null);
                 InsertText(value);
             }
         }
@@ -2629,7 +2629,8 @@ namespace FastColoredTextBoxNS
         {
             string text = null;
             bool _pasteOther = false;
-            var thread = new Thread(() => {
+            var thread = new Thread(() =>
+            {
                 if (Clipboard.ContainsText())
                 {
                     text = Clipboard.GetText();

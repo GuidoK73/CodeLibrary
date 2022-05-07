@@ -171,7 +171,6 @@
             this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCut = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCopyWithMarkup = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPasteSpecial = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSep15 = new System.Windows.Forms.ToolStripSeparator();
@@ -267,13 +266,14 @@
             this.mnuDemoProject = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExampleLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMainStrip = new System.Windows.Forms.MenuStrip();
-            this.mnuExtensions = new System.Windows.Forms.ToolStripMenuItem();
             this.mncClipboardMonitor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuRecordClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.mncSep11 = new System.Windows.Forms.ToolStripSeparator();
             this.mncClearClipboardMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.stateIcons = new CodeLibrary.Controls.Controls.StateIcons();
             this.container1 = new CodeLibrary.Controls.Container();
+            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripSeparator();
+            this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mncEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
@@ -1608,7 +1608,6 @@
             this.mnuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuCut,
             this.mnuCopy,
-            this.mnuCopyWithMarkup,
             this.mnuPaste,
             this.mnuPasteSpecial,
             this.mnuSep15,
@@ -1629,7 +1628,7 @@
             this.mnuCut.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCut.Name = "mnuCut";
             this.mnuCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.mnuCut.Size = new System.Drawing.Size(264, 38);
+            this.mnuCut.Size = new System.Drawing.Size(218, 38);
             this.mnuCut.Text = "Cut";
             this.mnuCut.Click += new System.EventHandler(this.mnuCut_Click);
             // 
@@ -1639,26 +1638,16 @@
             this.mnuCopy.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCopy.Name = "mnuCopy";
             this.mnuCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.mnuCopy.Size = new System.Drawing.Size(264, 38);
+            this.mnuCopy.Size = new System.Drawing.Size(218, 38);
             this.mnuCopy.Text = "Copy";
             this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
-            // 
-            // mnuCopyWithMarkup
-            // 
-            this.mnuCopyWithMarkup.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.mnuCopyWithMarkup.Name = "mnuCopyWithMarkup";
-            this.mnuCopyWithMarkup.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-            this.mnuCopyWithMarkup.Size = new System.Drawing.Size(264, 38);
-            this.mnuCopyWithMarkup.Text = "Copy With Markup";
-            this.mnuCopyWithMarkup.Click += new System.EventHandler(this.mnuCopyWithMarkup_Click);
             // 
             // mnuPaste
             // 
             this.mnuPaste.Image = global::CodeLibrary.Properties.Resources.paste_32x32;
             this.mnuPaste.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuPaste.Name = "mnuPaste";
-            this.mnuPaste.Size = new System.Drawing.Size(264, 38);
+            this.mnuPaste.Size = new System.Drawing.Size(218, 38);
             this.mnuPaste.Text = "Paste";
             this.mnuPaste.Click += new System.EventHandler(this.mnuPaste_Click);
             // 
@@ -1667,7 +1656,7 @@
             this.mnuPasteSpecial.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuPasteSpecial.Name = "mnuPasteSpecial";
             this.mnuPasteSpecial.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.mnuPasteSpecial.Size = new System.Drawing.Size(264, 38);
+            this.mnuPasteSpecial.Size = new System.Drawing.Size(218, 38);
             this.mnuPasteSpecial.Text = "Paste Special";
             this.mnuPasteSpecial.ToolTipText = "Merges each selected line with clipboard content, assumed clipboard contains stri" +
     "ng formatter like {0}";
@@ -1676,14 +1665,14 @@
             // mnuSep15
             // 
             this.mnuSep15.Name = "mnuSep15";
-            this.mnuSep15.Size = new System.Drawing.Size(261, 6);
+            this.mnuSep15.Size = new System.Drawing.Size(215, 6);
             // 
             // mnuSelectAll
             // 
             this.mnuSelectAll.Image = global::CodeLibrary.Properties.Resources.table_select_all_32x32;
             this.mnuSelectAll.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuSelectAll.Name = "mnuSelectAll";
-            this.mnuSelectAll.Size = new System.Drawing.Size(264, 38);
+            this.mnuSelectAll.Size = new System.Drawing.Size(218, 38);
             this.mnuSelectAll.Text = "Select All";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -1692,28 +1681,28 @@
             this.mnuSelectLine.Name = "mnuSelectLine";
             this.mnuSelectLine.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.L)));
-            this.mnuSelectLine.Size = new System.Drawing.Size(264, 38);
+            this.mnuSelectLine.Size = new System.Drawing.Size(218, 38);
             this.mnuSelectLine.Text = "Select Line";
             this.mnuSelectLine.Click += new System.EventHandler(this.mnuSelectLine_Click);
             // 
             // mnuSep16
             // 
             this.mnuSep16.Name = "mnuSep16";
-            this.mnuSep16.Size = new System.Drawing.Size(261, 6);
+            this.mnuSep16.Size = new System.Drawing.Size(215, 6);
             // 
             // mnuPlugins
             // 
             this.mnuPlugins.Image = global::CodeLibrary.Properties.Resources.plugin_32x32;
             this.mnuPlugins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuPlugins.Name = "mnuPlugins";
-            this.mnuPlugins.Size = new System.Drawing.Size(264, 38);
+            this.mnuPlugins.Size = new System.Drawing.Size(218, 38);
             this.mnuPlugins.Text = "Plugins";
             this.mnuPlugins.DropDownOpening += new System.EventHandler(this.mnuPlugins_DropDownOpening);
             // 
             // mnuSep17
             // 
             this.mnuSep17.Name = "mnuSep17";
-            this.mnuSep17.Size = new System.Drawing.Size(261, 6);
+            this.mnuSep17.Size = new System.Drawing.Size(215, 6);
             // 
             // mnuFind
             // 
@@ -1721,7 +1710,7 @@
             this.mnuFind.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuFind.Name = "mnuFind";
             this.mnuFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.mnuFind.Size = new System.Drawing.Size(264, 38);
+            this.mnuFind.Size = new System.Drawing.Size(218, 38);
             this.mnuFind.Text = "Find";
             this.mnuFind.Click += new System.EventHandler(this.mnuFind_Click);
             // 
@@ -1732,7 +1721,7 @@
             this.mnuReplace.Name = "mnuReplace";
             this.mnuReplace.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.F)));
-            this.mnuReplace.Size = new System.Drawing.Size(264, 38);
+            this.mnuReplace.Size = new System.Drawing.Size(218, 38);
             this.mnuReplace.Text = "Replace";
             this.mnuReplace.Click += new System.EventHandler(this.mnuReplace_Click);
             // 
@@ -2400,7 +2389,9 @@
             this.mnuAbout,
             this.mnuSep21,
             this.mnuDemoProject,
-            this.mnuExampleLibrary});
+            this.mnuExampleLibrary,
+            this.toolStripMenuItem11,
+            this.githubToolStripMenuItem});
             this.mnuHelp.Name = "mnuHelp";
             this.mnuHelp.Size = new System.Drawing.Size(44, 22);
             this.mnuHelp.Text = "Help";
@@ -2408,26 +2399,26 @@
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(158, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(180, 22);
             this.mnuAbout.Text = "About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
             // mnuSep21
             // 
             this.mnuSep21.Name = "mnuSep21";
-            this.mnuSep21.Size = new System.Drawing.Size(155, 6);
+            this.mnuSep21.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuDemoProject
             // 
             this.mnuDemoProject.Name = "mnuDemoProject";
-            this.mnuDemoProject.Size = new System.Drawing.Size(158, 22);
+            this.mnuDemoProject.Size = new System.Drawing.Size(180, 22);
             this.mnuDemoProject.Text = "Demo Library";
             this.mnuDemoProject.Click += new System.EventHandler(this.mnuDemoProject_Click);
             // 
             // mnuExampleLibrary
             // 
             this.mnuExampleLibrary.Name = "mnuExampleLibrary";
-            this.mnuExampleLibrary.Size = new System.Drawing.Size(158, 22);
+            this.mnuExampleLibrary.Size = new System.Drawing.Size(180, 22);
             this.mnuExampleLibrary.Text = "Example Library";
             this.mnuExampleLibrary.Click += new System.EventHandler(this.mnuExampleLibrary_Click);
             // 
@@ -2439,7 +2430,6 @@
             this.mnuLibrary,
             this.mnuEdit,
             this.mnuTools,
-            this.mnuExtensions,
             this.mnuHelp});
             this.mnuMainStrip.Location = new System.Drawing.Point(0, 0);
             this.mnuMainStrip.Name = "mnuMainStrip";
@@ -2447,12 +2437,6 @@
             this.mnuMainStrip.Size = new System.Drawing.Size(1158, 24);
             this.mnuMainStrip.TabIndex = 2;
             this.mnuMainStrip.Text = "menuStrip1";
-            // 
-            // mnuExtensions
-            // 
-            this.mnuExtensions.Name = "mnuExtensions";
-            this.mnuExtensions.Size = new System.Drawing.Size(75, 22);
-            this.mnuExtensions.Text = "Extensions";
             // 
             // mncClipboardMonitor
             // 
@@ -2499,6 +2483,18 @@
             this.container1.Size = new System.Drawing.Size(483, 99);
             this.container1.TabIndex = 19;
             this.container1.Text = "container2";
+            // 
+            // toolStripMenuItem11
+            // 
+            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(177, 6);
+            // 
+            // githubToolStripMenuItem
+            // 
+            this.githubToolStripMenuItem.Name = "githubToolStripMenuItem";
+            this.githubToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.githubToolStripMenuItem.Text = "Github";
+            this.githubToolStripMenuItem.Click += new System.EventHandler(this.githubToolStripMenuItem_Click);
             // 
             // FormCodeLibrary
             // 
@@ -2632,7 +2628,6 @@
         internal System.Windows.Forms.ToolStripMenuItem mnuEdit;
         internal System.Windows.Forms.ToolStripMenuItem mnuCut;
         internal System.Windows.Forms.ToolStripMenuItem mnuCopy;
-        internal System.Windows.Forms.ToolStripMenuItem mnuCopyWithMarkup;
         internal System.Windows.Forms.ToolStripMenuItem mnuPaste;
         internal System.Windows.Forms.ToolStripMenuItem mnuPasteSpecial;
         internal System.Windows.Forms.ToolStripSeparator mnuSep15;
@@ -2773,7 +2768,6 @@
         internal System.Windows.Forms.ToolStripMenuItem mnuAddReference;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem mnuSelectAndCopy;
-        private System.Windows.Forms.ToolStripMenuItem mnuExtensions;
         internal System.Windows.Forms.ToolStripMenuItem mncGotoReference;
         internal System.Windows.Forms.ToolStripMenuItem mnuGotoReference;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
@@ -2795,6 +2789,8 @@
         internal System.Windows.Forms.ToolStripMenuItem mnuExportNoteToFile;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
         internal System.Windows.Forms.ToolStripMenuItem mnuImportKnownFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem11;
+        private System.Windows.Forms.ToolStripMenuItem githubToolStripMenuItem;
     }
 }
 

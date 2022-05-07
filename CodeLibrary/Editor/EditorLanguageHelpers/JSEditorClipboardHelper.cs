@@ -1,4 +1,5 @@
-﻿using CodeLibrary.Helpers;
+﻿using CodeLibrary.Core;
+using CodeLibrary.Helpers;
 using System.Windows.Forms;
 
 namespace CodeLibrary.Editor.EditorLanguageHelpers
@@ -9,43 +10,58 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         {
         }
 
-        protected override void Paste_CtrlShift_Text()
+        private bool Execute()
         {
             string _text = Clipboard.GetText();
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
-            if (_isCsv)
+            switch (GetClipboardTextType())
             {
-                if (Core.Utils.isReorderString(SelectedText))
-                {
-                    string _reorderString = SelectedText;
-                    _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
-                }
+                case TextType.Xml:
+                    string _xml = Utils.FormatXml(_text, out bool _succes);
+                    string _json = JsonUtils.ConvertXmlToJson(_xml);
+                    SelectedText = JsonUtils.FormatJson(_json);
+                    return true;
 
-                _text = Core.Utils.CsvToJSon(_text, _separator);
-                SelectedText = _text;
-                return;
+                case TextType.Json:
+                    SelectedText = JsonUtils.FormatJson(_text);
+                    return true;
+
+                case TextType.Csv:
+                    CsvUtils.GetCsvSeparator(_text, out char _separator);
+                    if (Utils.isReorderString(SelectedText))
+                    {
+                        string _reorderString = SelectedText;
+                        _text = CsvUtils.CsvChange(_text, _separator, _separator, _reorderString);
+                    }
+                    _text = CsvUtils.CsvToJSon(_text, _separator);
+                    SelectedText = _text;
+                    return true;
+
+                case TextType.Text:
+                    base.Paste_Text();
+                    return true;
             }
-            base.Paste_Text();
+
+            return false;
+
+        }
+
+        protected override void Paste_CtrlShift_Text()
+        {
+            bool _succes = Execute();
+            if (_succes)
+                return;
+
+            base.Paste_CtrlShift_Text();
         }
 
         protected override void Paste_CtrlAltShift_Text()
         {
-            string _text = Clipboard.GetText();
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
-            if (_isCsv)
-            {
-                if (Core.Utils.isReorderString(SelectedText))
-                {
-                    string _reorderString = SelectedText;
-                    _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
-                }
+            bool _succes = Execute();
+            if (_succes)
+                return;
 
-                _text = Core.Utils.CsvToJSonNoHeader(_text, _separator);
-                SelectedText = _text;
-                return;                
-            }
-            base.Paste_Text();
+            base.Paste_CtrlAltShift_Text();
         }
     }
 }

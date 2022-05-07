@@ -92,7 +92,7 @@ namespace CodeLibrary.Core
         public bool Locked { get; set; }
 
         [DataMember(Name = "Name")]
-        public string Name { get; set; } = string.Empty; 
+        public string Name { get; set; } = string.Empty;
 
         [DataMember(Name = "Ord")]
         public int Order { get; set; }
@@ -128,7 +128,7 @@ namespace CodeLibrary.Core
 
         [DataMember(Name = "SCKSL")]
         public KeysLanguage ShortCutKeyLanguage { get; set; }
-        
+
         [DataMember(Name = "WW")]
         public bool Wordwrap { get; set; }
 
@@ -152,7 +152,7 @@ namespace CodeLibrary.Core
             return _snip;
         }
 
-    public static CodeSnippet NewRoot(string text, CodeType codetype, string name)
+        public static CodeSnippet NewRoot(string text, CodeType codetype, string name)
         {
             var _snip = new CodeSnippet() { CodeType = codetype, Locked = false, Name = name };
             _snip.SetCode(text, out bool _changed);
@@ -192,7 +192,7 @@ namespace CodeLibrary.Core
             {
                 Blob.CopyTo(_clone.Blob, 0);
             }
-            _clone.CacheCode = null; 
+            _clone.CacheCode = null;
             _clone.CacheDefaultChildCode = null;
             _clone.CacheDefaultChildRtf = null;
             _clone.CachePath = null;
@@ -270,7 +270,7 @@ namespace CodeLibrary.Core
             }
 
             changed = !value.Equals(CachePath);
-            Path = Utils.ToBase64(value); 
+            Path = Utils.ToBase64(value);
             CachePath = value;
         }
 
@@ -395,7 +395,7 @@ namespace CodeLibrary.Core
                     }
                     catch
                     { }
-                }               
+                }
             }
 
             return CacheRTF;

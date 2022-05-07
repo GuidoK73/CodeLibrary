@@ -14,17 +14,16 @@ namespace EditorPlugins.Engine
         private readonly Dictionary<string, ToolStripMenuItem> _CategoryMenus = new Dictionary<string, ToolStripMenuItem>();
         private readonly ToolStripMenuItem _contextMenuItem;
         private readonly ToolStripMenuItem editorMenuItem;
-        private readonly ToolStripMenuItem _ExtensionMenu;
+
         private readonly Dictionary<string, ToolStripItem> _MenuItems = new Dictionary<string, ToolStripItem>();
         private readonly DictionaryList<PluginContainer, string> _Plugins = new DictionaryList<PluginContainer, string>(p => p.Id);
         private TextEditorContainer editor;
 
-        public MainPluginHelper(TextEditorContainer textEditor, ToolStripMenuItem editMenuPluginMenuItem, ToolStripMenuItem contextMenuPluginMenuItem, ToolStripMenuItem extensionMenu)
+        public MainPluginHelper(TextEditorContainer textEditor, ToolStripMenuItem editMenuPluginMenuItem, ToolStripMenuItem contextMenuPluginMenuItem)
         {
             editor = textEditor;
             editorMenuItem = editMenuPluginMenuItem;
             _contextMenuItem = contextMenuPluginMenuItem;
-            _ExtensionMenu = extensionMenu;
             LoadAssemblies();
             CreateMenus();
         }
@@ -45,7 +44,6 @@ namespace EditorPlugins.Engine
 
             CreateMenu(editorMenuItem, true, false);
             CreateMenu(_contextMenuItem, false, false);
-            CreateMenu(_ExtensionMenu, true, true);
         }
 
         public void LoadCustomSettings()
@@ -146,7 +144,7 @@ namespace EditorPlugins.Engine
             }
 
             _pluginSettingsHelper.SaveSettings();
-            
+
         }
 
         private void _menuItem_MouseDown(object sender, MouseEventArgs e)
@@ -162,7 +160,7 @@ namespace EditorPlugins.Engine
             ToolStripItem _menuItem = sender as ToolStripItem;
             string key = _menuItem.Tag as string;
             IEditorPlugin _plugin = _Plugins.Get(key).GetPlugin();
-            
+
             if (_plugin.IsExtension)
             {
                 return;

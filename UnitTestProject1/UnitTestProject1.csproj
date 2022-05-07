@@ -53,12 +53,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeLibrary.Core\CodeLibrary.Core.csproj">
       <Project>{49F5B576-5E64-4861-B799-0944EE363A4D}</Project>
       <Name>CodeLibrary.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GK.Template\GK.Template.csproj">
+      <Project>{F43BE9CD-2140-4984-AAB0-559AE1B5714E}</Project>
+      <Name>GK.Template</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

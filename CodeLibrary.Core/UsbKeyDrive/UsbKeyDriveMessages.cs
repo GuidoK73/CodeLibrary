@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace CodeLibrary.Core
-{ 
+{
     public class UsbKeyDriveMessages
     {
         private Dictionary<UsbKeyDriveErrorEnum, string> _Messages = new Dictionary<UsbKeyDriveErrorEnum, string>();

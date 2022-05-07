@@ -9,7 +9,7 @@ namespace GK.Template
     public sealed class StringTemplateItem
     {
         public List<PlaceHolder> PlaceHolders = new List<PlaceHolder>();
-         
+
         public StringTemplateItem()
         {
         }
@@ -352,7 +352,7 @@ namespace GK.Template
                     // parameters
                     string parametersString = getCallParameters(call).Trim(new char[] { '(', ')' });
                     string[] parameters = Utils.SplitEscaped(parametersString, ',', '"');
-                    
+
                     for (int ii = 0; ii < parameters.Length; ii++)
                     {
                         parameters[ii] = parameters[ii].Trim();

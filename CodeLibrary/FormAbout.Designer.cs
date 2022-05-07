@@ -43,6 +43,8 @@ namespace CodeLibrary
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.lblVersion = new System.Windows.Forms.Label();
             this.webBrowser = new CodeLibrary.Controls.Controls.ZoomBrowser();
+            this.label4 = new System.Windows.Forms.Label();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -182,12 +184,36 @@ namespace CodeLibrary
             this.webBrowser.Size = new System.Drawing.Size(993, 387);
             this.webBrowser.TabIndex = 19;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(341, 65);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 16);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Help:";
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel5.LinkColor = System.Drawing.Color.Yellow;
+            this.linkLabel5.Location = new System.Drawing.Point(341, 81);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(359, 16);
+            this.linkLabel5.TabIndex = 20;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "https://github.com/GuidoK73/CodeLibrary/wiki/Code-Library";
+            // 
             // FormAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1010, 665);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.linkLabel5);
             this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.linkLabel4);
@@ -227,5 +253,7 @@ namespace CodeLibrary
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.Label lblVersion;
         internal Controls.Controls.ZoomBrowser webBrowser;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.LinkLabel linkLabel5;
     }
 }

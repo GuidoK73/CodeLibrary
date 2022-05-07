@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 
 namespace GK.Template.Methods
-{ 
+{
     public enum KeepMode
     {
         [Description("The part of the value equals one of specified values.")]

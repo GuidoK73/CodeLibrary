@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Globalization;
+using System.Text;
 
 namespace CodeLibrary.Core
 {
@@ -250,7 +252,6 @@ namespace CodeLibrary.Core
                 return currentType;
             }
 
-
             if (_newType != currentType)
             {
                 return NetType.String;
@@ -262,8 +263,8 @@ namespace CodeLibrary.Core
         /// <summary>
         /// Returns a type value for a given string value.
         /// </summary>
-        public static object GetTypedValue(string value)
-        {      
+        public static object GetTypedValue(string value, bool precise = false)
+        {
             if (string.IsNullOrEmpty(value))
             {
                 return "";
@@ -286,36 +287,54 @@ namespace CodeLibrary.Core
             {
                 return _boolean;
             }
-            _succes = Byte.TryParse(value.Trim(), out byte _byte);
-            if (_succes)
+            if (precise)
             {
-                return _byte;
+                _succes = Byte.TryParse(value.Trim(), out byte _byte);
+                if (_succes)
+                {
+                    return _byte;
+                }
             }
-            _succes = Single.TryParse(value.Trim(), out Single _single);
-            if (_succes)
+
+            if (precise)
             {
-                return _single;
+                _succes = Int16.TryParse(value.Trim(), out Int16 _int16); // short
+                if (_succes)
+                {
+                    return _int16;
+                }
             }
-            _succes = Int16.TryParse(value.Trim(), out Int16 _int16); // short
-            if (_succes)
-            {
-                return _int16;
-            }
+
+
             _succes = Int32.TryParse(value.Trim(), out Int32 _int32); // int
             if (_succes)
             {
                 return _int32;
             }
-            _succes = Int64.TryParse(value.Trim(), out Int64 _int64); // long
-            if (_succes)
+
+            if (precise)
             {
-                return _int64;
+                _succes = Int64.TryParse(value.Trim(), out Int64 _int64); // long
+                if (_succes)
+                {
+                    return _int64;
+                }
             }
-            _succes = Double.TryParse(value.Trim(), out Double _double); // long
-            if (_succes)
+
+            if (precise)
             {
-                return _double;
+                _succes = Double.TryParse(value.Trim(), out Double _double); // long
+                if (_succes)
+                {
+                    return _double;
+                }
+                _succes = Single.TryParse(value.Trim(), out Single _single);
+                if (_succes)
+                {
+                    return _single;
+                }
             }
+
             _succes = Decimal.TryParse(value.Trim(), NumberStyles.Any, _culture, out Decimal _decimal);
             if (_succes)
             {
@@ -329,7 +348,6 @@ namespace CodeLibrary.Core
 
             return value;
         }
-
 
         public static object GetTypedValue(string value, NetType nettype)
         {
@@ -348,6 +366,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Guid:
                     _succes = Guid.TryParse(value.Trim(), out Guid _guid);
                     if (_succes)
@@ -359,6 +378,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Boolean:
                     _succes = Boolean.TryParse(value.Trim(), out bool _boolean);
                     if (_succes)
@@ -370,6 +390,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Byte:
                     _succes = Byte.TryParse(value.Trim(), out byte _byte);
                     if (_succes)
@@ -381,6 +402,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Single:
                     _succes = Single.TryParse(value.Trim(), out Single _single);
                     if (_succes)
@@ -392,6 +414,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Int16:
                     _succes = Int16.TryParse(value.Trim(), out Int16 _int16); // short
                     if (_succes)
@@ -403,6 +426,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Int32:
                     _succes = Int32.TryParse(value.Trim(), out Int32 _int32); // int
                     if (_succes)
@@ -414,6 +438,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Int64:
                     _succes = Int64.TryParse(value.Trim(), out Int64 _int64); // long
                     if (_succes)
@@ -425,6 +450,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Double:
                     _succes = Double.TryParse(value.Trim(), out Double _double); // long
                     if (_succes)
@@ -436,6 +462,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.Decimal:
                     _succes = Decimal.TryParse(value.Trim(), NumberStyles.Any, _culture, out Decimal _decimal);
                     if (_succes)
@@ -447,6 +474,7 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.TimeSpan:
                     _succes = TimeSpan.TryParse(value.Trim(), out TimeSpan _timespan);
                     if (_succes)
@@ -458,20 +486,19 @@ namespace CodeLibrary.Core
                         return null;
                     }
                     break;
+
                 case NetType.String:
                     if (string.IsNullOrEmpty(value))
                     {
                         return null;
                     }
                     return value;
-
             }
             return value;
         }
 
-
         public static string CSharpTypeConstructorCode(object value, NetType netType)
-        {          
+        {
             if (value == null)
             {
                 return "null";
@@ -490,33 +517,278 @@ namespace CodeLibrary.Core
                         return $"new DateTime({_datetime.Year},{_datetime.Month}, {_datetime.Day}, {_datetime.Hour}, {_datetime.Minute} )";
                     }
                     return $"new DateTime({_datetime.Year},{_datetime.Month}, {_datetime.Day}, {_datetime.Hour}, {_datetime.Minute}, {_datetime.Second} )";
+
                 case NetType.String:
                     return $"\"{ value.ToString().Replace("\"", "\\\"") }\"";
+
                 case NetType.Boolean:
                     return value.ToString().ToLower();
+
                 case NetType.TimeSpan:
                     TimeSpan _ts = (TimeSpan)value;
                     return $"new TimeSpan({_ts.Days},{_ts.Hours},{_ts.Minutes},{_ts.Seconds},{_ts.Milliseconds} )";
+
                 case NetType.Int16:
                 case NetType.Int32:
                 case NetType.Int64:
                 case NetType.Byte:
                     return value.ToString();
+
                 case NetType.Decimal:
                     decimal _decimal = (decimal)value;
                     return _decimal.ToString(CultureInfo.InvariantCulture);
+
                 case NetType.Double:
                     double _double = (double)value;
                     return _double.ToString(CultureInfo.InvariantCulture);
+
                 case NetType.Single:
                     Single _single = (Single)value;
                     return _single.ToString(CultureInfo.InvariantCulture);
+
                 case NetType.Guid:
                     Guid _guid = (Guid)value;
                     return $"Guid.Parse(\"{_guid}\")";
             }
 
-            return value.ToString();            
+            return value.ToString();
+        }
+
+        public static string SqlTypeConstructorCode(object value, NetType netType)
+        {
+            if (value == null)
+            {
+                return "null";
+            }
+            switch (netType)
+            {
+                case NetType.DateTimeOffset:
+                case NetType.DateTime:
+                    DateTime _datetime = (DateTime)value;
+                    return String.Format("'{0:0000}{1:00}{2:00} {3:00}:{4:00}:{5:00}'", _datetime.Year, _datetime.Month, _datetime.Day, _datetime.Hour, _datetime.Minute, _datetime.Second);
+
+                case NetType.TimeSpan:
+                    TimeSpan _ts = (TimeSpan)value;
+                    return _ts.Ticks.ToString();
+
+                case NetType.String:
+                    return $"'{ Utils.ToSqlAscii(value.ToString()) }'";
+
+                case NetType.Boolean:
+                    bool _bool = (bool)value;
+                    if (_bool)
+                        return "1";
+
+                    return "0";
+
+                case NetType.Int16:
+                case NetType.Int32:
+                case NetType.Int64:
+                case NetType.Byte:
+                    return value.ToString();
+
+                case NetType.Decimal:
+                    decimal _decimal = (decimal)value;
+                    return _decimal.ToString(CultureInfo.InvariantCulture);
+
+                case NetType.Double:
+                    double _double = (double)value;
+                    return _double.ToString(CultureInfo.InvariantCulture);
+
+                case NetType.Single:
+                    Single _single = (Single)value;
+                    return _single.ToString(CultureInfo.InvariantCulture);
+
+                case NetType.Guid:
+                    Guid _guid = (Guid)value;
+                    return $"'{_guid}'";
+            }
+
+            return value.ToString();
+        }
+
+
+        /// <summary>
+        /// Returns SqlDBType for a primitive C# type.
+        /// </summary>
+        public static DbType GetDbType(NetType type)
+        {
+
+            if (type == NetType.String)
+                return DbType.String; // Alternative: char[], char, NText, NChar, NText, NVarChar, Varchar
+
+            if (type == NetType.Guid)
+                return DbType.Guid;
+
+            if (type == NetType.Boolean)
+                return DbType.Boolean;
+
+            if (type == NetType.DateTime)
+                return DbType.DateTime; // Alternative: SmallDateTime or DateTime2
+
+            if (type == NetType.DateTimeOffset)
+                return DbType.DateTimeOffset;
+
+            if (type == NetType.TimeSpan)
+                return DbType.Time;
+
+            if (type == NetType.Byte)
+                return DbType.Byte;
+
+            if (type == NetType.SByte)
+                return DbType.SByte;
+
+            if (type == NetType.Int16)
+                return DbType.Int16;
+
+            if (type == NetType.Int32)
+                return DbType.Int32;
+
+            if (type == NetType.Int64)
+                return DbType.Int64;
+
+            if (type == NetType.UInt16)
+                return DbType.UInt16; // one larger to fit unsigned maximum
+
+            if (type == NetType.UInt32)
+                return DbType.UInt32; // one larger to fit unsigned maximum
+
+            if (type == NetType.UInt64)
+                return DbType.UInt64; // one larger to fit unsigned maximum
+
+            if (type == NetType.Single)
+                return DbType.Single;
+
+            if (type == NetType.Decimal)
+                return DbType.Decimal; // Alternative: Money, SmallMoney
+
+            if (type == NetType.Double)
+                return DbType.Double;
+
+            if (type == NetType.Enum)
+                return DbType.Int32;
+
+            return DbType.String;
+        }
+
+
+        public static SqlDbType GetSqlDbType(NetType type)
+        {
+            switch (type)
+            {
+                case NetType.Int64:
+                    return SqlDbType.BigInt;
+
+                case NetType.Boolean:
+                    return SqlDbType.Bit;
+
+                case NetType.DateTime:
+                    return SqlDbType.DateTime;
+
+                case NetType.Decimal:
+                    return SqlDbType.Decimal;
+
+                case NetType.Single:
+                    return SqlDbType.Real;
+
+                case NetType.Int32:
+                    return SqlDbType.Int;
+
+                case NetType.String:
+                    return SqlDbType.NVarChar;
+
+                case NetType.Int16:
+                    return SqlDbType.SmallInt;
+
+                case NetType.TimeSpan:
+                    return SqlDbType.Time;
+
+                case NetType.Byte:
+                    return SqlDbType.TinyInt;
+
+                case NetType.Guid:
+                    return SqlDbType.UniqueIdentifier;
+            }
+
+            return SqlDbType.NVarChar;
+        }
+
+        public static string SqlTypeDefinition(NetType type, string name, bool allowNull, bool autoIncrement, int columnLength)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("[");
+            sb.Append(name);
+            sb.Append("] ");
+
+            string _columnLength = columnLength == 0 ? "MAX" : columnLength.ToString();
+
+            switch (type)
+            {
+                case NetType.String:
+                    sb.Append($"NVARCHAR({_columnLength}) ");
+                    break;
+
+                case NetType.Guid:
+                    sb.Append($"UNIQUEIDENTIFIER ");
+                    break;
+
+                case NetType.Boolean:
+                    sb.Append($"BIT ");
+                    break;
+
+                case NetType.DateTime:
+                    sb.Append($"DATETIME ");
+                    break;
+
+                case NetType.DateTimeOffset:
+                    sb.Append($"DATETIMEOFFSET ");
+                    break;
+
+                case NetType.TimeSpan:
+                    sb.Append($"BIGINT -- ( TimeSpan.Ticks ) ");
+                    break;
+
+                case NetType.Byte:
+                    sb.Append($"TINYINT ");
+                    break;
+                //case NetType.ByteArray:
+                //    sb.Append($"IMAGE ");
+                //    break;
+                case NetType.Int16:
+                    sb.Append($"SMALLINT ");
+                    break;
+
+                case NetType.Int32:
+                    sb.Append($"INT ");
+                    break;
+
+                case NetType.Int64:
+                    sb.Append($"BIGINT ");
+                    break;
+
+                case NetType.Single:
+                    sb.Append($"REAL ");
+                    break;
+
+                case NetType.Double:
+                    sb.Append($"FLOAT ");
+                    break;
+
+                case NetType.Decimal:
+                    sb.Append($"DECIMAL(28,8) ");
+                    break;
+            }
+
+            if (autoIncrement)
+                sb.Append($"IDENTITY(1,1) ");
+
+            if (allowNull)
+                sb.Append("NULL");
+            else
+                sb.Append("NOT NULL");
+
+            return sb.ToString();
         }
 
     }

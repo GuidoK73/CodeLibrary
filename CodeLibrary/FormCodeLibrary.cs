@@ -212,7 +212,7 @@ namespace CodeLibrary
             if (string.IsNullOrEmpty(Config.LastOpenedFile))
                 _fileHelper.NewDoc();
 
-            _PluginHelper = new MainPluginHelper(_CurrentEditor, mnuPlugins, mncPlugins, mnuExtensions);
+            _PluginHelper = new MainPluginHelper(_CurrentEditor, mnuPlugins, mncPlugins);
 
             if (Config.IsNewVersion())
             {
@@ -233,7 +233,7 @@ namespace CodeLibrary
             rtfEditor.Zoom = hScrollBarZoom.Value;
             labelZoomPerc.Text = $"{fastColoredTextBox.Zoom}%";
             Config.Zoom = fastColoredTextBox.Zoom;
-            webBrowser.Zoom(hScrollBarZoom.Value);            
+            webBrowser.Zoom(hScrollBarZoom.Value);
         }
 
         private void mncAdd_Click(object sender, EventArgs e) => AddNote();
@@ -319,7 +319,7 @@ namespace CodeLibrary
 
         private void mncTypeXml_Click(object sender, EventArgs e) => _treeHelper.ChangeType(treeViewLibrary.SelectedNode, CodeType.XML);
 
-        private void mncWithMarkup_Click(object sender, EventArgs e) => _textboxHelper.CopyWithMarkup();
+        private void mncWithMarkup_Click(object sender, EventArgs e) => _textboxHelper.Copy_CtrlShift();
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {
@@ -363,7 +363,7 @@ namespace CodeLibrary
             //var _snippet = _treeHelper.FromNode(_treeHelper.SelectedNode);
             //var _text = _textboxHelper.Merge
 
-            
+
 
             //if (_snippet.CodeType == CodeType.MarkDown)
             //{
@@ -385,9 +385,9 @@ namespace CodeLibrary
             //}
         }
 
-        private void mnuCopyPath_Click(object sender, EventArgs e) =>  Clipboard.SetText($"#[{treeViewLibrary.SelectedNode.FullPath}]#");
+        private void mnuCopyPath_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{treeViewLibrary.SelectedNode.FullPath}]#");
 
-        private void mnuCopyWithMarkup_Click(object sender, EventArgs e) => _textboxHelper.CopyWithMarkup();
+        private void mnuCopyWithMarkup_Click(object sender, EventArgs e) => _textboxHelper.Copy_CtrlShift();
 
         private void mnuCut_Click(object sender, EventArgs e) => _textboxHelper.Cut();
 
@@ -596,7 +596,7 @@ namespace CodeLibrary
         }
 
         private void mncGotoReference_Click(object sender, EventArgs e)
-        {            
+        {
             CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(treeViewLibrary.SelectedNode.Name);
             TreeNode _node = CodeLib.Instance.TreeNodes.Get(_snippet.ReferenceLinkId);
             _treeHelper.SetSelectedNode(_node, false);
@@ -609,11 +609,13 @@ namespace CodeLibrary
             _treeHelper.SetSelectedNode(_node, false);
         }
 
-        private void exportLibraryToolStripMenuItem_Click(object sender, EventArgs e) =>  _fileHelper.ExportLibrary();
+        private void exportLibraryToolStripMenuItem_Click(object sender, EventArgs e) => _fileHelper.ExportLibrary();
 
         private void mnuCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
 
         private void mncCopyId_Click(object sender, EventArgs e) => Clipboard.SetText($"#[{_treeHelper.FromNode(treeViewLibrary.SelectedNode).Id.ToString()}]#");
+
+        private void githubToolStripMenuItem_Click(object sender, EventArgs e) => System.Diagnostics.Process.Start("https://github.com/GuidoK73/CodeLibrary/wiki/Code-Library");
 
     }
 }

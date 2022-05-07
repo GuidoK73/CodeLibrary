@@ -91,7 +91,7 @@ namespace CodeLibrary.Core
                     }
                 }
                 if (!string.IsNullOrEmpty(_snip.Name))
-                { 
+                {
                     if (_snip.Name.Contains("Ãƒ"))
                     {
                         _snip.Name = "";
@@ -126,12 +126,12 @@ namespace CodeLibrary.Core
                     _old.Path = Constants.UNNAMED;
 
                 CodeSnippet _new = new CodeSnippet()
-                {       
-                    DefaultChildCodeType = _old.DefaultChildCodeType, 
-                    DefaultChildCodeTypeEnabled = _old.DefaultChildCodeTypeEnabled, 
-                    DefaultChildName = _old.DefaultChildName, 
-                    Name = _old.Name,             
-                    Blob = _old.Blob,  
+                {
+                    DefaultChildCodeType = _old.DefaultChildCodeType,
+                    DefaultChildCodeTypeEnabled = _old.DefaultChildCodeTypeEnabled,
+                    DefaultChildName = _old.DefaultChildName,
+                    Name = _old.Name,
+                    Blob = _old.Blob,
                     AlarmActive = _old.AlarmActive,
                     AlarmDate = _old.AlarmDate,
                     CodeLastModificationDate = _old.CodeLastModificationDate,
@@ -212,10 +212,10 @@ namespace CodeLibrary.Core
             {
                 foreach (CodeSnippet snippet in collection.Items)
                 {
-                        if (string.IsNullOrWhiteSpace(snippet.GetPath()))
-                            snippet.SetPath(Constants.UNNAMED, out bool _changed);
+                    if (string.IsNullOrWhiteSpace(snippet.GetPath()))
+                        snippet.SetPath(Constants.UNNAMED, out bool _changed);
 
-                        snippet.Refresh();
+                    snippet.Refresh();
 
                 }
             }

@@ -138,7 +138,7 @@ namespace CodeLibrary.Helpers
 
         public void SetWebBrowserTheme(ETheme theme)
         {
-            switch(theme)
+            switch (theme)
             {
                 case ETheme.Light:
                     _mainform.webBrowser.Document.BackColor = Color.FromArgb(255, 240, 240, 240);

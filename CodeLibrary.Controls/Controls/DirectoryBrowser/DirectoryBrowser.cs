@@ -33,10 +33,10 @@ namespace CodeLibrary.Controls.DirectoryBrowser
         private bool _CheckBoxes = false;
         private string _CurrentSelection = string.Empty;
         private List<KeyValuePair<string, PathItem>> _CustomPaths = new List<KeyValuePair<string, PathItem>>();
-        private ILookup<string, PathItem> _CustomPathsLookup;        
+        private ILookup<string, PathItem> _CustomPathsLookup;
         private bool _IncludeFiles = false;
         private bool _InitLookup = true;
-        private string _RootDirectory = string.Empty;                                        
+        private string _RootDirectory = string.Empty;
         private List<FileSystemWatcher> _Watchers = new List<FileSystemWatcher>();
 
         public DirectoryBrowser()
@@ -167,7 +167,7 @@ namespace CodeLibrary.Controls.DirectoryBrowser
 
         [Category("DirectoryBrowser")]
         [Description("Determines how files are sorted.")]
-        public FileSort FileSorting { get; set; }  = FileSort.NoSorting;
+        public FileSort FileSorting { get; set; } = FileSort.NoSorting;
 
         [Category("DirectoryBrowser")]
         [Description("Indicate whether to include files in the treeviewer")]
@@ -205,7 +205,7 @@ namespace CodeLibrary.Controls.DirectoryBrowser
 
         [Category("DirectoryBrowser")]
         [Description("Show the MyFavorites Folder")]
-        public bool ShowFavorites { get; set; }  = true;
+        public bool ShowFavorites { get; set; } = true;
 
         [Category("DirectoryBrowser")]
         [Description("Show the MyDocuments Folder")]
@@ -459,7 +459,7 @@ namespace CodeLibrary.Controls.DirectoryBrowser
                     else
                     {
                         // #FIX
-                         //showContextMenu(bcea.Path);
+                        //showContextMenu(bcea.Path);
                     }
                 }
                 if (NodeTag.GetNodeType(e.Node) == NodeType.Folder)
@@ -856,7 +856,7 @@ namespace CodeLibrary.Controls.DirectoryBrowser
             BrowserIconRequestEventArgs ea = new BrowserIconRequestEventArgs();
             ea.Path = path;
             IconRequest(this, ea);
-            return ea.Path;           
+            return ea.Path;
         }
 
         private bool raiseFilterPath(string path)
@@ -882,7 +882,7 @@ namespace CodeLibrary.Controls.DirectoryBrowser
             {
                 return Color.Orange;
             }
-            return Color.Orange;    
+            return Color.Orange;
         }
 
         private TreeNode selectChildNode(string path, TreeNode parentNode)

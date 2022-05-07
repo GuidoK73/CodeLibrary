@@ -158,7 +158,7 @@ namespace CodeLibrary
             for (int ii = 0; ii < items.Length - 1; ii++)
             {
                 string _parentPath = items[ii];
-                
+
 
                 CodeSnippet _item = CodeLib.Instance.CodeSnippets.GetByPath(_parentPath);
                 if (_item != null)

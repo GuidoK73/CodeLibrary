@@ -13,7 +13,7 @@ namespace EditorPlugins.Engine
 
         public PluginHelper(IEditorPlugin plugin)
         {
-            _plugin = plugin; 
+            _plugin = plugin;
         }
 
         public string GetDescription()
@@ -82,7 +82,7 @@ namespace EditorPlugins.Engine
             {
                 Directory.CreateDirectory(_filename.Directory.FullName);
             }
-                
+
             File.WriteAllText(Filename(), _json);
         }
 

@@ -116,20 +116,6 @@ namespace CodeLibrary.Editor
 
         public void BringToFront() => _tb.BringToFront();
 
-        public void Copy()
-        {
-            _mainform.textBoxClipboard.Text = SelectedText;
-            if (!string.IsNullOrEmpty(_mainform.textBoxClipboard.Text))
-                Clipboard.SetText(_mainform.textBoxClipboard.Text, TextDataFormat.Text);
-            else
-                Clipboard.Clear();
-        }
-
-        public void CopyWithMarkup()
-        {
-            _tb.Copy();
-        }
-
         public string CurrentLine()
         {
             Range _line = _tb.GetLine(_tb.Selection.Start.iLine);
@@ -160,7 +146,6 @@ namespace CodeLibrary.Editor
 
         public string Merge() => Core.Utils.Merge(Text, _StateSnippet.CodeType);
 
-
         public void Paste_CtrlAltShift()
         {
             var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
@@ -177,6 +162,24 @@ namespace CodeLibrary.Editor
         {
             var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
             _helper.Paste();
+        }
+
+        public void Copy()
+        {
+            var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
+            _helper.Copy();
+        }
+
+        public void Copy_CtrlShift()
+        {
+            var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
+            _helper.Copy_CtrlShift();
+        }
+
+        public void Copy_CtrlAltShift()
+        {
+            var _helper = EditorHelperFactory.Instance.GetInstance(_StateSnippet.CodeType);
+            _helper.Copy_CtrlAltShift();
         }
 
         private void _tb_PasteOther(object sender, EventArgs e)
@@ -316,6 +319,7 @@ namespace CodeLibrary.Editor
                                     _text = _sb.ToString();
                                     _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
                                     break;
+
                                 case ETheme.HighContrast:
                                     _sb = new StringBuilder();
                                     _sb.Append("<body style =\"background-color:#000000;color:#cccccc;font-family:Arial\"></body>\r\n");
@@ -333,6 +337,7 @@ namespace CodeLibrary.Editor
                                     _text = _sb.ToString();
                                     _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
                                     break;
+
                                 case ETheme.Light:
                                     _sb = new StringBuilder();
                                     _sb.Append("<body style =\"font-family:Arial\"></body>\r\n");
@@ -418,7 +423,6 @@ namespace CodeLibrary.Editor
 
             return true;
         }
-
 
         private bool Export(ExportType exportType, bool saveAs)
         {
@@ -582,6 +586,18 @@ namespace CodeLibrary.Editor
             if (DocShortCut(e))
                 return;
 
+            if (e.Control && e.Shift && e.KeyValue == 67)
+            {
+                Copy_CtrlShift();
+                return;
+            }
+
+            if (e.Control && e.Shift && e.Alt && e.KeyValue == 67)
+            {
+                Copy_CtrlAltShift();
+                return;
+            }
+
             if (e.Control && e.Shift && e.Alt && e.KeyValue == 86)
             {
                 Paste_CtrlAltShift();
@@ -593,8 +609,6 @@ namespace CodeLibrary.Editor
                 Paste_CtrlShift();
                 return;
             }
-
-
 
             if (string.IsNullOrEmpty(tb.SelectedText))
                 return;

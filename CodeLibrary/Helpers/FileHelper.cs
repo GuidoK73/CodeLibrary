@@ -56,13 +56,13 @@ namespace CodeLibrary
             {
                 return;
             }
-           
+
             CodeSnippetCollection _collection = new CodeSnippetCollection();
             CodeLib.Instance.Save(_collection);
 
             CodeSnippetCollectionExporterService _export = new CodeSnippetCollectionExporterService(_dialog.SelectedPath, _collection);
             _export.Export();
-        } 
+        }
 
         public TreeNode ClipBoardMonitorNode { get; set; }
 
@@ -595,7 +595,7 @@ namespace CodeLibrary
             _mainform.SaveEditor();
             CodeLib.Instance.Save(_collection);
 
-            Save(_collection, _fileName); 
+            Save(_collection, _fileName);
         }
 
         private void AutoSaveTimer_Tick(object sender, EventArgs e)

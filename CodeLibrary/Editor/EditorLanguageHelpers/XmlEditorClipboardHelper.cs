@@ -1,4 +1,5 @@
-﻿using CodeLibrary.Core.DevToys;
+﻿using CodeLibrary.Core;
+using CodeLibrary.Core.DevToys;
 using CodeLibrary.Helpers;
 using System.IO;
 using System.Linq;
@@ -15,100 +16,95 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
 
         protected override void Paste_CtrlShift_Text()
         {
-            bool b = Do(false);
-            if (b)
+            bool _succes = Execute();
+            if (_succes)
                 return;
 
             base.Paste_CtrlShift_Text();
         }
 
-        protected override void Paste_CtrlAltShift_Text()
-        {
-            bool b = Do(true);
-            if (b)
-                return;
-
-            base.Paste_CtrlShift_Text();
-        }
-
-        private bool Do(bool noHeader)
+        private bool Execute()
         {
             string _text = Clipboard.GetText();
-            _text = Core.Utils.TrimText(_text, "\r\n");
 
-            string _data = string.Empty;
-            bool _first = true;
-            
-
-            StringBuilder _sb = new StringBuilder();
-
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
-            if (!_isCsv)
-                return false;
-
-
-            if (Core.Utils.isReorderString(SelectedText))
+            switch (GetClipboardTextType())
             {
-                string _reorderString = SelectedText;
-                _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
-            }
-
-            string[] _header = Core.Utils.CsvHeader(_text, _separator);
-            if (noHeader)
-            {
-                for (int ii = 0; ii < _header.Length; ii++)
-                {
-                    _header[ii] = $"Field_{ii}";
-                }
-            }
-
-            byte[] byteArray = Encoding.Default.GetBytes(_text);
-            using (MemoryStream _stream = new MemoryStream(byteArray))
-            {
-                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
-                {
-                    _reader.Separator = _separator;
-                    while (!_reader.EndOfCsvStream)
+                case TextType.Xml:
+                    string _xml = Utils.FormatXml(_text, out bool _succes);
+                    if (_succes)
                     {
-                        if (_first == false || noHeader)
+                        SelectedText = _xml;
+                        return true;
+                    }
+                    return false; ;
+
+                case TextType.Json:
+                    SelectedText = JsonUtils.ConvertJsonToXml(_text);
+                    return true;
+
+                case TextType.Csv:
+                    _text = Utils.TrimText(_text, "\r\n");
+                    string _data = string.Empty;
+                    bool _first = true;
+                    StringBuilder _sb = new StringBuilder();
+
+                    bool _isCsv = CsvUtils.GetCsvSeparator(_text, out char _separator);
+                    if (!_isCsv)
+                        return false;
+
+                    if (Utils.isReorderString(SelectedText))
+                    {
+                        string _reorderString = SelectedText;
+                        _text = CsvUtils.CsvChange(_text, _separator, _separator, _reorderString);
+                    }
+
+                    string[] _header = CsvUtils.CsvHeader(_text, _separator);
+
+                    byte[] byteArray = Encoding.Default.GetBytes(_text);
+                    using (MemoryStream _stream = new MemoryStream(byteArray))
+                    {
+                        using (CsvStreamReader _reader = new CsvStreamReader(_stream))
                         {
-                            _sb.Append("<item>\r\n");
-                            string[] _items = _reader.ReadCsvLine().ToArray();
-                            for (int ii = 0; ii < _header.Length; ii++)
+                            _reader.Separator = _separator;
+                            _sb.Append("<Root>\r\n");
+                            while (!_reader.EndOfCsvStream)
                             {
-                                _sb.Append($"\t<{_header[ii]}>{_items[ii]}</{_header[ii]}>\r\n");
+                                if (_first == false)
+                                {
+                                    _sb.Append("\t<Item>\r\n");
+                                    string[] _items = _reader.ReadCsvLine().ToArray();
+                                    for (int ii = 0; ii < _header.Length; ii++)
+                                    {
+                                        _sb.Append($"\t\t<{_header[ii]}>{_items[ii]}</{_header[ii]}>\r\n");
+                                    }
+                                    _sb.Append("\t</Item>\r\n");
+                                }
+                                if (_first == true)
+                                {
+                                    _first = false;
+                                }
                             }
-                            _sb.Append("</item>\r\n");
-                        }
-                        if (_first == true)
-                        {
-                            _first = false;
+                            _sb.Append("</Root>\r\n");
+
                         }
                     }
-                }
+
+                    SelectedText = _sb.ToString();
+                    return true;
             }
 
-            SelectedText = _sb.ToString();
-
-            return true;
+            return false;
         }
 
         protected override void Paste_CtrlShift_TextImage()
         {
-            bool b = Do(false);
-            if (b)
+            bool _succes = Execute();
+            if (_succes)
                 return;
 
             base.Paste_CtrlShift_TextImage();
         }
 
-        protected override void Paste_CtrlAltShift_TextImage()
-        {
-            bool b = Do(true);
-            if (b)
-                return;
 
-            base.Paste_CtrlShift_TextImage();
-        }
     }
 }

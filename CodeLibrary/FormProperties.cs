@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace CodeLibrary
 {
     public partial class FormProperties : Form
-    { 
+    {
         private readonly EnumComboBoxModeHelper<CodeType> _defaultTypeComboBoxHelper;
         private readonly EnumComboBoxModeHelper<Keys> _shortCutKeysComboHelper;
         private readonly EnumComboBoxModeHelper<CodeType> _typeComboBoxHelper;
@@ -120,7 +120,7 @@ namespace CodeLibrary
                 else if (_oldType == CodeType.RTF && _newType != CodeType.RTF)
                 {
                     _richTextBox.Rtf = Snippet.GetRTF();
-                    Snippet.SetCode(_richTextBox.Text, out _changed); 
+                    Snippet.SetCode(_richTextBox.Text, out _changed);
                 }
 
 
@@ -165,7 +165,7 @@ namespace CodeLibrary
                 }
                 if (cbShift.Checked)
                 {
-                    _keys = _keys | Keys.Shift; 
+                    _keys = _keys | Keys.Shift;
                 }
                 if (cbAlt.Checked)
                 {

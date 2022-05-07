@@ -27,7 +27,7 @@ namespace CodeLibrary.PluginPack.Forms
             {
                 LineCount = System.Convert.ToInt32(tbLineCount.Text);
             }
-            catch 
+            catch
             {
                 LineCount = 2;
             }

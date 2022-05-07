@@ -20,9 +20,9 @@ namespace CodeLibrary.Core
             RegisterLookup(LOOKUP_NAME, p => p.Name);
             RegisterLookup(LOOKUP_TIMERACTIVE, p => p.AlarmActive);
             RegisterLookup(LOOKUP_PATH, p => p.GetPath().ToLower());
-            RegisterLookup(LOOKUP_PARENT_PATH, p => Utils.ParentPath( p.GetPath(), '\\').ToLower());
+            RegisterLookup(LOOKUP_PARENT_PATH, p => Utils.ParentPath(p.GetPath(), '\\').ToLower());
             RegisterLookup(LOOKUP_SHORTCUT, p => $"{p.ShortCutKeys}_{p.ShortCutKeyLanguage}");
-            RegisterLookup(LOOKUP_REFERENCELINKID, p => p.ReferenceLinkId); 
+            RegisterLookup(LOOKUP_REFERENCELINKID, p => p.ReferenceLinkId);
         }
 
         public IEnumerable<CodeSnippet> GetByAlarmActive() => Lookup(LOOKUP_TIMERACTIVE, true);

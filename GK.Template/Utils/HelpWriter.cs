@@ -14,50 +14,50 @@ namespace GK.Template
         {
             string tmp = @"
 
-<h1>{0}</h1>
-<h3>{1}</h3>
-<hr/>
-<b>Aliasses:</b></br>
-{2}</br>
-</br>
-<b>Description:</b></br>
-{3}</br>
-</br>
-<b>Parameters:</b></br>
-{5}</br>
-</br>
-</hr>
-<b>Example:</b></br>
+# {0}
+**{1}**
+
+**Aliasses:**
+{2}
+
+**Description:**
+{3}
+
+**Parameters:**
+{5}
+
+**Example:**
 {4}
-</br>
+
+---
+
 ";
             StringBuilder sb = new StringBuilder();
             if (at.Parameters.Count == 0)
             {
-                sb.Append("<li><i>None</i></li>");
+                sb.Append("- None");
             }
             foreach (FormatMethodParameterAttribute prm in at.Parameters)
             {
-                sb.Append("<li>\r\n");
-                sb.AppendFormat("{0} ", prm.Name);
-                sb.AppendFormat("{0}", prm.Optional == true ? "<i>optional</i>" : "");
-                sb.AppendFormat("{0}", prm.IsParams == true ? "<i>params</i>" : "");
+                sb.Append("- ");
+                sb.AppendFormat("**{0}** ", prm.Name);
+                sb.AppendFormat("{0}", prm.Optional == true ? "***optional***" : "");
+                sb.AppendFormat("{0}", prm.IsParams == true ? "***params***" : "");
                 if (!string.IsNullOrEmpty(prm.Description))
-                    sb.AppendFormat("<br/>\r\n{0}", prm.Description.Replace("\r\n", "<br/>"));
+                    sb.AppendFormat("{0}", prm.Description);
+                sb.Append("\r\n");
 
                 if (prm.PropertyReference.PropertyType.BaseType == typeof(Enum))
                 {
+
+
                     foreach (int val in EnumUtility.GetValues(prm.PropertyReference.PropertyType))
                     {
-                        sb.Append("<ul>");
                         string name = Enum.GetName(prm.PropertyReference.PropertyType, val);
                         string description = EnumUtility.GetDescription(EnumUtility.GetValueByName(prm.PropertyReference.PropertyType, name));
-                        sb.AppendFormat("<li>{0}<br/>{1}</li>\r\n", name, description);
-                        sb.Append("</ul>\r\n");
+                        sb.AppendFormat("- **{0}:** {1}\r\n", name, description);
                     }
                 }
-
-                sb.Append("</li>");
             }
 
             return string.Format(tmp, at.Name, at.ToString(), at.Aliasses, at.Description, at.Example, sb.ToString());

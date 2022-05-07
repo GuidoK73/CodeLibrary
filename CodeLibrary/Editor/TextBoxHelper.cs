@@ -42,7 +42,7 @@ namespace CodeLibrary.Editor
             _RtfEditorHelper = new RtfEditorHelper(_mainform, this);
             _ThemeHelper = themeHelper;
             _FastColoredTextBoxHelper = new FastColoredTextBoxHelper(_mainform, this, themeHelper);
-            
+
         }
 
         public FastColoredTextBox FastColoredTextBox
@@ -100,7 +100,7 @@ namespace CodeLibrary.Editor
 
         public void Copy() => _ActiveTextBoxHelper.Copy();
 
-        public void CopyWithMarkup() => _FastColoredTextBoxHelper.CopyWithMarkup();
+        public void Copy_CtrlShift() => _FastColoredTextBoxHelper.Copy_CtrlShift();
 
         public void Cut() => _ActiveTextBoxHelper.Cut();
 

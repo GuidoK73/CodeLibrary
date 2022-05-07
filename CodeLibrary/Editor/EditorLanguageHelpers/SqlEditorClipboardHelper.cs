@@ -1,4 +1,5 @@
-﻿using CodeLibrary.Core.DevToys;
+﻿using CodeLibrary.Core;
+using CodeLibrary.Core.DevToys;
 using CodeLibrary.Helpers;
 using System.IO;
 using System.Linq;
@@ -16,14 +17,14 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
 
         protected override void Paste_CtrlShift_Text()
         {
-            bool b = Do();
+            bool b = Execute();
             if (b)
                 return;
 
             base.Paste_CtrlShift_Text();
         }
 
-        private bool Do()
+        private bool Execute()
         {
             string _text = Clipboard.GetText();
             _text = Core.Utils.TrimText(_text, "\r\n");
@@ -34,15 +35,31 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
             StringBuilder _sb = new StringBuilder();
 
 
-            bool _isCsv = Core.Utils.GetCsvSeparator(_text, out char _separator);
+            bool _isCsv = CsvUtils.GetCsvSeparator(_text, out char _separator);
             if (!_isCsv)
                 return false;
 
-            if (Core.Utils.isReorderString(SelectedText))
+            if (Utils.isReorderString(SelectedText))
             {
                 string _reorderString = SelectedText;
-                _text = Core.Utils.CsvChange(_text, _separator, _separator, _reorderString);
+                _text = CsvUtils.CsvChange(_text, _separator, _separator, _reorderString);
             }
+
+            var _schema = CsvUtils.CsvSchema(_text).ToArray();
+
+
+            _sb.Append("Create table dbo.MY_TABLE\r\n");
+            _sb.Append("(\r\n");
+            foreach (var item in _schema)
+            {
+                _sb.Append($"\t{TypeUtils.SqlTypeDefinition(item.DotNetType, item.Name, item.Nullable, false, 0)},");
+                if (item.IsLast)
+                {
+                    _sb.Length--;
+                }
+                _sb.Append("\r\n");
+            }
+            _sb.Append(")\r\nGO\r\n\r\n");
 
             byte[] byteArray = Encoding.Default.GetBytes(_text);
             using (MemoryStream _stream = new MemoryStream(byteArray))
@@ -59,20 +76,22 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                         }
                         else
                         {
-                            _sb.Append("insert into TABLEX ");
+                            _sb.Append("insert into MY_TABLE ");
                             string[] _items = _reader.ReadCsvLine().ToArray();
                             _sb.Append("(");
-                            for (int ii = 0; ii < _header.Length; ii++)
+                            for (int ii = 0; ii < _schema.Count(); ii++)
                             {
-                                _sb.Append($"{Core.Utils.ToSqlAscii(_header[ii])},");
+                                _sb.Append($"[{Utils.ToSqlAscii(_schema[ii].Name)}],");
                             }
                             _sb.Length--;
 
                             _sb.Append(") values (");
 
-                            for (int ii = 0; ii < _header.Length; ii++)
+                            for (int ii = 0; ii < _schema.Count(); ii++)
                             {
-                                _sb.Append($"'{Core.Utils.ToSqlAscii(_items[ii])}',");
+                                object _value = TypeUtils.GetTypedValue(_items[ii], _schema[ii].DotNetType);
+                                string _code = TypeUtils.SqlTypeConstructorCode(_value, _schema[ii].DotNetType);
+                                _sb.Append($"{_code},");
                             }
                             _sb.Length--;
                             _sb.Append(");\r\n");
@@ -88,22 +107,12 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
 
         protected override void Paste_CtrlShift_TextImage()
         {
-            bool b = Do();
+            bool b = Execute();
             if (b)
                 return;
 
 
             base.Paste_CtrlShift_TextImage();
-        }
-
-        protected override void Paste_CtrlAltShift_TextImage()
-        {
-            bool b = Do();
-            if (b)
-                return;
-
-
-            base.Paste_CtrlAltShift_TextImage();
         }
 
 
