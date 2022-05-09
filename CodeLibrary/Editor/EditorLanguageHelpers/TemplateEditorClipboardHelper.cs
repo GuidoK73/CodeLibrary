@@ -13,10 +13,12 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         private bool Execute()
         {
             string _text = Clipboard.GetText();
-            _text = Core.Utils.TrimText(_text, "\r\n");
+            _text = Utils.TrimText(_text, "\r\n");
 
             char _separator = ' ';
             string _data = string.Empty;
+
+            char[] _chars = _text.ToCharArray();
 
             bool _isCsv = CsvUtils.GetCsvSeparator(_text, out _separator);
             if (_isCsv)
