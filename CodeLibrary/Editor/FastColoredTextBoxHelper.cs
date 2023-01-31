@@ -312,12 +312,20 @@ namespace CodeLibrary.Editor
                                     _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
                                     _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
                                     _sb.Append(".container { position: relative;left: 20px; width:auto; margin: auto; }");
+                                    _sb.Append("h1 { color: #edac42; }");
+                                    _sb.Append("h2 { color: #bfb23f; }");
+                                    _sb.Append("h3 { color: #ada347; }");
+                                    _sb.Append("h4 { color: #ada347; }");
+                                    _sb.Append("h5 { color: #ada347; }");
                                     _sb.Append("</style>");
                                     _sb.Append("<div class=\"container\">");
                                     _sb.Append(_text);
                                     _sb.Append("</div>");
                                     _text = _sb.ToString();
-                                    _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+                                    _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:LightGray;background-color:Black;\"");
+                                    _text = _text.Replace("style=\"color:Blue;\"", "style=\"color:#9899ed;\"");
+                                    _text = _text.Replace("style=\"color:#A31515;\"", "style=\"color:#edac42;\"");
+                                    _text = _text.Replace("style=\"color:Green;\"", "style=\"color:LightGreen;\"");
                                     break;
 
                                 case ETheme.HighContrast:
@@ -330,12 +338,20 @@ namespace CodeLibrary.Editor
                                     _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
                                     _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
                                     _sb.Append(".container { position: relative;left: 20px; width:auto; margin: auto; }");
+                                    _sb.Append("h1 { color: #edac42; }");
+                                    _sb.Append("h2 { color: #bfb23f; }");
+                                    _sb.Append("h3 { color: #ada347; }");
+                                    _sb.Append("h4 { color: #ada347; }");
+                                    _sb.Append("h5 { color: #ada347; }");
                                     _sb.Append("</style>");
                                     _sb.Append("<div class=\"container\">");
                                     _sb.Append(_text);
                                     _sb.Append("</div>");
                                     _text = _sb.ToString();
-                                    _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+                                    _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:LightGray;background-color:Black;\"");
+                                    _text = _text.Replace("style=\"color:Blue;\"", "style=\"color:#9899ed;\"");
+                                    _text = _text.Replace("style=\"color:#A31515;\"", "style=\"color:#edac42;\"");
+                                    _text = _text.Replace("style=\"color:Green;\"", "style=\"color:LightGreen;\"");
                                     break;
 
                                 case ETheme.Light:
@@ -586,21 +602,22 @@ namespace CodeLibrary.Editor
             if (DocShortCut(e))
                 return;
 
-            if (e.Control && e.Shift && e.KeyValue == 67)
-            {
-                Copy_CtrlShift();
-                return;
-            }
-
             if (e.Control && e.Shift && e.Alt && e.KeyValue == 67)
             {
                 Copy_CtrlAltShift();
                 return;
             }
 
+
             if (e.Control && e.Shift && e.Alt && e.KeyValue == 86)
             {
                 Paste_CtrlAltShift();
+                return;
+            }
+
+            if (e.Control && e.Shift && e.KeyValue == 67)
+            {
+                Copy_CtrlShift();
                 return;
             }
 

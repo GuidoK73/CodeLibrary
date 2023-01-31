@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security;
 using System.Security.Cryptography;
@@ -36,7 +37,7 @@ namespace CodeLibrary.Core
         }
 
         // block size is 128-bit
-        public CryptoStream CreateDecryptionStream(byte[] key, Stream inputStream)
+        private CryptoStream CreateDecryptionStream(byte[] key, Stream inputStream)
         {
             byte[] iv = new byte[ivSize];
 
@@ -52,7 +53,7 @@ namespace CodeLibrary.Core
             return decryptor;
         }
 
-        public CryptoStream CreateEncryptionStream(byte[] key, Stream outputStream)
+        private CryptoStream CreateEncryptionStream(byte[] key, Stream outputStream)
         {
             byte[] iv = new byte[ivSize];
 
@@ -74,31 +75,43 @@ namespace CodeLibrary.Core
 
         public DATA Read()
         {
-            byte[] key = PasswordBytes(_Password);
-
             using (FileStream filestream = new FileStream(_FileName, FileMode.Open))
             {
-                HEADER _header = (HEADER)ReadObjectFromStream(filestream);
-                using (CryptoStream cryptoStream = CreateDecryptionStream(key, filestream))
-                {
-                    DATA _data = (DATA)ReadObjectFromStream(cryptoStream);
-                    return _data;
-                }
+                return Read(filestream);
             }
+        }
+
+        public DATA Read(Stream stream)
+        {
+            byte[] key = PasswordBytes(_Password);
+
+            HEADER _header = (HEADER)ReadObjectFromStream(stream);
+            using (CryptoStream cryptoStream = CreateDecryptionStream(key, stream))
+            {
+                DATA _data = (DATA)ReadObjectFromStream(cryptoStream);
+                return _data;
+            }     
         }
 
         public HEADER ReadHeader()
         {
             using (FileStream filestream = new FileStream(_FileName, FileMode.Open))
             {
-                HEADER _header = (HEADER)ReadObjectFromStream(filestream);
-                return _header;
+                return ReadHeader(filestream);
             }
         }
+
+        public HEADER ReadHeader(Stream stream)
+        {
+            HEADER _header = (HEADER)ReadObjectFromStream(stream);
+            return _header;
+        }
+
 
         public void Save(HEADER header, DATA data)
         {
             byte[] key = PasswordBytes(_Password);
+
 
             using (FileStream filestream = new FileStream(_FileName, FileMode.Create))
             {
@@ -110,7 +123,17 @@ namespace CodeLibrary.Core
             }
         }
 
-        public void SetPasswor(SecureString password)
+        public void Save(Stream stream, HEADER header, DATA data)
+        {
+            byte[] key = PasswordBytes(_Password);
+
+            WriteObjectToStream(stream, header);
+            CryptoStream cryptoStream = CreateEncryptionStream(key, stream);
+            WriteObjectToStream(cryptoStream, data);         
+        }
+
+
+        public void SetPassword(SecureString password)
         {
             _Password = password;
         }

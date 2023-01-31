@@ -187,51 +187,6 @@ namespace CodeLibrary.Core
             return _sb.ToString();
         }
 
-        public static string CsvToJSonNoHeader(string text, char separator)
-        {
-            StringBuilder _sb = new StringBuilder();
-            byte[] byteArray = Encoding.Default.GetBytes(text);
-            int _columnCount = 0;
-            bool _first = true;
-            using (MemoryStream _stream = new MemoryStream(byteArray))
-            {
-                using (CsvStreamReader _reader = new CsvStreamReader(_stream))
-                {
-                    _reader.Separator = separator;
-                    _sb.Append("[\r\n");
-                    while (!_reader.EndOfCsvStream)
-                    {
-                        string[] _items = _reader.ReadCsvLine().ToArray();
-                        if (_items.Length > 1)
-                        {
-                            if (!_first)
-                            {
-                                if (_items.Length != _columnCount)
-                                {
-                                    continue;
-                                }
-                                _sb.Append("\t[");
-                                for (int ii = 0; ii < _items.Length; ii++)
-                                {
-                                    _sb.Append($"\"{_items[ii].Replace("\"", "\\\"")}\",");
-                                }
-                                _sb.Length = _sb.Length - 1;
-                                _sb.Append("],\r\n");
-                            }
-                            else
-                            {
-                                _columnCount = _items.Length;
-                                _first = false;
-                            }
-                        }
-                    }
-                    _sb.Length = _sb.Length - 3;
-                    _sb.Append("\r\n]\r\n");
-                }
-            }
-            return _sb.ToString();
-        }
-
         public static string CsvToMdTable(string text, char separator)
         {
             StringBuilder _sb = new StringBuilder();

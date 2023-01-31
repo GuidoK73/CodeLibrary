@@ -65,6 +65,7 @@
     <Compile Include="Commands\Reverse.cs" />
     <Compile Include="Commands\Shell\OpenLink.cs" />
     <Compile Include="Commands\Shell\RunCommandPrompt.cs" />
+    <Compile Include="Commands\UrlBreakDown.cs" />
     <Compile Include="Common\JsonHelper.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Commands\EvaluateExpression.cs" />

@@ -205,6 +205,7 @@ namespace CodeLibrary
             this.linkLabel5.TabIndex = 20;
             this.linkLabel5.TabStop = true;
             this.linkLabel5.Text = "https://github.com/GuidoK73/CodeLibrary/wiki/Code-Library";
+            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
             // 
             // FormAbout
             // 

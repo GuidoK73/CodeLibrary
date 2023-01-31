@@ -68,4 +68,12 @@ namespace CodeLibrary.Core
         Ok = 2,
         NotOk = 3
     }
+
+
+    public enum EImageEmbedAlign
+    {
+        None = 0,
+        Left = 1,
+        Right = 2
+    }
 }

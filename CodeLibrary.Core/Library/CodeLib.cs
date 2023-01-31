@@ -1,6 +1,8 @@
 ﻿using DevToys;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace CodeLibrary.Core
 {
@@ -269,12 +271,41 @@ namespace CodeLibrary.Core
         }
 
 
-        public void Save(CodeSnippetCollection collection)
+        public void Save(CodeSnippetCollection collectionToFill)
         {
-            collection.Items.Clear();
-            collection.Counter = Counter;
-            collection.Items.AddRange(CodeSnippets);
-            collection.DocumentId = DocumentId;
+            collectionToFill.Items.Clear();
+            collectionToFill.Counter = Counter;
+            collectionToFill.Items.AddRange(CodeSnippets);
+            collectionToFill.DocumentId = DocumentId;
+        }
+
+        public void SaveByParentId(string rootId, CodeSnippetCollection collectionToFill)
+        {
+            List<CodeSnippet> _snippets = new List<CodeSnippet>();
+
+            bool _changed = false;
+            CodeSnippet _root = CodeSnippets.Get(rootId).Clone();
+
+            string _rootPath = _root.GetPath();
+
+            string _parentPath = _root.GetParentPath();
+
+            _root.SetPath(_root.GetPath().Replace(_parentPath, ""), out _changed);
+
+            _snippets.Add(_root);
+            
+            foreach (CodeSnippet _snippet in CodeSnippets.GetChildsByPath(_rootPath).ToList())
+            {
+                var _clone = _snippet.Clone();
+                _snippets.Add(_clone);
+                _clone.SetPath(_snippet.GetPath().Replace(_parentPath, ""), out _changed);
+            }
+
+
+            collectionToFill.Items.Clear();
+            collectionToFill.Counter = Counter;
+            collectionToFill.Items.AddRange(_snippets);
+            collectionToFill.DocumentId = DocumentId;
         }
 
         private void Defaults()

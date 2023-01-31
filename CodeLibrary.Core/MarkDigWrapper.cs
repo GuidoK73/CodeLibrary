@@ -13,6 +13,7 @@ namespace CodeLibrary.Core
             text = _tableScan.Eval(text);
 
             var _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseSyntaxHighlighting().Build();
+            
             var _result = Markdown.ToHtml(text, _pipeline);
             return _result;
         }

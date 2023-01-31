@@ -446,11 +446,24 @@ Programming: Guido Kleijer
             _sb.Append("a:hover { color: lightgreen; background-color: transparent; text-decoration: underline; }");
             _sb.Append("a:active { color: yellow; background-color: transparent; text-decoration: underline; }");
             _sb.Append("table, th, td { border: 1px solid lightgray; border-collapse: collapse; padding:4px; }");
+            _sb.Append("h1 { color: #edac42; }");
+            _sb.Append("h2 { color: #bfb23f; }");
+            _sb.Append("h3 { color: #ada347; }");
+            _sb.Append("h4 { color: #ada347; }");
+            _sb.Append("h5 { color: #ada347; }");
             _sb.Append("</style>");
             _sb.Append(_text);
             _text = _sb.ToString();
-            _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:White;background-color:Black;\"");
+            _text = _text.Replace("style=\"color:Black;background-color:White;\"", "style=\"color:LightGray;background-color:Black;\"");
+            _text = _text.Replace("style=\"color:Blue;\"", "style=\"color:#9899ed;\"");
+            _text = _text.Replace("style=\"color:#A31515;\"", "style=\"color:#edac42;\"");
+            _text = _text.Replace("style=\"color:Green;\"", "style=\"color:LightGreen;\"");
             webBrowser.DocumentText = _text;
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/GuidoK73/CodeLibrary/wiki/Code-Library");
         }
     }
 }
