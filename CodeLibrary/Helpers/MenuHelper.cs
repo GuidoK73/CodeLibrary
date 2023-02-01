@@ -1,5 +1,4 @@
 ﻿using CodeLibrary.Core;
-using CodeLibrary.Core.Files;
 using CodeLibrary.Extensions;
 using System;
 using System.Drawing;
@@ -53,68 +52,9 @@ namespace CodeLibrary.Helpers
 
             _mainform.mncCopyAsHtml.Click += MncCopyAsHtml_Click;
             _mainform.mnuCopyAsHtml.Click += MncCopyAsHtml_Click;
-
-            _mainform.mnuCopyFullNote.Click += MnuCopyFullNote_Click;
-            _mainform.mncCopyFullNote.Click += MnuCopyFullNote_Click;
-
-            _mainform.mnuEmbedImageAlign.Click += MnuEmbedImageAlign_Click;
-            _mainform.mnuEmbedImageAlignLeft.Click += MnuEmbedImageAlignLeft_Click;
-            _mainform.mnuEmbedImageAlignRight.Click += MnuEmbedImageAlignRight_Click;
-            _mainform.mnuEmbedImageAlignNone.Click += MnuEmbedImageAlignNone_Click;
-        }
-
-        private void MnuCopyFullNote_Click(object sender, EventArgs e)
-        {
-            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
-            CodeSnippetCollection _collection = new CodeSnippetCollection();
-            CodeLib.Instance.SaveByParentId(_snippet.Id, _collection);
-
-            EncryptedBinaryFile<CodeSnippetCollection, FileHeader> _writer = new EncryptedBinaryFile<CodeSnippetCollection, FileHeader>(null, null);
-            FileHeader _header = new FileHeader() { Version = Config.CurrentVersion().ToString(), FileEncyptionMode = FileEncyptionMode.DefaultEncryption, UsbKeyId = null };
-
-
-            using (MemoryStream _stream = new MemoryStream(0))
-            {
-                _writer.Save(_stream, _header, _collection);
-
-
-                _stream.Position = 0;
-
-                byte[] _data = new byte[_stream.Length];
-                _stream.Read(_data, 0, _data.Length);
-
-                Clipboard.SetDataObject(_data);
-            }
         }
 
 
-        private void MnuEmbedImageAlignNone_Click(object sender, EventArgs e)
-        {
-            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
-            _snippet.ImageEmbedAlign = EImageEmbedAlign.None;
-        }
-
-        private void MnuEmbedImageAlignRight_Click(object sender, EventArgs e)
-        {
-            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
-            _snippet.ImageEmbedAlign = EImageEmbedAlign.Right;
-
-        }
-
-        private void MnuEmbedImageAlignLeft_Click(object sender, EventArgs e)
-        {
-            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
-            _snippet.ImageEmbedAlign = EImageEmbedAlign.Left;
-
-        }
-
-        private void MnuEmbedImageAlign_Click(object sender, EventArgs e)
-        {
-            CodeSnippet _snippet = CodeLib.Instance.CodeSnippets.Get(_treeviewHelper.SelectedId);
-            _mainform.mnuEmbedImageAlignNone.Checked = _snippet.ImageEmbedAlign == EImageEmbedAlign.None;
-            _mainform.mnuEmbedImageAlignLeft.Checked = _snippet.ImageEmbedAlign == EImageEmbedAlign.Left;
-            _mainform.mnuEmbedImageAlignRight.Checked = _snippet.ImageEmbedAlign == EImageEmbedAlign.Right;
-        }
 
         private void MncCopyAsHtml_Click(object sender, EventArgs e)
         {

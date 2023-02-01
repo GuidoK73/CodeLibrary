@@ -57,6 +57,7 @@
     <Compile Include="DevToys\CsvStreamWriter.cs" />
     <Compile Include="DevToys\HtmlChar.cs" />
     <Compile Include="Methods\MethodCamelCaseLower.cs" />
+    <Compile Include="Methods\MethodSqlToNetTypeConvertor.cs" />
     <Compile Include="Methods\MethodURLParam.cs" />
     <Compile Include="Methods\MethodKeepQuoted.cs" />
     <Compile Include="Methods\MethodLoremIpsum.cs" />

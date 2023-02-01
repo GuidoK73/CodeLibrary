@@ -9,6 +9,12 @@ namespace CodeLibrary
     public partial class FormAbout : Form
     {
         private readonly string _Content = @"
+# Version 3.4.1
+- Added Template type DotNetToSqlType
+- Small bug fixes for Paste Advanced.
+- Paste Advanced (Ctrl-Shift-V)
+    - Template: C# poco class will be converted to Type;PropertyName
+
 # Version 3.4
 - Paste Advanced (Ctrl-Shift-V)
     - Markdown: Ctrl-Shift-C copies markdown as Html.

@@ -32,8 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,10 +64,10 @@
     <Compile Include="Commands\Lines\XLinesToRow.cs" />
     <Compile Include="Commands\Lines\TrimLines.cs" />
     <Compile Include="Commands\MultiReplace.cs" />
+    <Compile Include="Commands\RegexExtract.cs" />
     <Compile Include="Commands\Reverse.cs" />
     <Compile Include="Commands\Shell\OpenLink.cs" />
     <Compile Include="Commands\Shell\RunCommandPrompt.cs" />
-    <Compile Include="Commands\UrlBreakDown.cs" />
     <Compile Include="Common\JsonHelper.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Commands\EvaluateExpression.cs" />
@@ -81,6 +83,12 @@
     </Compile>
     <Compile Include="Forms\FormMultiReplace.Designer.cs">
       <DependentUpon>FormMultiReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormRegexReplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormRegexReplace.Designer.cs">
+      <DependentUpon>FormRegexReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormSurroundLines.cs">
       <SubType>Form</SubType>
@@ -112,6 +120,7 @@
     <Compile Include="Forms\FormTrimLines.Designer.cs">
       <DependentUpon>FormTrimLines.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\RegxItem.cs" />
     <Compile Include="ImageResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -134,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMultiReplace.resx">
       <DependentUpon>FormMultiReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormRegexReplace.resx">
+      <DependentUpon>FormRegexReplace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSurroundLines.resx">
       <DependentUpon>FormSurroundLines.cs</DependentUpon>
@@ -178,6 +190,10 @@
     <None Include="Resources\export_xml_16x16.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeLibrary.Controls\CodeLibrary.Controls.csproj">
+      <Project>{4DD58E8F-4D0A-495B-9DC2-C391D540A8AD}</Project>
+      <Name>CodeLibrary.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeLibrary.Core\CodeLibrary.Core.csproj">
       <Project>{49f5b576-5e64-4861-b799-0944ee363a4d}</Project>
       <Name>CodeLibrary.Core</Name>

@@ -1,11 +1,15 @@
 ﻿using CodeLibrary.Core;
 using CodeLibrary.Helpers;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
 
 namespace CodeLibrary.Editor.EditorLanguageHelpers
 {
     public class TemplateEditorClipboardHelper : EditorClipboardHelperBase
     {
+        private CSharpUtils _CSharpUtils = new CSharpUtils();
+
         public TemplateEditorClipboardHelper(FormCodeLibrary mainform, TextBoxHelper textboxHelper, ThemeHelper themeHelper) : base(mainform, textboxHelper, themeHelper)
         {
         }
@@ -33,14 +37,24 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                 this.SelectedText = _data;
                 return true;
             }
-
+            List<string[]> _classProps = _CSharpUtils.GetProperties(_text, out bool isClass);
+            if (isClass)
+            {
+                StringBuilder _sb = new StringBuilder();
+                foreach (string[] item in _classProps)
+                {
+                    _sb.AppendLine($"{item[0]};{item[1]}");
+                }
+                this.SelectedText = _sb.ToString();
+                return true;
+            }
             return false;
         }
 
         protected override void Paste_CtrlShift_Text()
         {
             bool _succes = Execute();
-            if (!_succes)
+            if (_succes)
                 return;
 
             base.Paste_CtrlShift_Text();
@@ -49,7 +63,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         protected override void Paste_CtrlShift_TextImage()
         {
             bool _succes = Execute();
-            if (!_succes)
+            if (_succes)
                 return;
 
             base.Paste_CtrlShift_TextImage();

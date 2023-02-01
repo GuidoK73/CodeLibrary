@@ -1,5 +1,6 @@
 ﻿using DevToys;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -808,6 +809,18 @@ namespace GK.Template
             {
                 if (c == chars[ii])
                     return true;
+            }
+            return false;
+        }
+
+        public static bool IsOneOfRegex(string s, params Regex[] regexes)
+        {
+            foreach (Regex regex in regexes)
+            {
+                if (regex.IsMatch(s))
+                {
+                    return true;
+                }
             }
             return false;
         }

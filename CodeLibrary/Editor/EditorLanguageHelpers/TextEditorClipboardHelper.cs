@@ -38,7 +38,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         protected override void Paste_CtrlShift_Text()
         {
             bool _succes = Execute();
-            if (!_succes)
+            if (_succes)
                 return;
 
             base.Paste_CtrlShift_Text();
@@ -47,7 +47,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
         protected override void Paste_CtrlShift_TextImage()
         {
             bool _succes = Execute();
-            if (!_succes)
+            if (_succes)
                 return;
 
             base.Paste_CtrlShift_TextImage();

@@ -5,7 +5,7 @@ namespace GK.Template.Methods
 {
     [Category("Casting")]
     [FormatMethod(Name = "DotNetToSqlType",
-        Example = "{0:DotNetToSqlType()} {0:DotNetToSqlType} ")]
+        Example = "{0:DotNetToSqlType()} {0:DotNetToSqlType} ", Aliasses = "NetToSqlType")]
     [Description("Converts a Dot Net Value type to SQL equivalent")]
     public sealed class MethodNetToSqlTypeConvertor : MethodBase
     {

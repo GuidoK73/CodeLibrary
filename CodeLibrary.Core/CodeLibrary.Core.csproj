@@ -254,6 +254,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupInfo.cs" />
+    <Compile Include="CSharpUtils.cs" />
     <Compile Include="CssStyles.cs" />
     <Compile Include="CsvUtils.cs" />
     <Compile Include="DevToys\CsvStreamWriter.cs" />
@@ -262,7 +263,6 @@
     <Compile Include="DevToys\ReadOnceVar.cs" />
     <Compile Include="DevToys\PocoMapper.cs" />
     <Compile Include="DevToys\StopWatch.cs" />
-    <Compile Include="DevToys\UrlStringBuilder.cs" />
     <Compile Include="EncryptedBinaryFile.cs" />
     <Compile Include="Files\FileHeader.cs" />
     <Compile Include="JsonUtils.cs" />

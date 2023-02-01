@@ -123,11 +123,6 @@ namespace CodeLibrary.Core
         [DataMember(Name = "RtfThm")]
         public ETheme RTFTheme { get; set; } = ETheme.Light;
 
-        [DataMember(Name = "IEM")]
-        public EImageEmbedAlign ImageEmbedAlign { get; set; } = EImageEmbedAlign.None;
-
-        
-
         [DataMember(Name = "SCKS")]
         public Keys ShortCutKeys { get; set; }
 
@@ -195,7 +190,6 @@ namespace CodeLibrary.Core
             _clone.AlarmDate = AlarmDate;
             if (Blob != null)
             {
-                _clone.Blob = new Byte[Blob.Length];
                 Blob.CopyTo(_clone.Blob, 0);
             }
             _clone.CacheCode = null;
@@ -387,8 +381,6 @@ namespace CodeLibrary.Core
             return CachePath;
         }
 
-        public string GetParentPath() => Utils.ParentPath(GetPath());
-  
 
         public string GetRTF()
         {

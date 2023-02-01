@@ -761,35 +761,11 @@ namespace CodeLibrary.Core
                     switch (targetType)
                     {
                         case CodeType.MarkDown:
-                           
-                            switch (snippet.ImageEmbedAlign)
-                            {
-                                case EImageEmbedAlign.None:
-                                    _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
-                                    break;
-                                case EImageEmbedAlign.Left:
-                                    _result = string.Format(@"<img src=""data:image/png;base64,{0}"" style=""float:left"" />", _base64);
-                                    break;
-                                case EImageEmbedAlign.Right:
-                                    _result = string.Format(@"<img src=""data:image/png;base64,{0}"" style=""float:right"" />", _base64);
-                                    break;
-                            }
+                            _result = string.Format(@"![{0}](data:image/png;base64,{1})", snippet.GetPath(), _base64);
                             break;
 
                         case CodeType.HTML:
-                            switch (snippet.ImageEmbedAlign)
-                            {
-                                case EImageEmbedAlign.None:
-                                    _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
-                                    break;
-                                case EImageEmbedAlign.Left:
-                                    _result = string.Format(@"<img src=""data:image/png;base64,{0}"" style=""float:left"" />", _base64);
-                                    break;
-                                case EImageEmbedAlign.Right:
-                                    _result = string.Format(@"<img src=""data:image/png;base64,{0}"" style=""float:right"" />", _base64);
-                                    break;
-                            }
-
+                            _result = string.Format(@"<img src=""data:image/png;base64,{0}"" />", _base64);
                             break;
 
                         default:
