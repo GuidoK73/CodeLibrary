@@ -13,7 +13,9 @@ namespace CodeLibrary
 - Added Template type DotNetToSqlType
 - Small bug fixes for Paste Advanced.
 - Paste Advanced (Ctrl-Shift-V)
-    - Template: C# poco class will be converted to Type;PropertyName
+    - Template: C# poco class will be converted to a list of: Type;PropertyName
+    - Template: C# enum will be converted to a list of: Name;Value
+    - Template: C# switch case will be converted to a list of: case;
 
 # Version 3.4
 - Paste Advanced (Ctrl-Shift-V)

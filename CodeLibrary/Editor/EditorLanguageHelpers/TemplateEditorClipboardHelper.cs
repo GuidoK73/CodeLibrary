@@ -24,6 +24,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
 
             char[] _chars = _text.ToCharArray();
 
+            // CSV To Comma seperated
             bool _isCsv = CsvUtils.GetCsvSeparator(_text, out _separator);
             if (_isCsv)
             {
@@ -37,6 +38,8 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                 this.SelectedText = _data;
                 return true;
             }
+
+            // C# class to Comma seperated
             List<string[]> _classProps = _CSharpUtils.GetProperties(_text, out bool isClass);
             if (isClass)
             {
@@ -48,6 +51,35 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                 this.SelectedText = _sb.ToString();
                 return true;
             }
+
+            // C# enum to Comma seperated
+            List<string[]> _enumValues = _CSharpUtils.GetEnumValues(_text, out bool isEnum);
+            if (isEnum)
+            {
+                StringBuilder _sb = new StringBuilder();
+                foreach (string[] item in _enumValues)
+                {
+                    _sb.AppendLine($"{item[0]};{item[1]}");
+                }
+                this.SelectedText = _sb.ToString();
+                return true;
+            }
+
+
+
+            List<string> _caseValues = _CSharpUtils.GetSwitchCaseValues(_text, out bool isCase);
+            if (isCase)
+            {
+                StringBuilder _sb = new StringBuilder();
+                foreach (string item in _caseValues)
+                {
+                    _sb.AppendLine($"{item};");
+                }
+                this.SelectedText = _sb.ToString();
+                return true;
+            }
+
+
             return false;
         }
 
