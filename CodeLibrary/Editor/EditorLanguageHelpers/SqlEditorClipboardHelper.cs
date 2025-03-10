@@ -67,7 +67,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                 using (CsvStreamReader _reader = new CsvStreamReader(_stream))
                 {
                     _reader.Separator = _separator;
-                    while (!_reader.EndOfCsvStream)
+                    while (!_reader.EndOfStream)
                     {
                         if (_first)
                         {

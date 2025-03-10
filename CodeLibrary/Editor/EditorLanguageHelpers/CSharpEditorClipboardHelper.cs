@@ -64,7 +64,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                         {
                             _reader.Separator = _separator;
                             _sb.Append("\r\n");
-                            while (!_reader.EndOfCsvStream)
+                            while (!_reader.EndOfStream)
                             {
                                 string[] _items = _reader.ReadCsvLine().ToArray();
                                 if (_items.Length > 1)

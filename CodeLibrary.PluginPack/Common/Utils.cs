@@ -161,29 +161,46 @@ namespace CodeLibrary.PluginPack.Common
             return s;
         }
 
-        public static string[] Lines(string s)
+        public static string[] Lines(string text)
         {
-            if (string.IsNullOrEmpty(s))
-                return new string[0];
+            var _result = new List<string>();
+            var _partBuilder = new StringBuilder();
+            var _textCharArray = text.ToCharArray();
+            var _prevChar = (char)0;
 
-            s = NormalizeLineBreaks(s);
+            for (int ii = 0; ii < _textCharArray.Length; ii++)
+            {
+                char _currChar = _textCharArray[ii];
 
-            return s.Split(new string[] { _CRLF }, StringSplitOptions.None);
-        }
+                if (_currChar == '\n' && _prevChar == '\r')
+                {
+                    _partBuilder.Length--;
+                    _result.Add(_partBuilder.ToString());
+                    _partBuilder = new StringBuilder();
+                    _prevChar = (char)0;
+                    continue;
+                }
+                if (_currChar == '\n' && _prevChar != '\r')
+                {
+                    _result.Add(_partBuilder.ToString());
+                    _partBuilder = new StringBuilder();
+                    _prevChar = (char)0;
+                    continue;
+                }
+                if (_prevChar == '\n' || _prevChar == '\r')
+                {
+                    if (_currChar != '\r' && _currChar != '\n')
+                        _partBuilder.Append(_currChar);
 
-        public static string NormalizeLineBreaks(string s)
-        {
-            if (string.IsNullOrEmpty(s))
-                return string.Empty;
-
-            string var = s;
-
-            var = var.Replace(_CRLF, "@!rn!@");
-            var = var.Replace(_LF, _CRLF);
-            var = var.Replace(_CRLF, "@!rn!@");
-            var = var.Replace(_CR, _CRLF);
-            var = var.Replace("@!rn!@", _CRLF);
-            return var;
+                    _result.Add(_partBuilder.ToString());
+                    _partBuilder = new StringBuilder();
+                    _prevChar = _textCharArray[ii];
+                    continue;
+                }
+                _partBuilder.Append(_currChar);
+                _prevChar = _textCharArray[ii];
+            }
+            return _result.ToArray();
         }
 
         public static int Random(int min, int max)

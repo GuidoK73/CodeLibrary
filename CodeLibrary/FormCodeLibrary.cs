@@ -444,6 +444,13 @@ namespace CodeLibrary
             _textboxHelper.SelectedText = result;
         }
 
+        private void mnuMergeSpecial_Click(object sender, EventArgs e)
+        {
+            StringTemplate stringtemplate = new StringTemplate();
+            string result = stringtemplate.Format(Clipboard.GetText(), _textboxHelper.SelectedText);
+            Clipboard.SetText(result);
+        }
+
         private void mnuPlugins_DropDownOpening(object sender, EventArgs e) => _PluginHelper.SetMenuState(mnuPlugins);
 
         private void mnuProperties_Click(object sender, EventArgs e) => EditNodeProperties();

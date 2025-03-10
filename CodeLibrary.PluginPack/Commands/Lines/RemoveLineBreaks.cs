@@ -20,8 +20,11 @@ namespace CodeLibrary.PluginPack
 
         public void Apply(ISelInfo sel)
         {
-            string text = Utils.NormalizeLineBreaks(sel.SelectedText);
-            sel.SelectedText = text.Replace(Utils._CRLF, string.Empty);
+            if (string.IsNullOrWhiteSpace(sel.SelectedText))
+            {
+                return;
+            }
+            sel.SelectedText = string.Join("", Utils.Lines(sel.SelectedText));
         }
 
         public bool Configure()

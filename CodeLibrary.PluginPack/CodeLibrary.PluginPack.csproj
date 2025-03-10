@@ -50,9 +50,11 @@
     <Compile Include="Commands\Encoding\HtmlNameEncoding.cs" />
     <Compile Include="Commands\Encoding\ImportAsBase64.cs" />
     <Compile Include="Commands\EvaluateExpression2.cs" />
+    <Compile Include="Commands\Formatting\MarkDownTable.cs" />
     <Compile Include="Commands\Formatting\MarkdownToHTMLFormatter.cs" />
     <Compile Include="Commands\Formatting\JSonFormatter.cs" />
     <Compile Include="Commands\CSharp\SwapAssignments.cs" />
+    <Compile Include="Commands\Formatting\UrlBreakDown.cs" />
     <Compile Include="Commands\Lines\RemoveDuplicateLines.cs" />
     <Compile Include="Commands\Lines\RemoveLinesNotContaining.cs" />
     <Compile Include="Commands\Lines\RemoveLinesContaining.cs" />

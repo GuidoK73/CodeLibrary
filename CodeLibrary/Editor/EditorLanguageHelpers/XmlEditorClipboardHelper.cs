@@ -67,7 +67,7 @@ namespace CodeLibrary.Editor.EditorLanguageHelpers
                         {
                             _reader.Separator = _separator;
                             _sb.Append("<Root>\r\n");
-                            while (!_reader.EndOfCsvStream)
+                            while (!_reader.EndOfStream)
                             {
                                 if (_first == false)
                                 {

@@ -40,7 +40,7 @@ namespace CodeLibrary.Core
                             using (CsvStreamWriter _writer = new CsvStreamWriter(_outputStream))
                             {
                                 _writer.Separator = newSeparator;
-                                while (!_reader.EndOfCsvStream)
+                                while (!_reader.EndOfStream)
                                 {
                                     var _items = _reader.ReadCsvLine().ToArray();
 
@@ -96,7 +96,7 @@ namespace CodeLibrary.Core
             {
                 using (CsvStreamReader _reader = new CsvStreamReader(_stream))
                 {
-                    while (!_reader.EndOfCsvStream)
+                    while (!_reader.EndOfStream)
                     {
                         string[] _items = _reader.ReadCsvLine().ToArray();
                         if (!_first)
@@ -154,7 +154,7 @@ namespace CodeLibrary.Core
                 {
                     _reader.Separator = separator;
                     _sb.Append("[\r\n");
-                    while (!_reader.EndOfCsvStream)
+                    while (!_reader.EndOfStream)
                     {
                         string[] _items = _reader.ReadCsvLine().ToArray();
                         if (_items.Length > 1)
@@ -197,8 +197,10 @@ namespace CodeLibrary.Core
             {
                 using (CsvStreamReader _reader = new CsvStreamReader(_stream))
                 {
+                    //_reader.SetColumnIndexes(0, CsvStreamReader._LASTCOLINDEX);
+
                     _reader.Separator = separator;
-                    while (!_reader.EndOfCsvStream)
+                    while (!_reader.EndOfStream)
                     {
                         string[] _items = _reader.ReadCsvLine().ToArray();
                         if (_items.Length > 1)
@@ -232,6 +234,16 @@ namespace CodeLibrary.Core
                     }
                 }
             }
+
+
+            MDTabify mDTabify = new MDTabify();
+            try
+            {
+                string _result = mDTabify.TabifyTable(_sb.ToString(), 4);
+                return _result;
+            }
+            catch (Exception ex) { }
+
             return _sb.ToString();
         }
 
@@ -259,23 +271,30 @@ namespace CodeLibrary.Core
             {
                 using (CsvStreamReader _reader = new CsvStreamReader(_stream))
                 {
-                    _reader.Separator = separator;
-                    while (!_reader.EndOfCsvStream)
+                    try
                     {
-                        string[] _items = _reader.ReadCsvLine().ToArray();
-                        int _length = _items.Length == 1 && string.IsNullOrWhiteSpace(_items[0]) ? 0 : _items.Length;
-                        if (_length > 0)
+                        _reader.Separator = separator;
+                        while (!_reader.EndOfStream)
                         {
-                            _columnCount.Add(_length);
+                            string[] _items = _reader.ReadCsvLine().ToArray();
+                            int _length = _items.Length == 1 && string.IsNullOrWhiteSpace(_items[0]) ? 0 : _items.Length;
+                            if (_length > 0)
+                            {
+                                _columnCount.Add(_length);
+                            }
+                        }
+                        int prevcount = _columnCount.First();
+                        foreach (int count in _columnCount)
+                        {
+                            if (count == 1)
+                                return false;
+                            if (count != prevcount)
+                                return false;
                         }
                     }
-                    int prevcount = _columnCount.First();
-                    foreach (int count in _columnCount)
+                    catch
                     {
-                        if (count == 1)
-                            return false;
-                        if (count != prevcount)
-                            return false;
+                        return false;
                     }
                 }
             }
